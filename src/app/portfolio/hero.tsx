@@ -1,0 +1,280 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion, useAnimation, useInView } from "framer-motion";
+import { HeroHighlight, Highlight } from "~/components/ui/hero-highlight";
+import FancyText from "~/app/portfolio/Fancytext";
+import { Button } from "~/components/ui/button";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+
+export default function Hero() {
+  const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+  
+  const handleImageToggle = () => {
+    if (isMobile) {
+      setIsHovered((prev) => !prev);
+    }
+  };
+
+  const heroRef = useRef(null);
+  const controls = useAnimation();
+  const isInView = useInView(heroRef, { amount: 0.4 });
+
+  // Track scroll state for header transition
+  useEffect(() => {
+    const onScroll = () => {
+      if (window.scrollY > 120) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Trigger animations on in-view
+  useEffect(() => {
+    if (isInView) controls.start("visible");
+  }, [isInView, controls]);
+
+  return (
+    <>
+      {/* Sticky Mini Header */}
+      <motion.div
+        className={`fixed top-0 left-0 w-full px-6 md:px-12 py-4 z-50 transition-all duration-500 ${
+          scrolled ? "backdrop-blur-sm bg-black/60 border-b border-white/10" : "pointer-events-none"
+        }`}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: scrolled ? 1 : 0, y: scrolled ? 0 : -20 }}
+      >
+        <div className="flex items-center justify-between max-w-7xl mx-auto">
+          {/* Avatar + Name */}
+          <div className="flex items-center gap-4">
+            <img
+              src="/images/real.jpg"
+              alt="Parjanya"
+              className="w-10 h-10 rounded-full object-cover"
+            />
+            <span className="text-white font-semibold text-lg">
+                Parjanya Pandey
+                
+                </span>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex gap-4 text-white text-sm">
+            <a
+              href="https://github.com/parjanya"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:underline"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://linkedin.com/in/parjanya"
+              target="_blank"
+              rel="noreferrer"
+              className="hover:underline"
+            >
+              LinkedIn
+            </a>
+            <a href="/resume.pdf" target="_blank" className="hover:underline">
+              Resume
+            </a>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Full Hero Section */}
+      <motion.section
+        ref={heroRef}
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: {},
+          visible: {
+            transition: { staggerChildren: 0.15 },
+          },
+        }}
+        className="w-full min-h-screen flex flex-col md:flex-row items-center justify-center gap-12 px-6 md:px-12 py-10 relative"
+      >
+        <div className="h-6 md:h-10" /> 
+
+        <a
+  href="/"
+  className="
+    absolute top-6 left-6 z-50 px-5 py-2 rounded-full text-white font-semibold text-sm md:text-base
+    bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
+    shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
+    hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
+    transition-all duration-300 ease-in-out
+  "
+>
+  ⭠ Back to Portal
+</a>
+        
+        {/* Image Block */}
+        <motion.div
+  onMouseEnter={() => !isMobile && setIsHovered(true)}
+  onMouseLeave={() => !isMobile && setIsHovered(false)}
+  onClick={handleImageToggle}
+  variants={{
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0 },
+  }}
+  className={`group mr-23 relative w-[280px] h-[400px] md:w-[420px] md:h-[600px] rounded-4xl overflow-hidden ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" :"shadow-[0px_0px_80px_#38bdf8aa]"} border border-white/20 transition-all duration-500 cursor-default`
+  }>
+
+    
+  <motion.img
+    src="/images/real.jpg"
+    alt="Parjanya"
+    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${
+      isHovered ? "opacity-0" : "opacity-100"
+    }`}
+  />
+  <motion.img
+    src="/images/anime.png"
+    alt="Anime Parjanya"
+    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+      isHovered ? "opacity-100" : "opacity-0"
+    }`}
+  />
+</motion.div>
+
+        {/* Text Side */}
+        <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-xl space-y-7">
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            className="text-5xl md:text-6xl font-bold"
+          >
+           <FancyText text="Parjanya Pandey" className="text-5xl md:text-6xl font-bold opacity-100" />
+          </motion.h1>
+
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            className="text-lg md:text-xl text-muted-foreground"
+          >
+            <Highlight className="text-black md:text-center mb-10 leading-loose dark:text-white">
+            Building secure digital experiences
+            </Highlight>
+            <br/>
+            <Highlight className="text-black md:text-center leading-8 dark:text-white">
+            at the intersection of product and code
+            </Highlight>
+          </motion.p>
+
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            className="text-sm md:text-base text-neutral-100"
+          >
+            I’m a developer turned product thinker, working across cybersecurity, software, and web development. I enjoy crafting intuitive systems — where user needs, clean code, and sharp design all come together.
+
+          </motion.p>
+
+          {isHovered && (
+  <motion.div
+    initial={{ opacity: 0, scale: 0.85, y: 10 }}
+    animate={{ opacity: 1, scale: 1, y: 0 }}
+    transition={{ type: "spring", stiffness: 200, damping: 18 }}
+    className="
+      relative inline-block mt-4 py-3 px-6 rounded-xl overflow-hidden
+      bg-gradient-to-br from-cyan-500 via-blue-600 to-indigo-700
+      shadow-[0_0_10px_#3b82f6aa] border border-blue-300/20
+      text-white font-semibold text-base md:text-lg
+      backdrop-blur-md select-none
+    "
+  >
+    <span className="relative z-10 tracking-wide">
+      ✦ Domain Expansion: Limitless Productivity ✦
+    </span>
+
+    {/* Animated Neon Overlay */}
+    <motion.div
+      initial={{ x: "-120%" }}
+      animate={{ x: ["-120%", "120%"] }}
+      transition={{ repeat: Infinity, duration: 1.3, ease: "easeInOut" }}
+      className="
+        absolute inset-0 bg-gradient-to-r
+        from-transparent via-white/40 to-transparent
+        opacity-90 blur-2xl
+      "
+    />
+  </motion.div>
+)}
+
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            className={`flex flex-wrap gap-4 ${isHovered ? "pt-4 mt-3" : "pt-none"}`}
+          >
+            <Button className="px-6 py-2">Contact Me</Button>
+            <Button variant="default" className="px-6 py-2">
+              Download Resume
+            </Button>
+          </motion.div>
+
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            className="flex gap-6 pt-4 text-2xl text-white/80"
+          >
+            <a
+              href="https://github.com/Jrap-bit"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaGithub className="hover:text-white transition" />
+            </a>
+            <a
+              href="https://linkedin.com/in/parjanyapandey"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FaLinkedin className="hover:text-white transition" />
+            </a>
+          </motion.div>
+        </div>
+        {/* Scroll Down Button */}
+        <a
+  href="#about"
+  className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-40 group"
+>
+  <div className="px-6 py-3 rounded-full text-white font-medium text-base
+                  border border-white/30 bg-white/10 backdrop-blur-sm
+                  animate-pulse shadow-[0_0_5px_rgba(255,255,255,0.15)]
+                  hover:bg-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]
+                  transition-all duration-300 ease-in-out"
+  >
+    ↓ Explore Portfolio
+  </div>
+</a>
+      </motion.section>
+    </>
+  );
+}
