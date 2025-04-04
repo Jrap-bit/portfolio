@@ -1,23 +1,22 @@
 "use client";
 
-import { Spotlight } from "~/components/ui/spotlight";
-import { Button } from "~/components/ui/button";
-import { Badge } from "~/components/ui/badge";
 import Hero from "~/app/portfolio/hero";
+import { TracingBeam } from "~/components/ui/tracing-beam";
 import SkillsSection from "./skills";
 import PortfolioNavbar from "./portfolio-navbar";
+import TimelineSection from "./timeline";
 import { motion } from "framer-motion";
+import Dock from "./dock";
 
 export default function PortfolioPage() {
   return (
-    <div className="h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+    <div className="overflow-y-scroll scroll-smooth snap-y snap-mandatory">
+      <Dock />
       {/* Hero Section */}
       <section id="Hero" className="snap-start h-screen flex items-center justify-center">
-              {/* Floating Back to Portal Button */}
-
         <Hero />
       </section>
-      
+
       {/* Navigation Bar */}
       <PortfolioNavbar />
 
@@ -52,8 +51,13 @@ export default function PortfolioPage() {
 
       {/* Tech Stack Section */}
       <section id="tech" className="snap-start h-screen max-w-5xl mx-auto px-6 py-20 flex flex-col justify-center">
-    <SkillsSection />
-        </section>
+        <SkillsSection />
+      </section>
+
+      {/* Timeline Section — allow full height */}
+      <section id="timeline" className="snap-start px-6 py-20 max-w-5xl mx-auto">
+        <TimelineSection />
+      </section>
     </div>
   );
 }

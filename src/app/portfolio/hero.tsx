@@ -66,6 +66,7 @@ export default function Hero() {
               alt="Parjanya"
               className="w-10 h-10 rounded-full object-cover"
             />
+            
             <span className="text-white font-semibold text-lg">
                 Parjanya Pandey
                 
@@ -112,17 +113,30 @@ export default function Hero() {
       >
         <div className="h-6 md:h-10" /> 
 
-        <a
+{/* Back to Portal Button — Responsive */}
+<a
   href="/"
-  className="
-    absolute top-6 left-6 z-50 px-5 py-2 rounded-full text-white font-semibold text-sm md:text-base
-    bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
-    shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
-    hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
-    transition-all duration-300 ease-in-out
-  "
+  className="absolute top-6 left-6 z-50 hidden md:flex px-5 py-2 rounded-full text-white font-semibold text-sm md:text-base
+             bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
+             shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
+             hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
+             transition-all duration-300 ease-in-out"
 >
   ⭠ Back to Portal
+</a>
+
+{/* Mobile: Minimal Icon Button */}
+<a
+  href="/"
+  className="md:hidden absolute top-4 left-4 z-50 p-2 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
+             shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
+             hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
+             transition-all duration-300 ease-in-out"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none"
+       viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+  </svg>
 </a>
         
         {/* Image Block */}
@@ -134,7 +148,7 @@ export default function Hero() {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
   }}
-  className={`group mr-23 relative w-[280px] h-[400px] md:w-[420px] md:h-[600px] rounded-4xl overflow-hidden ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" :"shadow-[0px_0px_80px_#38bdf8aa]"} border border-white/20 transition-all duration-500 cursor-default`
+  className={`group -mt-25 md:mt-0 mx-10 md:mr-23 relative w-[280px] h-[400px] md:w-[420px] md:h-[600px] rounded-4xl overflow-hidden ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" :"shadow-[0px_0px_80px_#38bdf8aa]"} border border-white/20 transition-all duration-500 cursor-default`
   }>
 
     
@@ -156,15 +170,21 @@ export default function Hero() {
 
         {/* Text Side */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-xl space-y-7">
-          <motion.h1
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="text-5xl md:text-6xl font-bold"
-          >
-           <FancyText text="Parjanya Pandey" className="text-5xl md:text-6xl font-bold opacity-100" />
-          </motion.h1>
+        <motion.h1
+  variants={{
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  }}
+  className="text-center md:text-left text-5xl md:text-6xl font-bold leading-tight space-y-1"
+>
+  <span className="block text-xl md:text-3xl text-white/70 mb-1">
+    Hey! I'm
+  </span>
+  <FancyText
+    text="Parjanya Pandey"
+    className="text-5xl md:text-6xl font-bold text-white"
+  />
+</motion.h1>
 
           <motion.p
             variants={{
@@ -261,18 +281,34 @@ export default function Hero() {
           </motion.div>
         </div>
         {/* Scroll Down Button */}
-        <a
+{/* Desktop: Centered scroll button */}
+<a
   href="#about"
-  className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-40 group"
+  className="hidden md:flex absolute bottom-14 left-1/2 transform -translate-x-1/2 z-40 group"
 >
-  <div className="px-6 py-3 rounded-full text-white font-medium text-base
-                  border border-white/30 bg-white/10 backdrop-blur-sm
-                  animate-pulse shadow-[0_0_5px_rgba(255,255,255,0.15)]
-                  hover:bg-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]
-                  transition-all duration-300 ease-in-out"
+  <div
+    className="px-6 py-3 rounded-full text-white font-medium text-base
+               border border-white/30 bg-white/10 backdrop-blur-sm
+               animate-pulse shadow-[0_0_5px_rgba(255,255,255,0.15)]
+               hover:bg-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]
+               transition-all duration-300 ease-in-out"
   >
     ↓ Explore Portfolio
   </div>
+</a>
+
+{/* Mobile: Floating bottom-right scroll button */}
+<a
+  href="#about"
+  className="md:hidden absolute bottom-20 right-6 z-40 p-3 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
+             shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
+             hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
+             transition-all duration-300 ease-in-out"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none"
+       viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+  </svg>
 </a>
       </motion.section>
     </>
