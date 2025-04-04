@@ -27,7 +27,7 @@ export default function SkillsSection() {
         {/* Glowing Gradient Border */}
         <motion.div
           initial={{ opacity: 0.6 }}
-          animate={{ opacity: [0.2, 0.4, 0.2] }}
+          animate={{ opacity: [0.2, 0.5, 0.2] }}
           transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-3xl blur-lg"
         />
