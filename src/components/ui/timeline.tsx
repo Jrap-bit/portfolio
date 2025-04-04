@@ -26,7 +26,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 10%", "end 80%"],
+    offset: ["start 5%", "end 80%"],
   });
 
   // Animate the colored line’s height and opacity
@@ -49,14 +49,14 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
             {/* Left side: the bullet (no sticky) */}
             <div className="relative w-0 md:w-auto">
               {/* The outer bullet container */}
-              <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
+              <div className="hidden md:hidden h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white dark:bg-black items-center justify-center">
                 {/* The inner circle */}
-                <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700" />
+                <div className="hidden md:hidden h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700" />
               </div>
             </div>
 
             {/* Right side: Title + Content */}
-            <div className="relative pl-20 md:pl-4 w-full">
+            <div className="relative pl-20 md:pl-30 align-middle w-full">
               {/* Desktop title */}
               <h3 className="hidden md:block text-xl md:text-4xl font-bold text-neutral-500 dark:text-neutral-50">
                 {item.title}

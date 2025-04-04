@@ -128,3 +128,24 @@
 html {
   scroll-behavior: smooth;
 }
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Adjust this value based on how far you need to scroll;
+       here we assume the duplicated content is 50% of the total width */
+    transform: translateX(calc(-50% - 0px));
+  }
+}
+
+.animate-scroll {
+  animation: scroll var(--animation-duration, 40s) linear infinite;
+  animation-direction: var(--animation-direction, reverse);
+}
+
+/* Add touch-pan-x utility for better mobile dragging */
+.touch-pan-x {
+  touch-action: pan-x;
+}

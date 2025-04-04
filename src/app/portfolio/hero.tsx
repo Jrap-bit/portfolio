@@ -205,9 +205,19 @@ export default function Hero() {
             className={`flex flex-wrap gap-4 ${isHovered ? "pt-4 mt-3" : "pt-none"}`}
           >
             <Button className="px-6 py-2">Contact Me</Button>
+            <a
+              href="https://drive.google.com/file/d/1Ldv4SGamUgnLpv7WK74syVsKpBCW6u1I/view?usp=sharing"
+              target="_blank"
+              className="flex items-center justify-center"
+              onClick={() => {
+                // Handle the click event if needed
+              }
+              }
+            >
             <Button variant="default" className="px-6 py-2">
               Download Resume
             </Button>
+            </a>
           </motion.div>
 
           <motion.div

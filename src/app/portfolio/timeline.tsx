@@ -1,6 +1,7 @@
 "use client";
 
 import { Timeline as AceternityTimeline } from "~/components/ui/timeline";
+import { SparklesCore } from "~/components/ui/sparkles";
 
 export default function TimelineSection() {
   const timelineData = [
@@ -55,8 +56,8 @@ export default function TimelineSection() {
   ];
 
   return (
-    <section id="timeline" className="snap-start px-0 md:px-1 py-20 bg-background">
-      <h2 className="text-3xl font-bold mb-5 text-center text-white">Experience & Education</h2>
+    <section id="timeline" className="px-0 md:px-1 py-20 bg-background">
+      <h2 className="text-5xl font-bold mb-5 text-center text-white">Experience & Education</h2>
       <AceternityTimeline data={timelineData} />
     </section>
   );

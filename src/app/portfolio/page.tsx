@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Hero from "~/app/portfolio/hero";
-import { TracingBeam } from "~/components/ui/tracing-beam";
+import CertificationsCarousel from "./Certifications";
 import SkillsSection from "./skills";
 import PortfolioNavbar from "./portfolio-navbar";
 import TimelineSection from "./timeline";
@@ -92,9 +92,17 @@ export default function PortfolioPage() {
       {/* Timeline Section */}
       <section
         id="timeline"
-        className="px-6 py-20 max-w-5xl mx-auto"
+        className="px-6 py-5 max-w-5xl mx-auto"
       >
         <TimelineSection />
+      </section>
+
+      {/* Certifications Section */}
+      <section
+        id="certifications"
+        className="px-6 py-2 max-w-7xl mx-auto"
+      >
+        <CertificationsCarousel />
       </section>
     </div>
   );

@@ -41,8 +41,12 @@ export default tseslint.config(
       // Optional: If you're experimenting a lot
       "@typescript-eslint/no-unused-vars": "off",
       "react-hooks/exhaustive-deps": "off",
-      " @typescript-eslint/prefer-nullish-coalescing": "off",
+      "@typescript-eslint/prefer-nullish-coalescing": "off",
       "@typescript-eslint/no-unused-expressions": "off",
+      "@typescript-eslint/prefer-optional-chain": "off",
+      "@typescript-eslint/prefer-regexp-exec": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
       "react/no-unescaped-entities": "off",
       "prefer-const": "off",
       "@typescript-eslint/consistent-type-imports": [
