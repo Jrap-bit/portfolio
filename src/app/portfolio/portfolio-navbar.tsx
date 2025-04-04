@@ -30,7 +30,7 @@ export default function PortfolioNavbar() {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-4 transition-all duration-500 flex items-center justify-between ${
+      className={`md:hidden fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-4 transition-all duration-500 flex items-center justify-between ${
         showNav
           ? "opacity-100 backdrop-blur-md bg-black/70 border-b border-white/10"
           : "opacity-0 pointer-events-none"

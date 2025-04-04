@@ -6,8 +6,30 @@ import { HeroHighlight, Highlight } from "~/components/ui/hero-highlight";
 import { Button } from "~/components/ui/button";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
+function useSupportsHover() {
+  const [supportsHover, setSupportsHover] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia("(hover: hover)");
+    setSupportsHover(mql.matches);
+
+    function handleChange(e: MediaQueryListEvent) {
+      setSupportsHover(e.matches);
+    }
+
+    // Newer browsers: addEventListener; older might need addListener
+    mql.addEventListener("change", handleChange);
+    return () => {
+      mql.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  return supportsHover;
+}
+
 export default function Hero() {
   const [isHovered, setIsHovered] = useState(false);
+  const supportsHover = useSupportsHover();
   const [isMobile, setIsMobile] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -46,6 +68,10 @@ export default function Hero() {
   useEffect(() => {
     if (isInView) controls.start("visible");
   }, [isInView, controls]);
+
+  const handleMouseEnter = supportsHover ? () => setIsHovered(true) : undefined;
+  const handleMouseLeave = supportsHover ? () => setIsHovered(false) : undefined;
+  const handleClick = () => setIsHovered((prev) => !prev);
 
   return (
     <>
@@ -93,6 +119,37 @@ export default function Hero() {
         </div>
       </motion.div>
 
+      {/* Back to Portal Button — Desktop */}
+      <a
+          href="/"
+          className="absolute top-8 left-6 z-50 hidden md:flex px-5 py-2 rounded-full text-white font-semibold text-sm md:text-base
+                     bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
+                     shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
+                     hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
+                     transition-all duration-300 ease-in-out"
+        >
+          ⭠ Back to Portal
+        </a>
+
+        {/* Back to Portal Button — Mobile (Minimal Icon) */}
+        <a
+          href="/"
+          className="md:hidden absolute top-6 left-4 z-50 p-2 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
+                     shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
+                     hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
+                     transition-all duration-300 ease-in-out"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-white"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </a>
+
       {/* Full Hero Section */}
       <motion.section
         ref={heroRef}
@@ -106,32 +163,38 @@ export default function Hero() {
         }}
         className="w-full min-h-screen flex flex-col md:flex-row items-center justify-center gap-12 px-6 md:px-12 py-10 relative"
       >
-        {/* Image Block */}
-        <motion.div
-  onMouseEnter={() => !isMobile && setIsHovered(true)}
-  onMouseLeave={() => !isMobile && setIsHovered(false)}
-  onClick={handleImageToggle}
-  variants={{
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
-  }}
-  className="group relative w-[280px] h-[400px] rounded-3xl overflow-hidden shadow-[0_0_50px_#38bdf8aa] border border-white/10 transition-all duration-500 cursor-pointer"
->
-  <motion.img
-    src="/images/real.jpg"
-    alt="Parjanya"
-    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-      isHovered ? "opacity-0" : "opacity-100"
-    }`}
-  />
-  <motion.img
-    src="/images/anime.png"
-    alt="Anime Parjanya"
-    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-      isHovered ? "opacity-100" : "opacity-0"
-    }`}
-  />
-</motion.div>
+  {/* Image Block */}
+  <motion.div
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleClick}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0 },
+            }}
+            className={`group relative w-[280px] h-[400px] md:w-[320px] md:h-[450px] 
+                        rounded-3xl md:rounded-4xl overflow-hidden border border-white/20 
+                        transition-all duration-500 cursor-pointer
+                        ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" : "shadow-[0px_0px_80px_#38bdf8aa]"} 
+                        mx-auto md:mx-0 shrink-0`}
+          >
+            {/* "real" image */}
+            <motion.img
+              src="/images/real.jpg"
+              alt="Parjanya"
+              className={`absolute inset-0 w-full h-full object-cover object-center 
+                          transition-opacity duration-200 
+                          ${isHovered ? "opacity-0" : "opacity-100"}`}
+            />
+            {/* "anime" image */}
+            <motion.img
+              src="/images/anime.png"
+              alt="Anime Parjanya"
+              className={`absolute inset-0 w-full h-full object-cover object-center 
+                          transition-opacity duration-500 
+                          ${isHovered ? "opacity-100" : "opacity-0"}`}
+            />
+          </motion.div>
 
         {/* Text Side */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-xl space-y-4">

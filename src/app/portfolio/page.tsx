@@ -1,27 +1,52 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import Hero from "~/app/portfolio/hero";
 import { TracingBeam } from "~/components/ui/tracing-beam";
 import SkillsSection from "./skills";
 import PortfolioNavbar from "./portfolio-navbar";
 import TimelineSection from "./timeline";
-import { motion } from "framer-motion";
 import Dock from "./dock";
 
 export default function PortfolioPage() {
+  const [showNavbar, setShowNavbar] = useState(false);
+
+  useEffect(() => {
+    const heroEl = document.getElementById("Hero");
+    if (!heroEl) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        // When the hero is mostly out of view, show the navbar.
+        setShowNavbar(!entry?.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "-50% 0px 0px 0px" }
+    );
+
+    observer.observe(heroEl);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   return (
-    <div className="overflow-y-scroll scroll-smooth snap-y snap-mandatory">
+    <div className="overflow-y-scroll scroll-smooth">
       <Dock />
       {/* Hero Section */}
-      <section id="Hero" className="snap-start h-screen flex items-center justify-center">
+      <section id="Hero" className="flex items-center justify-center">
         <Hero />
       </section>
 
-      {/* Navigation Bar */}
-      <PortfolioNavbar />
+      {/* Render Navbar only if not in the Hero section */}
+      {showNavbar && <PortfolioNavbar />}
 
       {/* About Me Section */}
-      <section id="about" className="snap-start h-screen max-w-4xl mx-auto px-6 py-20 flex flex-col justify-center">
+      <section
+        id="about"
+        className="h-screen max-w-4xl mx-auto px-6 py-20 flex flex-col justify-center"
+      >
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -40,22 +65,35 @@ export default function PortfolioPage() {
         >
           I'm a passionate developer and product thinker...
         </motion.p>
-
         <ul className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-muted-foreground text-sm">
-          <li className="bg-muted p-4 rounded-md">🧠 Systems thinker and problem solver</li>
-          <li className="bg-muted p-4 rounded-md">🧰 Skilled in frontend & backend development</li>
-          <li className="bg-muted p-4 rounded-md">📦 Product manager with cross-team coordination experience</li>
-          <li className="bg-muted p-4 rounded-md">🎨 Strong design sense and UX sensitivity</li>
+          <li className="bg-muted p-4 rounded-md">
+            🧠 Systems thinker and problem solver
+          </li>
+          <li className="bg-muted p-4 rounded-md">
+            🧰 Skilled in frontend & backend development
+          </li>
+          <li className="bg-muted p-4 rounded-md">
+            📦 Product manager with cross-team coordination experience
+          </li>
+          <li className="bg-muted p-4 rounded-md">
+            🎨 Strong design sense and UX sensitivity
+          </li>
         </ul>
       </section>
 
       {/* Tech Stack Section */}
-      <section id="tech" className="snap-start h-screen max-w-5xl mx-auto px-6 py-20 flex flex-col justify-center">
+      <section
+        id="tech"
+        className="h-screen max-w-5xl mx-auto px-6 py-20 flex flex-col justify-center"
+      >
         <SkillsSection />
       </section>
 
-      {/* Timeline Section — allow full height */}
-      <section id="timeline" className="snap-start px-6 py-20 max-w-5xl mx-auto">
+      {/* Timeline Section */}
+      <section
+        id="timeline"
+        className="px-6 py-20 max-w-5xl mx-auto"
+      >
         <TimelineSection />
       </section>
     </div>

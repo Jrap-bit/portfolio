@@ -50,53 +50,6 @@ export default function Hero() {
 
   return (
     <>
-      {/* Sticky Mini Header */}
-      <motion.div
-        className={`fixed top-0 left-0 w-full px-6 md:px-12 py-4 z-50 transition-all duration-500 ${
-          scrolled ? "backdrop-blur-sm bg-black/60 border-b border-white/10" : "pointer-events-none"
-        }`}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: scrolled ? 1 : 0, y: scrolled ? 0 : -20 }}
-      >
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          {/* Avatar + Name */}
-          <div className="flex items-center gap-4">
-            <img
-              src="/images/real.jpg"
-              alt="Parjanya"
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            
-            <span className="text-white font-semibold text-lg">
-                Parjanya Pandey
-                
-                </span>
-          </div>
-
-          {/* Buttons */}
-          <div className="flex gap-4 text-white text-sm">
-            <a
-              href="https://github.com/parjanya"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/parjanya"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline"
-            >
-              LinkedIn
-            </a>
-            <a href="/resume.pdf" target="_blank" className="hover:underline">
-              Resume
-            </a>
-          </div>
-        </div>
-      </motion.div>
 
       {/* Full Hero Section */}
       <motion.section
@@ -148,7 +101,7 @@ export default function Hero() {
     hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0 },
   }}
-  className={`group -mt-25 md:mt-0 mx-10 md:mr-23 relative w-[280px] h-[400px] md:w-[420px] md:h-[600px] rounded-4xl overflow-hidden ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" :"shadow-[0px_0px_80px_#38bdf8aa]"} border border-white/20 transition-all duration-500 cursor-default`
+  className={`group -mt-20 md:mt-0 mx-10 md:mr-23 relative w-[280px] h-[400px] md:w-[420px] md:h-[600px] rounded-4xl overflow-hidden ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" :"shadow-[0px_0px_80px_#38bdf8aa]"} border border-white/20 transition-all duration-500 cursor-default`
   }>
 
     
@@ -191,13 +144,13 @@ export default function Hero() {
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0 },
             }}
-            className="text-lg md:text-xl text-muted-foreground"
+            className="text-base md:text-xl text-muted-foreground"
           >
-            <Highlight className="text-black md:text-center mb-10 leading-loose dark:text-white">
+            <Highlight className="text-black md:text-center mb-10 leading-loose dark:text-white text-center">
             Building secure digital experiences
             </Highlight>
             <br/>
-            <Highlight className="text-black md:text-center leading-8 dark:text-white">
+            <Highlight className="text-black md:text-center leading-8 dark:text-white text-center">
             at the intersection of product and code
             </Highlight>
           </motion.p>
@@ -278,11 +231,20 @@ export default function Hero() {
             >
               <FaLinkedin className="hover:text-white transition" />
             </a>
+            
           </motion.div>
+           {/* Scroll Down Button placed directly below the social icons */}
+           {/* <div className="hidden md:flex pt-4">
+            <a href="#about" className="group">
+              <div className="px-6 py-3 rounded-2xl text-white font-medium text-base border border-white/30 bg-white/10 backdrop-blur-sm animate-pulse shadow-[0_0_5px_rgba(255,255,255,0.15)] hover:bg-white/20 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-300 ease-in-out">
+                ↓ Explore Portfolio
+              </div>
+            </a>
+          </div> */}
         </div>
         {/* Scroll Down Button */}
 {/* Desktop: Centered scroll button */}
-<a
+{/* <a
   href="#about"
   className="hidden md:flex absolute bottom-14 left-1/2 transform -translate-x-1/2 z-40 group"
 >
@@ -295,12 +257,12 @@ export default function Hero() {
   >
     ↓ Explore Portfolio
   </div>
-</a>
+</a> */}
 
 {/* Mobile: Floating bottom-right scroll button */}
-<a
+{/* <a
   href="#about"
-  className="md:hidden absolute bottom-20 right-6 z-40 p-3 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
+  className="hidden md:hidden absolute bottom-20 right-6 z-40 p-3 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
              shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
              hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
              transition-all duration-300 ease-in-out"
@@ -309,7 +271,7 @@ export default function Hero() {
        viewBox="0 0 24 24" stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
   </svg>
-</a>
+</a> */}
       </motion.section>
     </>
   );

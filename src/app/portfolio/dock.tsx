@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { FaUser, FaCode, FaBriefcase, FaGraduationCap } from "react-icons/fa";
+import { FaUser, FaCode, FaBriefcase, FaGraduationCap, FaGithub, FaLinkedin, FaFileAlt } from "react-icons/fa";
 
 const sections = [
   { id: "Hero", icon: <FaUser />, label: "Home" },
@@ -51,6 +51,43 @@ export default function Dock() {
           </span>
         </a>
       ))}
-    </div>
+    {/* Divider between section links and external links */}
+    <div className="w-full border-t border-white/20 my-2" />
+
+{/* External Links */}
+<a
+  href="https://github.com/Jrap-bit"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group relative p-3 rounded-full transition-all text-white/70 hover:bg-white/10"
+>
+  <FaGithub />
+  <span className="absolute right-full mr-3 opacity-0 group-hover:opacity-100 transition text-xs whitespace-nowrap bg-black text-white rounded px-2 py-1">
+    GitHub
+  </span>
+</a>
+<a
+  href="https://linkedin.com/in/parjanyapandey"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group relative p-3 rounded-full transition-all text-white/70 hover:bg-white/10"
+>
+  <FaLinkedin />
+  <span className="absolute right-full mr-3 opacity-0 group-hover:opacity-100 transition text-xs whitespace-nowrap bg-black text-white rounded px-2 py-1">
+    LinkedIn
+  </span>
+</a>
+<a
+  href="/resume.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group relative p-3 rounded-full transition-all text-white/70 hover:bg-white/10"
+>
+  <FaFileAlt />
+  <span className="absolute right-full mr-3 opacity-0 group-hover:opacity-100 transition text-xs whitespace-nowrap bg-black text-white rounded px-2 py-1">
+    Resume
+  </span>
+</a>
+</div>
   );
 }
