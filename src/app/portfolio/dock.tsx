@@ -10,6 +10,7 @@ import {
   FaLinkedin,
   FaFileAlt,
   FaCertificate,
+  FaProjectDiagram
 } from "react-icons/fa";
 
 const sections = [
@@ -18,6 +19,7 @@ const sections = [
   { id: "tech", icon: <FaCode />, label: "Skills" },
   { id: "timeline", icon: <FaGraduationCap />, label: "Timeline" },
   { id: "certifications", icon: <FaCertificate />, label: "Certifications" },
+  { id: "projects", label: "Projects", icon: <FaProjectDiagram /> },
 ];
 
 const transitionProps = { type: "spring", stiffness: 300, damping: 20 };
@@ -91,7 +93,7 @@ export default function Dock() {
         <span className="text-lg"><FaLinkedin /></span>
       </motion.a>
       <motion.a
-        href="https://drive.google.com/file/d/1Ldv4SGamUgnLpv7WK74syVsKpBCW6u1I/view?usp=sharing"
+        href="/Resources/cv.pdf"
         target="_blank"
         rel="noopener noreferrer"
         className="group relative flex items-center p-2 rounded-xl transition-all text-white/70 hover:bg-white/10"

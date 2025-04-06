@@ -6,6 +6,7 @@ import Hero from "~/app/portfolio/hero";
 import CertificationsCarousel from "./Certifications";
 import SkillsSection from "./skills";
 import PortfolioNavbar from "./portfolio-navbar";
+import ProjectsSection from "./projects";
 import TimelineSection from "./timeline";
 import Dock from "./dock";
 
@@ -104,6 +105,14 @@ export default function PortfolioPage() {
       >
         <CertificationsCarousel />
       </section>
+{/* Projects Section */}
+<section
+  id="projects"
+  className="px-6 py-10 max-w-7xl mx-auto"
+>
+  <ProjectsSection />
+</section>
+
     </div>
   );
 }

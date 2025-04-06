@@ -72,8 +72,8 @@ const certifications = [
 
 export default function CertificationsSection() {
   return (
-    <section className="w-full py-20 px-4 md:px-10 bg-black text-white">
-      <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center">
+    <section className="w-full py-20 px-4 md:px-10 bg-background text-white">
+      <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">
         Certifications & Achievements
       </h2>
       <InfiniteMovingCards

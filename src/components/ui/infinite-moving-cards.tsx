@@ -32,6 +32,7 @@ export const InfiniteMovingCards = ({
   const [manualScrollPosition, setManualScrollPosition] = useState(0);
   const [animationKey, setAnimationKey] = useState(0);
   const [totalWidth, setTotalWidth] = useState(0);
+  const [itemWidth, setItemWidth] = useState(0);
 
   // Detect if device is mobile
   useEffect(() => {
@@ -56,6 +57,13 @@ export const InfiniteMovingCards = ({
     if (scrollerRef.current) {
       const width = scrollerRef.current.scrollWidth;
       setTotalWidth(width);
+      
+      // Calculate the width of a single item
+      const firstItem = scrollerRef.current.querySelector('li');
+      if (firstItem) {
+        const itemRect = firstItem.getBoundingClientRect();
+        setItemWidth(itemRect.width);
+      }
     }
   }, [start]);
 
@@ -155,7 +163,7 @@ export const InfiniteMovingCards = ({
   };
 
   const handleDrag = (event: any, info: any) => {
-    if (scrollerRef.current && totalWidth > 0) {
+    if (scrollerRef.current && totalWidth > 0 && itemWidth > 0) {
       const halfWidth = totalWidth / 2;
       const currentX = manualScrollPosition + info.offset.x;
       
@@ -230,9 +238,11 @@ export const InfiniteMovingCards = ({
             isMobile && "touch-pan-x"
           )}
           style={{
-            transform: isPaused ? `translateX(${manualScrollPosition}px)` : undefined
+            transform: isPaused ? `translateX(${manualScrollPosition}px)` : undefined,
+            willChange: "transform"
           }}
         >
+          
           {items.map((item, idx) => (
             <li
               key={`${item.title}-${idx}`}
