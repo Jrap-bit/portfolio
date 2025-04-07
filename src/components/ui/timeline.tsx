@@ -24,60 +24,64 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
     }
   }, [ref]);
 
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start 5%", "end 80%"],
+    offset: ["start 5%", `end ${isMobile ? "90%" : "80%"}`],
   });
 
-  // Animate the colored line’s height and opacity
   const heightTransform = useTransform(scrollYProgress, [0, 1], [0, height]);
   const opacityTransform = useTransform(scrollYProgress, [0, 0.1], [0, 1]);
 
   return (
     <div
-      className="w-full bg-white dark:bg-neutral-950 font-semibold md:px-0"
+      className="w-full font-semibold md:px-0 relative"
       ref={containerRef}
     >
       <div ref={ref} className="relative w-full mx-0 pb-20">
         {data.map((item, index) => (
-          <div
+          <motion.div
             key={index}
-            // On mobile: stacked
-            // On desktop: bullet/line on the left, content on the right
-            className="relative flex flex-col md:flex-row md:gap-10 pt-10 md:pt-24"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: index * 0.1 }}
+            viewport={{ once: true }}
+            className="relative flex flex-col md:flex-row md:gap-10 pt-10 md:pt-24 group"
           >
-            {/* Left side: the bullet (no sticky) */}
-            <div className="relative w-0 md:w-auto">
-              {/* The outer bullet container */}
-              <div className="hidden md:hidden h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white dark:bg-black items-center justify-center">
-                {/* The inner circle */}
-                <div className="hidden md:hidden h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700" />
-              </div>
-            </div>
+            {/* Left spacer */}
+            <div className="relative w-0 md:w-auto" />
 
-            {/* Right side: Title + Content */}
-            <div className="relative pl-20 md:pl-30 align-middle w-full">
+            {/* Right side */}
+            <div className="relative pl-20 md:pl-30 w-full">
               {/* Desktop title */}
-              <h3 className="hidden md:block text-xl md:text-4xl font-bold text-neutral-500 dark:text-neutral-50">
-                {item.title}
-              </h3>
-              {/* Mobile title */}
-              <h3 className="md:hidden block text-2xl mb-4 text-left font-bold text-neutral-500 dark:text-neutral-50">
+              <h3 className="hidden md:block text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 to-white transition duration-300">
                 {item.title}
               </h3>
 
-              <div className="md:text-neutral-50 text-base font-normal leading-relaxed">
+              {/* Mobile title */}
+              <h3 className="md:hidden block text-2xl mb-4 font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-100 to-white transition duration-300">
+                {item.title}
+              </h3>
+
+              {/* Hoverable content box */}
+              <motion.div
+                whileHover={{
+                  scale: 1.015,
+                  backgroundColor: "rgba(255,255,255,0.06)",
+                }}
+                transition={{ type: "spring", stiffness: 180, damping: 15 }}
+                className="md:text-neutral-200 text-base font-normal leading-relaxed mt-4 rounded-xl bg-white/5 dark:bg-black/20 px-4 py-3 shadow-inner"
+              >
                 {item.content}
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         ))}
 
-        {/* The vertical timeline line in the background */}
+        {/* Vertical timeline line */}
         <div
-          style={{
-            height: height + "px",
-          }}
+          style={{ height: height + "px" }}
           className="
             absolute
             md:left-8
@@ -103,12 +107,11 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               top-0
               w-[2px]
               bg-gradient-to-t
-              from-purple-500
-              via-blue-500
+              from-blue-500
+              via-cyan-400
               to-transparent
-              from-[0%]
-              via-[10%]
               rounded-full
+              shadow-[0_0_8px_rgba(59,130,246,0.5)]
             "
           />
         </div>

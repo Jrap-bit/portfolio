@@ -42,7 +42,7 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/20 z-40"
+            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
           />
         )}
       </AnimatePresence>
@@ -54,7 +54,7 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
             <motion.div
               layoutId={`card-${active.title}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px] max-h-[90vh] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden relative"
+              className="w-full max-w-[500px] max-h-[90vh] flex flex-col bg-white dark:bg-neutral-900 sm:rounded-3xl overflow-hidden relative border border-blue-500/20 dark:border-cyan-400/20 shadow-[0_0_20px_rgba(59,130,246,0.2)]"
             >
               {/* Close button */}
               <button 
@@ -88,10 +88,11 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
                     alt={active.title}
                     className="w-full h-full object-cover object-top"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 </motion.div>
               )}
               <div className="p-4 sm:p-6 flex flex-col flex-grow overflow-hidden">
-                <motion.h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
+                <motion.h3 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300">
                   {active.title}
                 </motion.h3>
                 <motion.p className="text-neutral-600 dark:text-neutral-400 mb-4">
@@ -107,7 +108,7 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
                     href={active.ctaLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-green-500 text-white px-5 py-2 text-sm rounded-full font-medium hover:bg-green-600 transition"
+                    className="inline-block bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-5 py-2 text-sm rounded-full font-medium hover:from-blue-600 hover:to-cyan-500 transition shadow-[0_0_10px_rgba(59,130,246,0.3)]"
                   >
                     {active.ctaText}
                   </a>
@@ -125,41 +126,44 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
             layoutId={`card-${card.title}-${id}`}
             key={card.title}
             onClick={() => setActive(card)}
-            className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl cursor-pointer p-4 transition duration-300 backdrop-blur-sm h-full flex flex-col"
+            className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl cursor-pointer p-4 transition duration-300 backdrop-blur-sm h-full flex flex-col hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-500/30 dark:hover:border-cyan-400/30"
           >
-            <div className="w-full h-56 bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-md flex items-center justify-center">
+            <div className="w-full h-56 bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-md flex items-center justify-center overflow-hidden relative">
               {card.src ? (
                 <Image
                   width={300}
                   height={300}
                   src={card.src}
                   alt={card.title}
-                  className="rounded-md w-full h-full object-cover"
+                  className="rounded-md w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 />
               ) : (
                 <div className="text-white/60 text-center p-4">
-                  <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width="48" 
-                    height="48" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="1.5" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    className="mx-auto mb-2"
-                  >
-                    <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-                    <circle cx="9" cy="9" r="2" />
-                    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-                  </svg>
+                  <div className="bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-full p-4 w-16 h-16 mx-auto mb-2 flex items-center justify-center">
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      width="32" 
+                      height="32" 
+                      viewBox="0 0 24 24" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      strokeWidth="1.5" 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      className="text-blue-400 dark:text-cyan-300"
+                    >
+                      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                      <circle cx="9" cy="9" r="2" />
+                      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                    </svg>
+                  </div>
                   <p className="text-sm">No image available</p>
                 </div>
               )}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="mt-4 space-y-1 flex-grow">
-              <h3 className="text-lg font-semibold text-white">{card.title}</h3>
+              <h3 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">{card.title}</h3>
               <p className="text-sm text-neutral-400 line-clamp-2">{card.description}</p>
             </div>
           </motion.div>

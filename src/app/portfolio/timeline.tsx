@@ -1,7 +1,7 @@
 "use client";
 
 import { Timeline as AceternityTimeline } from "~/components/ui/timeline";
-import { SparklesCore } from "~/components/ui/sparkles";
+import { motion } from "framer-motion";
 
 export default function TimelineSection() {
   const timelineData = [
@@ -21,7 +21,7 @@ export default function TimelineSection() {
     {
       title: "IBM – Associate Product Manager Intern",
       content: (
-        <div className="  space-y-2">
+        <div className="space-y-2">
           <p><strong>Jan 2024 – Aug 2024</strong></p>
           <ul className="list-disc list-inside space-y-1">
             <li>Delivered new QRadar SIEM integrations and features with focus on customer needs.</li>
@@ -34,7 +34,7 @@ export default function TimelineSection() {
     {
       title: "NIIT University – B.Tech CSE",
       content: (
-        <div className="  space-y-2">
+        <div className="space-y-2">
           <p><strong>2020 – 2024 | Neemrana, India</strong></p>
           <p>CGPA: <strong>9.63</strong></p>
           <p>Graduated with honors in Computer Science with focus on cybersecurity, product thinking, and software engineering.</p>
@@ -44,7 +44,7 @@ export default function TimelineSection() {
     {
       title: "St. Teresa School – 10th & 12th Boards",
       content: (
-        <div className="  space-y-2">
+        <div className="space-y-2">
           <p><strong>2017 – 2020 | Ghaziabad, India</strong></p>
           <ul className="list-disc list-inside space-y-1">
             <li>12th Boards: <strong>94.5%</strong></li>
@@ -56,8 +56,19 @@ export default function TimelineSection() {
   ];
 
   return (
-    <section id="timeline" className="px-0 md:px-1 py-20 bg-background">
-      <h2 className="text-5xl font-bold mb-5 text-center text-white">Experience & Education</h2>
+    <section
+      id="timeline"
+      className="px-6 py-20 max-w-7xl mx-auto relative z-10"
+    >
+      <motion.h2
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-5xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300"
+      >
+        Experience & Education
+      </motion.h2>
       <AceternityTimeline data={timelineData} />
     </section>
   );

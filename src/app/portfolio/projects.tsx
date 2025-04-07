@@ -219,8 +219,8 @@ const projects = [
 
 export default function ProjectsSection() {
   return (
-    <section id="projects" className="w-full px-4 py-20 md:px-12 bg-background text-white">
-      <h2 className="text-5xl font-bold mb-12 text-center">Projects</h2>
+    <section id="projects" className="w-full px-4 py-20 md:px-12 text-white">
+      <h2 className="text-5xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Projects</h2>
       <ExpandableCardGrid cards={projects} />
     </section>
   );

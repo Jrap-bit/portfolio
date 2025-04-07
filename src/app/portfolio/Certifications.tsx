@@ -33,7 +33,7 @@ const certifications = [
     org: "IBM",
     logo: "/images/certs/ibm.png",
     description:
-      "Internal recognition for cross-team collaboration, technical leadership, and advocacy within IBM’s X-Force and SIEM divisions.",
+      "Internal recognition for cross-team collaboration, technical leadership, and advocacy within IBM's X-Force and SIEM divisions.",
     link: "https://www.credly.com/badges/7b413a86-fb75-4254-aa15-7501b0299136",
   },
   {
@@ -41,7 +41,7 @@ const certifications = [
     org: "IBM",
     logo: "/images/certs/ibm.png",
     description:
-      "Covers agile values, ceremonies, artifacts, and mindset with IBM’s real-world project application.",
+      "Covers agile values, ceremonies, artifacts, and mindset with IBM's real-world project application.",
     link: "https://www.credly.com/badges/c1e1cf63-3056-4cac-bd25-7d45d8cd6a57",
   },
   {
@@ -72,16 +72,27 @@ const certifications = [
 
 export default function CertificationsSection() {
   return (
-    <section className="w-full py-20 px-4 md:px-10 bg-background text-white">
-      <h2 className="text-3xl md:text-5xl font-bold mb-10 text-center">
-        Certifications & Achievements
-      </h2>
-      <InfiniteMovingCards
-        items={certifications}
-        direction="left"
-        speed="normal"
-        pauseOnHover={true}
-      />
+    <section className="w-full py-20 px-4 md:px-10 text-white relative overflow-hidden">
+      <motion.h2 
+        className="text-3xl md:text-5xl font-bold mb-10 text-center relative"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        viewport={{ once: true }}
+      >
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
+          Certifications & Achievements
+        </span>
+      </motion.h2>
+      
+      <div className="relative">
+        <InfiniteMovingCards
+          items={certifications}
+          direction="left"
+          speed="normal"
+          pauseOnHover={true}
+        />
+      </div>
     </section>
   );
 }

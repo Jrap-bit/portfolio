@@ -246,7 +246,7 @@ export const InfiniteMovingCards = ({
           {items.map((item, idx) => (
             <li
               key={`${item.title}-${idx}`}
-              className="relative w-[280px] max-w-full shrink-0 rounded-2xl border border-b-0 border-zinc-200 bg-[linear-gradient(180deg,#fafafa,#f5f5f5)] px-6 py-4 md:w-[450px] md:px-8 md:py-6 dark:border-zinc-700 dark:bg-[linear-gradient(180deg,#27272a,#18181b)]"
+              className="relative w-[280px] max-w-full shrink-0 rounded-2xl border border-b-0 border-zinc-200 bg-[linear-gradient(180deg,#fafafa,#f5f5f5)] px-6 py-4 md:w-[450px] md:px-8 md:py-6 dark:border-zinc-700 dark:bg-[linear-gradient(180deg,#27272a,#18181b)] hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all duration-300 backdrop-blur-sm"
             >
               <a
                 href={item.link}
@@ -255,13 +255,15 @@ export const InfiniteMovingCards = ({
                 className="block"
               >
                 <div className="flex items-center mb-3 md:mb-4">
-                  <img
-                    src={item.logo}
-                    alt={item.org}
-                    className="h-8 w-8 md:h-10 md:w-10 object-contain mr-2"
-                  />
+                  <div className="h-8 w-8 md:h-10 md:w-10 object-contain mr-2 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-400/10 p-1 flex items-center justify-center">
+                    <img
+                      src={item.logo}
+                      alt={item.org}
+                      className="h-6 w-6 md:h-8 md:w-8 object-contain"
+                    />
+                  </div>
                   <div>
-                    <h3 className="text-base md:text-lg font-bold text-neutral-800 dark:text-gray-100">
+                    <h3 className="text-base md:text-lg font-bold">
                       {item.title}
                     </h3>
                     <p className="text-xs md:text-sm text-neutral-500 dark:text-gray-400">
