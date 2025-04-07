@@ -1,5 +1,3 @@
-// ~/components/expandable-cards-demo-grid.tsx
-
 "use client";
 
 import Image from "next/image";
@@ -79,7 +77,7 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
               </button>
               
               {active.src && (
-                <motion.div layoutId={`image-${active.title}-${id}`} className="relative h-48 sm:h-64">
+                <motion.div layoutId={`image-${active.title}-${id}`} className="relative aspect-[16/9]">
                   <Image
                     priority
                     width={500}
@@ -92,7 +90,7 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
                 </motion.div>
               )}
               <div className="p-4 sm:p-6 flex flex-col flex-grow overflow-hidden">
-                <motion.h3 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500 dark:from-blue-400 dark:to-cyan-300">
+                <motion.h3 className="text-lg font-semibold text-white">
                   {active.title}
                 </motion.h3>
                 <motion.p className="text-neutral-600 dark:text-neutral-400 mb-4">
@@ -108,7 +106,7 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
                     href={active.ctaLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-5 py-2 text-sm rounded-full font-medium hover:from-blue-600 hover:to-cyan-500 transition shadow-[0_0_10px_rgba(59,130,246,0.3)]"
+                    className="inline-block bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-5 py-2 text-sm rounded-full font-medium hover:from-blue-600 hover:to-cyan-500 transition shadow-[0_0_10px_rgba(59,130,246,0.3)] animate-pulse hover:animate-none"
                   >
                     {active.ctaText}
                   </a>
@@ -126,16 +124,17 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
             layoutId={`card-${card.title}-${id}`}
             key={card.title}
             onClick={() => setActive(card)}
-            className="bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl cursor-pointer p-4 transition duration-300 backdrop-blur-sm h-full flex flex-col hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-500/30 dark:hover:border-cyan-400/30"
+            whileTap={{ scale: 0.98 }}
+            className="group bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl cursor-pointer p-4 transition duration-300 backdrop-blur-sm h-full flex flex-col hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] hover:border-blue-500/30 dark:hover:border-cyan-400/30"
           >
-            <div className="w-full h-56 bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-md flex items-center justify-center overflow-hidden relative">
+            <div className="w-full aspect-[16/9] bg-neutral-900 rounded-md flex items-center justify-center overflow-hidden relative">
               {card.src ? (
                 <Image
                   width={300}
                   height={300}
                   src={card.src}
                   alt={card.title}
-                  className="rounded-md w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               ) : (
                 <div className="text-white/60 text-center p-4">
@@ -160,10 +159,10 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
                   <p className="text-sm">No image available</p>
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             <div className="mt-4 space-y-1 flex-grow">
-              <h3 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">{card.title}</h3>
+              <h3 className="text-lg font-semibold text-white group-hover:text-cyan-300 transition-colors duration-200">{card.title}</h3>
               <p className="text-sm text-neutral-400 line-clamp-2">{card.description}</p>
             </div>
           </motion.div>

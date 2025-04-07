@@ -72,24 +72,25 @@ const certifications = [
 
 export default function CertificationsSection() {
   return (
-    <section className="w-full py-20 px-4 md:px-10 text-white relative overflow-hidden">
-      <motion.h2 
-        className="text-3xl md:text-5xl font-bold mb-10 text-center relative"
+    <section
+      id="certifications"
+      className="w-full py-20 px-4 md:px-10 text-white relative overflow-hidden"
+    >
+      <motion.h2
+        className="text-3xl md:text-5xl font-bold mb-10 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-indigo-400"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-          Certifications & Achievements
-        </span>
+        Certifications & Achievements
       </motion.h2>
-      
+
       <div className="relative">
         <InfiniteMovingCards
           items={certifications}
           direction="left"
-          speed="normal"
+          speed="slow"
           pauseOnHover={true}
         />
       </div>

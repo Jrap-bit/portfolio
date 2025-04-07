@@ -151,6 +151,7 @@ body {
 .animate-scroll {
   animation: scroll var(--animation-duration, 40s) linear infinite;
   animation-direction: var(--animation-direction, reverse);
+  will-change: transform;
 }
 
 /* Add touch-pan-x utility for better mobile dragging */

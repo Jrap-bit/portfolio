@@ -1,4 +1,5 @@
 "use client";
+
 import { cn } from "~/lib/utils";
 import React, { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
@@ -6,7 +7,7 @@ import { motion } from "framer-motion";
 export const InfiniteMovingCards = ({
   items,
   direction = "right",
-  speed = "fast",
+  speed = "slow",
   pauseOnHover = true,
   className,
 }: {
@@ -34,75 +35,31 @@ export const InfiniteMovingCards = ({
   const [totalWidth, setTotalWidth] = useState(0);
   const [itemWidth, setItemWidth] = useState(0);
 
-  // Detect if device is mobile
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const isMobileDevice = window.innerWidth < 768;
+      setIsMobile(isMobileDevice);
+      document.documentElement.style.setProperty(
+        "--blur-strength",
+        isMobileDevice ? "10px" : "30px"
+      );
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
+    window.addEventListener("resize", checkMobile);
     return () => {
-      window.removeEventListener('resize', checkMobile);
+      window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
   useEffect(() => {
-    addAnimation();
-  }, []);
-
-  // Calculate total width after items are duplicated
-  useEffect(() => {
-    if (scrollerRef.current) {
-      const width = scrollerRef.current.scrollWidth;
-      setTotalWidth(width);
-      
-      // Calculate the width of a single item
-      const firstItem = scrollerRef.current.querySelector('li');
-      if (firstItem) {
-        const itemRect = firstItem.getBoundingClientRect();
-        setItemWidth(itemRect.width);
-      }
-    }
-  }, [start]);
-
-  function addAnimation() {
-    if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
-      
-      // Clear any existing duplicated items
-      const existingItems = scrollerRef.current.querySelectorAll('li');
-      if (existingItems && existingItems.length > items.length) {
-        for (let i = items.length; i < existingItems.length; i++) {
-          existingItems[i]?.remove();
-        }
-      }
-
-      // Duplicate each child once
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        scrollerRef.current!.appendChild(duplicatedItem);
-      });
-
-      getDirection();
-      getSpeed();
-      setStart(true);
-    }
-  }
-
-  const getDirection = () => {
     if (containerRef.current) {
       if (direction === "left") {
         containerRef.current.style.setProperty("--animation-direction", "forwards");
       } else {
         containerRef.current.style.setProperty("--animation-direction", "reverse");
       }
-    }
-  };
 
-  const getSpeed = () => {
-    if (containerRef.current) {
       if (speed === "fast") {
         containerRef.current.style.setProperty("--animation-duration", "20s");
       } else if (speed === "normal") {
@@ -111,7 +68,40 @@ export const InfiniteMovingCards = ({
         containerRef.current.style.setProperty("--animation-duration", "80s");
       }
     }
-  };
+  }, [direction, speed]);
+
+  useEffect(() => {
+    if (scrollerRef.current) {
+      const existingItems = scrollerRef.current.querySelectorAll("li");
+      if (existingItems && existingItems.length > items.length) {
+        for (let i = items.length; i < existingItems.length; i++) {
+          existingItems[i]?.remove();
+        }
+      }
+
+      const scrollerContent = Array.from(scrollerRef.current.children);
+      for (let i = 0; i < 5; i++) {
+        scrollerContent.forEach((item) => {
+          const duplicatedItem = item.cloneNode(true);
+          scrollerRef.current!.appendChild(duplicatedItem);
+        });
+      }
+
+      setStart(true);
+    }
+  }, [items]);
+
+  useEffect(() => {
+    if (scrollerRef.current) {
+      const width = scrollerRef.current.scrollWidth;
+      setTotalWidth(width);
+      const firstItem = scrollerRef.current.querySelector("li");
+      if (firstItem) {
+        const itemRect = firstItem.getBoundingClientRect();
+        setItemWidth(itemRect.width);
+      }
+    }
+  }, [start]);
 
   const handleMouseEnter = () => {
     if (pauseOnHover) {
@@ -125,7 +115,6 @@ export const InfiniteMovingCards = ({
   const handleMouseLeave = () => {
     if (pauseOnHover) {
       setIsPaused(false);
-      // Capture the current position before resuming animation
       if (scrollerRef.current) {
         const currentTransform = scrollerRef.current.style.transform;
         if (currentTransform) {
@@ -134,7 +123,6 @@ export const InfiniteMovingCards = ({
             setManualScrollPosition(parseFloat(match[1]));
           }
         }
-        // Reset animation with new starting position
         resetAnimationFromPosition();
       }
     }
@@ -150,7 +138,6 @@ export const InfiniteMovingCards = ({
 
   const handleDragEnd = () => {
     setIsDragging(false);
-    // Capture the final position after dragging
     if (scrollerRef.current) {
       const currentTransform = scrollerRef.current.style.transform;
       if (currentTransform) {
@@ -166,8 +153,7 @@ export const InfiniteMovingCards = ({
     if (scrollerRef.current && totalWidth > 0 && itemWidth > 0) {
       const halfWidth = totalWidth / 2;
       const currentX = manualScrollPosition + info.offset.x;
-      
-      // If we've dragged past the halfway point, wrap around
+
       if (currentX < -halfWidth) {
         const newPosition = currentX + halfWidth;
         setManualScrollPosition(newPosition);
@@ -181,10 +167,7 @@ export const InfiniteMovingCards = ({
   };
 
   const resetAnimationFromPosition = () => {
-    // Increment animation key to force re-render
     setAnimationKey(prev => prev + 1);
-    
-    // Apply the manual scroll position to the scroller
     if (scrollerRef.current) {
       scrollerRef.current.style.transform = `translateX(${manualScrollPosition}px)`;
     }
@@ -200,7 +183,6 @@ export const InfiniteMovingCards = ({
     }
   };
 
-  // Handle touch events for mobile
   const handleTouchStart = () => {
     setIsPaused(true);
     if (scrollerRef.current) {
@@ -209,19 +191,21 @@ export const InfiniteMovingCards = ({
   };
 
   return (
-    <div 
-      className="flex flex-col items-center cursor-grab active:cursor-grabbing"
+    <div
+      className="flex flex-col items-center cursor-grab active:cursor-grabbing relative"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
     >
+      <div className="pointer-events-none absolute inset-0 z-30">
+        <div className="absolute inset-y-0 left-0 w-16 md:w-24 h-full bg-gradient-to-r from-black to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-16 md:w-24 h-full bg-gradient-to-l from-black to-transparent" />
+      </div>
+
       <div
         ref={containerRef}
-        className={cn(
-          "scroller relative z-20 w-full overflow-hidden",
-          className,
-        )}
+        className={cn("scroller relative z-20 w-full overflow-hidden", className)}
       >
         <motion.ul
           key={animationKey}
@@ -242,74 +226,36 @@ export const InfiniteMovingCards = ({
             willChange: "transform"
           }}
         >
-          
           {items.map((item, idx) => (
             <li
               key={`${item.title}-${idx}`}
-              className="relative w-[280px] max-w-full shrink-0 rounded-2xl border border-b-0 border-zinc-200 bg-[linear-gradient(180deg,#fafafa,#f5f5f5)] px-6 py-4 md:w-[450px] md:px-8 md:py-6 dark:border-zinc-700 dark:bg-[linear-gradient(180deg,#27272a,#18181b)] hover:shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all duration-300 backdrop-blur-sm"
+              className="w-[280px] md:w-[450px] shrink-0 rounded-2xl border border-zinc-700 bg-black/40 px-6 py-4 md:px-8 md:py-6 hover:scale-[1.01] hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all duration-300 backdrop-blur-md"
             >
-              <a
-                href={item.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block"
-              >
-                <div className="flex items-center mb-3 md:mb-4">
-                  <div className="h-8 w-8 md:h-10 md:w-10 object-contain mr-2 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-400/10 p-1 flex items-center justify-center">
-                    <img
-                      src={item.logo}
-                      alt={item.org}
-                      className="h-6 w-6 md:h-8 md:w-8 object-contain"
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-base md:text-lg font-bold">
+              <a href={item.link} target="_blank" rel="noopener noreferrer" className="block">
+                <div className="flex items-center mb-4">
+                <div className="h-10 w-10 rounded-full overflow-hidden bg-gradient-to-br from-blue-400/20 to-cyan-400/20 flex items-center justify-center">
+                <img
+    src={item.logo}
+    alt={item.org}
+    className="w-full h-auto object-contain"
+  />
+</div>
+                  <div className="ml-3">
+                    <h3 className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
                       {item.title}
                     </h3>
-                    <p className="text-xs md:text-sm text-neutral-500 dark:text-gray-400">
-                      {item.org}
-                    </p>
+                    <p className="text-sm text-gray-400">{item.org}</p>
                   </div>
                 </div>
-                <p className="text-xs md:text-sm text-neutral-700 dark:text-gray-300">
-                  {item.description}
-                </p>
+                <p className="text-sm text-neutral-300">{item.description}</p>
               </a>
             </li>
           ))}
         </motion.ul>
       </div>
-      
-      <div className="mt-2 flex items-center justify-center text-sm text-neutral-500 dark:text-neutral-400">
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="16" 
-          height="16" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round" 
-          className="mr-1"
-        >
-          <path d="M21 12H3M3 12L9 6M3 12L9 18" />
-        </svg>
-        <span>Drag to explore</span>
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="16" 
-          height="16" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="currentColor" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round" 
-          className="ml-1"
-        >
-          <path d="M3 12H21M21 12L15 6M21 12L15 18" />
-        </svg>
+
+      <div className="mt-3 text-sm text-neutral-500 flex items-center gap-2">
+        <span>← Drag to explore →</span>
       </div>
     </div>
   );
