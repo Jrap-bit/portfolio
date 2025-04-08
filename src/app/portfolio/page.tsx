@@ -8,6 +8,8 @@ import SkillsSection from "./skills";
 import PortfolioNavbar from "./portfolio-navbar";
 import ProjectsSection from "./projects";
 import TimelineSection from "./timeline";
+import ContactSection from "./contact";
+import Footer from "./footer";
 import Dock from "./dock";
 
 export default function PortfolioPage() {
@@ -101,6 +103,12 @@ export default function PortfolioPage() {
       <section id="projects" className="px-6 py-10 max-w-7xl mx-auto">
         <ProjectsSection />
       </section>
+
+            {/* Contact Section */}
+            <section id="contact" className="px-6 py-16 max-w-5xl mx-auto">
+          <ContactSection />
+        </section>
+        <Footer />
     </div>
     </div>
   );

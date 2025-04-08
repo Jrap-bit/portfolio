@@ -139,9 +139,14 @@ export default function Hero() {
           variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}
           className={`flex flex-wrap gap-4 ${isHovered ? "pt-4 mt-3" : "pt-none"}`}
         >
-          <Button className="px-6 py-2">Contact Me</Button>
           <a
-            href="https://drive.google.com/file/d/1Ldv4SGamUgnLpv7WK74syVsKpBCW6u1I/view?usp=sharing"
+          href="#contact"
+          >
+
+          <Button className="px-6 py-2">Contact Me</Button>
+          </a>
+          <a
+            href="/Resources/cv.pdf"
             target="_blank"
             className="flex items-center justify-center"
           >

@@ -12,6 +12,7 @@ import {
   FaFileAlt,
   FaCertificate,
   FaProjectDiagram,
+  FaEnvelope
 } from "react-icons/fa";
 
 const sections = [
@@ -21,6 +22,7 @@ const sections = [
   { id: "timeline", icon: <FaGraduationCap />, label: "Timeline" },
   { id: "certifications", icon: <FaCertificate />, label: "Certifications" },
   { id: "projects", icon: <FaProjectDiagram />, label: "Projects" },
+  { id: "contact", icon: <FaEnvelope />, label: "Contact" },
 ];
 
 export default function Dock() {
