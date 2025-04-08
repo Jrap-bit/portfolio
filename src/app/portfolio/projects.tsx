@@ -8,7 +8,7 @@ const projects = [
     {
         title: "INTEGRATE Framework",
         description: "Internal Integration Delivery Pipeline Framework at IBM",
-        src: "/images/certs/ibm.png",
+        src: "/images/projects/integrate.png",
         ctaText: "Read Summary",
         ctaLink: "#",
         content: () => (
