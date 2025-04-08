@@ -1,6 +1,7 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
+import { Analytics } from '@vercel/analytics/react';
 import { Geist } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en" className={`dark ${geist.variable}`}>
       <body className="overscroll-x-auto">
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Analytics />
       </body>
     </html>
   );
