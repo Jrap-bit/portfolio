@@ -1,14 +1,13 @@
 "use client";
 
-import { FaGithub, FaLinkedin, FaFileAlt, FaArrowUp, FaSpotify, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaFileAlt, FaSpotify } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
 export default function Footer() {
-
   const copyEmail = () => {
-    navigator.clipboard.writeText("parjanyapandey@gmail.com");
-    toast.success("Email copied to clipboard!");
+    navigator.clipboard.writeText("namanpandey10@gmail.com");
+    toast.success("Email copied to clipboard!");    
   };
 
   return (
@@ -22,20 +21,20 @@ export default function Footer() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <p>© {new Date().getFullYear()} Parjanya Pandey</p>
-          <p>📍 Ghaziabad, India</p>
+          <p className="hover:text-cyan-300 transition">© {new Date().getFullYear()} Parjanya Pandey</p>
+          <p className="hover:text-cyan-300 transition">📍 Ghaziabad, India</p>
           <p>
             📬{" "}
             <span
               onClick={copyEmail}
-              className="cursor-pointer underline underline-offset-4 hover:text-white transition"
+              className="cursor-pointer underline underline-offset-4 hover:text-cyan-300 transition"
             >
               Copy Email
             </span>{" "}
             or{" "}
             <a
-              href="mailto:parjanyapandey@gmail.com"
-              className="underline underline-offset-4 hover:text-white transition"
+              href="mailto:namanpandey10@gmail.com"
+              className="underline underline-offset-4 hover:text-cyan-300 transition"
             >
               Send Mail
             </a>
@@ -51,7 +50,7 @@ export default function Footer() {
         >
           <a
             href="/blog"
-            className="hover:underline underline-offset-4 transition"
+            className="hover:underline underline-offset-4 transition hover:text-cyan-300"
           >
             📝 Read My Blog
           </a>
@@ -59,7 +58,7 @@ export default function Footer() {
             href="https://open.spotify.com/playlist/4MnxdTiWPG4V7T2ll3xHgS?si=2b11aa87cc5d46dc"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:underline underline-offset-4 transition flex items-center gap-1"
+            className="hover:underline underline-offset-4 transition flex items-center gap-1 hover:text-green-400"
           >
             <FaSpotify className="text-green-400" /> Vibe with my playlist
           </a>
@@ -76,7 +75,7 @@ export default function Footer() {
             href="https://github.com/Jrap-bit"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white transition"
+            className="hover:text-cyan-300 transition hover:scale-110"
             aria-label="GitHub"
           >
             <FaGithub size={20} />
@@ -85,7 +84,7 @@ export default function Footer() {
             href="https://linkedin.com/in/parjanyapandey"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white transition"
+            className="hover:text-cyan-300 transition hover:scale-110"
             aria-label="LinkedIn"
           >
             <FaLinkedin size={20} />
@@ -94,7 +93,7 @@ export default function Footer() {
             href="/Resources/cv.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-white transition"
+            className="hover:text-cyan-300 transition hover:scale-110"
             aria-label="Resume"
           >
             <FaFileAlt size={20} />
