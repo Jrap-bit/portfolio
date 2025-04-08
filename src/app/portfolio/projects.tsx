@@ -29,7 +29,7 @@ const projects = [
       {
         title: "ESA Contract Automation",
         description: "PDF Parsing & Part Code Matching Tool for ESA at IBM",
-        src: "/images/certs/cisco Icon.png",
+        src: "/images/projects/esa.png",
         ctaText: "Read Summary",
         ctaLink: "#",
         content: () => (
@@ -49,7 +49,7 @@ const projects = [
       {
         title: "Guardium RAG Chatbot",
         description: "Watsonx-powered RAG chatbot for Guardium sales enablement",
-        src: "/images/certs/ibm.png",
+        src: "/images/projects/chatbot.png",
         ctaText: "Read Summary",
         ctaLink: "#",
         content: () => (
@@ -71,7 +71,7 @@ const projects = [
     {
       title: "CoffeeChain",
       description: "Blockchain-based supply chain management for coffee logistics.",
-      src: "/images/certs/cisco Icon.png",
+      src: "/images/projects/coffeeblocks.png",
       ctaText: "View Code",
       ctaLink: "https://github.com/Jrap-bit/CoffeeChain",
       content: () => (
@@ -96,7 +96,7 @@ const projects = [
     {
       title: "TuneLink",
       description: "Spotify + YouTube downloader and playlist cloner.",
-      src: "/images/certs/ibm.png",
+      src: "/images/projects/tunelink.png",
       ctaText: "View Code",
       ctaLink: "https://github.com/Jrap-bit/TuneLink",
       content: () => (
@@ -116,7 +116,7 @@ const projects = [
     {
       title: "CipherGuard",
       description: "Robust encryption suite using React + Django.",
-      src: "/images/certs/cisco Icon.png",
+      src: "/images/projects/cipherguard.png",
       ctaText: "View Code",
       ctaLink: "https://github.com/Jrap-bit/CipherGuard",
       content: () => (
@@ -136,7 +136,7 @@ const projects = [
     {
       title: "MetroDeals",
       description: "MERN stack-powered online deal finder.",
-      src: "/images/certs/ibm.png",
+      src: "/images/projects/metrodeals.png",
       ctaText: "View Code",
       ctaLink: "https://github.com/MrDXTR/MetroDeals",
       content: () => (
@@ -157,7 +157,7 @@ const projects = [
     {
       title: "Attendance-System",
       description: "Precision attendance tracking system.",
-      src: "/images/certs/cisco Icon.png",
+      src: "/images/projects/attendance.png",
       ctaText: "View Code",
       ctaLink: "https://github.com/Jrap-bit/Attendance-System",
       content: () => (
@@ -177,7 +177,7 @@ const projects = [
     {
       title: "MalwareGuard",
       description: "Advanced malware analysis toolkit using YARA.",
-      src: "/images/certs/ibm.png",
+      src: "/images/projects/malwareguard.png",
       ctaText: "View Code",
       ctaLink: "https://github.com/Jrap-bit/MalwareGuard",
       content: () => (
@@ -196,9 +196,9 @@ const projects = [
       ),
     },
     {
-      title: "v6_main_site",
+      title: "siNUsoid v6",
       description: "Official website for siNUsoid v6 tech fest.",
-      src: "/images/certs/cisco Icon.png",
+      src: "/images/projects/sinusoid.png",
       ctaText: "View Code",
       ctaLink: "https://github.com/Akshat7274/v6_main_site",
       content: () => (
