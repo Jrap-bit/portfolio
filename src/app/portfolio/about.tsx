@@ -13,11 +13,10 @@ import { MovieShelfCard } from "./cards/MovieCard";
 import { OneLiner } from "./cards/OneLiner";
 
 import { motion } from "framer-motion";
-import { AnimatedBorderWrapper } from "~/components/ui/BorderTracer";
 
 export default function AboutMe() {
   return (
-    <section id="about" className="w-full min-h-screen md:px-12 bg-black text-white">
+    <section id="about" className="w-full min-h-screen mx-auto md:px-12 bg-black text-white">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-10">
 
         {/* Heading + One Liner */}

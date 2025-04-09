@@ -46,7 +46,7 @@ export default function PortfolioPage() {
       {/* About Me Section */}
       <section
         id="about"
-        className="min-h-screen w-full sm:px-6 py-0 sm:py-20 flex flex-col justify-center"
+        className="min-h-screen w-full mx-auto px-4 py-0 sm:py-20 flex flex-col justify-center"
       >
        <AboutMeSection />
       </section>
