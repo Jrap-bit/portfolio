@@ -5,7 +5,7 @@ import StatusCard from "./cards/StatusCard";
 import { PiStreamCard } from "./cards/PiStream";
 import { WhatImThinkingCard } from "./cards/ThoughtBox";
 import { CurrentlyReadingCard } from "./cards/ReadingCard";
-import {SpotifyCard} from "./cards/SpotifyCard";
+import SpotifyCard from "./cards/SpotifyCard";
 import { LatestBlogCard } from "./cards/BlogCard";
 import { QuoteCard } from "./cards/QuoteCard";
 import { NorthStarCard } from "./cards/MetricCard";

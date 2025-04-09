@@ -1,35 +1,33 @@
 // pages/api/spotify/callback.ts
+
 import type { NextApiRequest, NextApiResponse } from "next";
-import axios from "axios";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const code = req.query.code || null;
+  const code = req.query.code as string;
 
-  if (!code) return res.status(400).send("Missing code");
+  const authOptions = {
+    method: "POST",
+    headers: {
+      Authorization: "Basic " + Buffer.from("d338afaacd994a44bc36741b7a8e39e0" + ":" + "82c9d03f746546a99b2f76c80817d4e0").toString("base64"),
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      grant_type: "authorization_code",
+      code: code,
+      redirect_uri: "https://parjanya.vercel.app/api/spotify/callback",
+    }),
+  };
 
-  try {
-    const response = await axios.post(
-      "https://accounts.spotify.com/api/token",
-      new URLSearchParams({
-        grant_type: "authorization_code",
-        code: code as string,
-        redirect_uri: process.env.SPOTIFY_REDIRECT_URI!,
-        client_id: process.env.SPOTIFY_CLIENT_ID!,
-        client_secret: process.env.SPOTIFY_CLIENT_SECRET!,
-      }),
-      {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      }
-    );
+  const response = await fetch("https://accounts.spotify.com/api/token", authOptions);
+  const data = await response.json();
 
-    // 🔐 You'll receive access_token + refresh_token
-    const { refresh_token, access_token } = response.data;
-
-    console.log("Refresh Token:", refresh_token); // ⬅️ Copy this to your `.env.local`
-
-    return res.status(200).json({ refresh_token, access_token });
-  } catch (err) {
-    console.error("Error exchanging token:", err);
-    return res.status(500).send("Token exchange failed");
+  if (response.ok) {
+    // Save this securely: in database or use it immediately
+    console.log("Access Token:", data.access_token);
+    console.log("Refresh Token:", data.refresh_token);
+    return res.status(200).json(data);
+  } else {
+    console.error("Spotify Token Error:", data);
+    return res.status(500).json({ error: "Failed to get token from Spotify" });
   }
 }

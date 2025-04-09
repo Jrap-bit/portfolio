@@ -1,39 +1,62 @@
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { FaCheckCircle, FaEllipsisH, FaSpotify, FaFilm, FaCompass, FaQuoteLeft } from "react-icons/fa";
+"use client";
 
-export const SpotifyCard = () => {
-    const [track, setTrack] = useState({
-      name: "Placeholder Song",
-      artist: "Artist Name",
-      image: "/images/anime.png", // fallback
-    });
-  
-    // Later: Replace this with Spotify API call
-    useEffect(() => {
-      // fetchSpotifyLastPlayed().then(setTrack);
-    }, []);
-  
+import { useEffect, useState } from "react";
+
+type NowPlaying = {
+  isPlaying: boolean;
+  title: string;
+  artist: string;
+  album: string;
+  albumImageUrl: string;
+  songUrl: string;
+};
+
+export default function SpotifyCard() {
+  const [data, setData] = useState<NowPlaying | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/spotify/now-playing")
+      .then((res) => res.json())
+      .then((json) => {
+        setData(json);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
     return (
-      <motion.div
-        className="col-span-1 row-span-2 rounded-2xl bg-gradient-to-br from-green-900/30 to-emerald-900/30 p-6 backdrop-blur-md border border-white/10 shadow-lg text-white"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h3 className="text-cyan-300 text-sm font-semibold mb-3">🎧 Listening To</h3>
-        <div className="w-full h-40 rounded-lg overflow-hidden mb-3">
-          <Image
-            src={track.image}
-            alt="Cover Art"
-            width={300}
-            height={300}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <p className="text-sm font-medium">{track.name}</p>
-        <p className="text-xs text-neutral-400">{track.artist}</p>
-      </motion.div>
+      <div className="rounded-xl p-4 bg-black/30 text-white text-sm animate-pulse">
+        Loading Spotify...
+      </div>
     );
-  };
+  }
+
+  if (!data || !data.isPlaying) {
+    return (
+      <div className="rounded-xl p-4 bg-black/30 text-white text-sm">
+        Not playing anything right now.
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={data.songUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-br from-[#1DB954]/30 to-black/30 backdrop-blur-md transition hover:scale-[1.02]"
+    >
+      <img
+        src={data.albumImageUrl}
+        alt="Album cover"
+        className="w-16 h-16 rounded-lg shadow-lg"
+      />
+      <div className="flex flex-col overflow-hidden">
+        <p className="text-white font-semibold truncate">{data.title}</p>
+        <p className="text-gray-300 text-sm truncate">{data.artist}</p>
+        <p className="text-gray-500 text-xs truncate">{data.album}</p>
+      </div>
+    </a>
+  );
+}
