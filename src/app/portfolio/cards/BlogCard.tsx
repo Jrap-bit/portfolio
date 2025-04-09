@@ -21,6 +21,12 @@ export const LatestBlogCard = () => {
   }, []);
 
   return (
+    <a
+            href={latestPost?.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-amber-400 hover:text-amber-300 mt-2 inline-block relative z-10"
+          >
     <motion.div
       className="col-span-1 row-span-1 rounded-2xl p-5 bg-black/60 backdrop-blur-md border border-white/10 shadow-inner text-white relative overflow-hidden group transition-all duration-300"
       initial={{ opacity: 0, y: 20 }}
@@ -40,22 +46,18 @@ export const LatestBlogCard = () => {
 
       {latestPost ? (
         <>
-          <h4 className="text-sm font-medium relative z-10">{latestPost.title}</h4>
+        
+          <h4 className="text-sm font-medium relative z-10 text-amber-400 hover:text-amber-300">{latestPost.title}</h4>
           <p className="text-xs text-neutral-400 relative z-10">
             {new Date(latestPost.pubDate).toLocaleDateString()}
           </p>
-          <a
-            href={latestPost.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs text-amber-400 hover:text-amber-300 mt-2 inline-block relative z-10"
-          >
             Read Now →
-          </a>
+          
         </>
       ) : (
         <p className="text-xs text-neutral-400 relative z-10">Loading latest post...</p>
       )}
     </motion.div>
+    </a>
   );
 };
