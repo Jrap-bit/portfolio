@@ -70,7 +70,7 @@ export const PiStreamCard = () => {
       >
         <div
           ref={contentRef}
-          className="font-mono text-sm leading-snug text-green-400 whitespace-normal break-words"
+          className="font-mono text-lg leading-snug text-green-400 whitespace-normal break-words"
         >
           <AnimatedDigits text={visibleDigits} />
         </div>

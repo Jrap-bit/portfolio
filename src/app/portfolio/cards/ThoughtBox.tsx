@@ -6,8 +6,8 @@ export const WhatImThinkingCard = () => {
       className="relative mt-4 rounded-2xl p-5 bg-black/60 backdrop-blur-md border border-white/10 shadow-inner text-white group overflow-hidden transition-all duration-300"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.01 }}
-      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.03 }}
+      transition={{ duration: 0.01 }}
     >
       {/* Soft Hover Glow */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition duration-300 blur-2xl">
