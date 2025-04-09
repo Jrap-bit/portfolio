@@ -47,8 +47,8 @@ export const CurrentlyReadingCard = () => {
       {/* Subtle Hover Glow */}
       <div className="absolute inset-0 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition duration-300 blur-2xl">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-indigo-400/10 rounded-full" />
-        <div className="absolute bottom-0 right-0 w-24 h-24 bg-violet-500/40 rounded-full" />
-        <div className="absolute top-0 left-0 w-24 h-24 bg-violet-500/40 rounded-full" />
+        <div className="absolute bottom-0 right-0 w-24 h-24 bg-violet-500/30 rounded-full" />
+        <div className="absolute top-0 left-0 w-24 h-24 bg-violet-500/30 rounded-full" />
       </div>
       <div className="absolute bottom-0 right-0 w-24 h-24 bg-violet-500/20 rounded-full blur-2xl" />
       <div className="absolute top-0 left-0 w-24 h-24 bg-violet-500/20 rounded-full blur-2xl" />
