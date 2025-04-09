@@ -10,6 +10,7 @@ export const PiStreamCard = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const iRef = useRef(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -39,24 +40,26 @@ export const PiStreamCard = () => {
   }, [fullDigits]);
 
   return (
-<motion.div
-  className="col-span-2 rounded-2xl p-5 backdrop-blur-md bg-black/50 border border-white/10 shadow-inner text-white transition-all duration-300 relative group overflow-hidden card-gradient-border"
-  initial={{ opacity: 0, y: 20 }}
-  animate={{ opacity: 1, y: 0 }}
-  whileHover={{ scale: 1.01 }}
-  style={
-    {
-      "--border-from": "#3b82f6", // Tailwind blue-500
-      "--border-to": "#a78bfa",   // Tailwind purple-400
-    } as React.CSSProperties
-  }
->
+    <motion.div
+      className="col-span-2 rounded-2xl p-5 backdrop-blur-md bg-black/50 border border-white/10 shadow-inner text-white transition-all duration-300 relative group overflow-hidden card-gradient-border"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.01 }}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      style={
+        {
+          "--border-from": "#3b82f6", // Tailwind blue-500
+          "--border-to": "#a78bfa",   // Tailwind purple-400
+        } as React.CSSProperties
+      }
+    >
       {/* Hover Glow – Green Blur only on Hover */}
       <div className="absolute inset-0 z-0 pointer-events-none group-hover:opacity-100 opacity-0 transition-opacity duration-300">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-emerald-400/10 blur-3xl rounded-full" />
         <div className="absolute bottom-0 right-0 w-40 h-40 bg-emerald-500/30 blur-2xl rounded-full" />
-        </div>
-        <div className="absolute bottom-0 right-0 w-40 h-40 bg-pink-500/10 blur-2xl rounded-full" />
+      </div>
+      <div className="absolute bottom-0 right-0 w-40 h-40 bg-pink-500/10 blur-2xl rounded-full" />
 
       {/* Label */}
       <h3 className="text-sm font-semibold text-neutral-300 tracking-wide mb-3 relative z-10">
@@ -72,27 +75,29 @@ export const PiStreamCard = () => {
           ref={contentRef}
           className="font-mono text-lg leading-snug text-green-400 whitespace-normal break-words"
         >
-          <AnimatedDigits text={visibleDigits} />
+          <OptimizedDigits text={visibleDigits} isHovered={isHovered} />
         </div>
       </div>
     </motion.div>
   );
 };
 
-// Optional fade animation for digits
-const AnimatedDigits = ({ text }: { text: string }) => {
+// Optimized version that doesn't create a span for every digit
+const OptimizedDigits = ({ text, isHovered }: { text: string; isHovered: boolean }) => {
+  // Only animate the last 20 characters for better performance
+  const lastChars = text.slice(-20);
+  const previousChars = text.slice(0, -20);
+  
   return (
     <>
-      {text.split("").map((char, idx) => (
-        <motion.span
-          key={idx}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: idx * 0.001 }}
-        >
-          {char}
-        </motion.span>
-      ))}
+      <span className="opacity-100">{previousChars}</span>
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        {lastChars}
+      </motion.span>
     </>
   );
 };
