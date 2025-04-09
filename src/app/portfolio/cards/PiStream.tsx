@@ -39,12 +39,18 @@ export const PiStreamCard = () => {
   }, [fullDigits]);
 
   return (
-    <motion.div
-      className="col-span-2 rounded-2xl p-5 backdrop-blur-md bg-black/50 border border-white/10 shadow-inner text-white transition-all duration-300 relative group overflow-hidden"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.01 }}
-    >
+<motion.div
+  className="col-span-2 rounded-2xl p-5 backdrop-blur-md bg-black/50 border border-white/10 shadow-inner text-white transition-all duration-300 relative group overflow-hidden card-gradient-border"
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  whileHover={{ scale: 1.01 }}
+  style={
+    {
+      "--border-from": "#3b82f6", // Tailwind blue-500
+      "--border-to": "#a78bfa",   // Tailwind purple-400
+    } as React.CSSProperties
+  }
+>
       {/* Hover Glow – Green Blur only on Hover */}
       <div className="absolute inset-0 z-0 pointer-events-none group-hover:opacity-100 opacity-0 transition-opacity duration-300">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-emerald-400/10 blur-3xl rounded-full" />

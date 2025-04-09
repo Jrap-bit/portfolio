@@ -13,6 +13,7 @@ import { MovieShelfCard } from "./cards/MovieCard";
 import { OneLiner } from "./cards/OneLiner";
 
 import { motion } from "framer-motion";
+import { AnimatedBorderWrapper } from "~/components/ui/BorderTracer";
 
 export default function AboutMe() {
   return (
@@ -40,6 +41,7 @@ export default function AboutMe() {
   </div>
   <div className="w-full min-w-0 md:col-span-2">
     <PiStreamCard />
+
   </div>
 
   {/* Row 2 & 3 */}
