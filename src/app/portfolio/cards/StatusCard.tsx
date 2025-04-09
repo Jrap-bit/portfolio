@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 const moods = [
   "Creative Flow 🌊",
   "Focused Mode 🔍",
-  "Dreaming in Code 🧠",
+  "Dreading Waking Up 😴",
+  "Felt Cute. Might Delete Later 📸",
   "Smooth Like Butter 🧈",
 ];
 
@@ -16,7 +17,7 @@ export default function StatusCard() {
   useEffect(() => {
     const interval = setInterval(() => {
       setMoodIndex((prev) => (prev + 1) % moods.length);
-    }, 6000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
@@ -38,7 +39,7 @@ export default function StatusCard() {
       {/* Content */}
       <div className="relative z-10 flex flex-col gap-5">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-cyan-300 tracking-wide">
+          <h3 className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent tracking-wide">
             Status
           </h3>
           <span className="text-[10px] uppercase font-medium tracking-wide text-green-300 bg-green-500/10 px-2 py-0.5 rounded-full">

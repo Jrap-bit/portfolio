@@ -53,7 +53,7 @@ export const CurrentlyReadingCard = () => {
       <div className="absolute bottom-0 right-0 w-24 h-24 bg-violet-500/20 rounded-full blur-2xl" />
       <div className="absolute top-0 left-0 w-24 h-24 bg-violet-500/20 rounded-full blur-2xl" />
 
-      <h3 className="text-cyan-300 text-sm font-semibold mb-3 relative z-10">
+      <h3 className="bg-gradient-to-r from-violet-500 to-violet-200 bg-clip-text text-transparent text-lg font-bold mb-3 relative z-10">
         📚 Currently Reading
       </h3>
 
@@ -69,7 +69,7 @@ export const CurrentlyReadingCard = () => {
               className="absolute inset-0"
             >
               <Image
-                src="/images/book.jpg"
+                src="/images/real.jpg"
                 alt="Book Cover"
                 width={500}
                 height={300}
@@ -92,17 +92,17 @@ export const CurrentlyReadingCard = () => {
               transition={{ duration: 0.6, ease: "easeInOut" }}
               className="absolute inset-0 p-3 bg-black/70 rounded-xl"
             >
-              <h4 className="text-sm font-semibold mb-2 text-cyan-300">
+              <h4 className="text-sm font-semibold mb-2 bg-gradient-to-l bg-clip-text text-transparent from-violet-500 to-violet-200">
                 Why I Picked This
               </h4>
               <p className="text-xs text-neutral-300 leading-relaxed">
                 I wanted to understand how to design ethical products that people keep coming back to — not by addiction, but by value.
               </p>
               <p className="text-xs text-neutral-500 mt-2 italic">
-                {isMobile ? "Tap to flip back" : "Hover to flip back"}
+                {isMobile ? "Tap to flip back" : ""}
               </p>
             </motion.div>
-          )}
+          )}  
         </AnimatePresence>
       </div>
     </motion.div>

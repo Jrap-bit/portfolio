@@ -27,7 +27,7 @@ export const NorthStarCard = () => {
       <div className="absolute top-0 left-0 w-24 h-24 bg-blue-500/20 rounded-full blur-2xl" />
 
       {/* Content */}
-      <h3 className="text-cyan-300 text-sm font-semibold mb-3 z-10 relative">📊 North Star Metric</h3>
+      <h3 className="bg-gradient-to-r from-blue-500 to-cyan-300 bg-clip-text text-transparent text-lg font-bold mb-3 z-10 relative">📊 North Star Metric</h3>
 
       <p className="text-xs text-neutral-400 mb-4 z-10 relative">2025 Theme: Simplicity</p>
 

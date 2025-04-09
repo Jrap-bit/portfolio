@@ -56,14 +56,15 @@ export const PiStreamCard = () => {
     >
       {/* Hover Glow – Green Blur only on Hover */}
       <div className="absolute inset-0 z-0 pointer-events-none group-hover:opacity-100 opacity-0 transition-opacity duration-300">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-emerald-400/10 blur-3xl rounded-full" />
-        <div className="absolute bottom-0 right-0 w-40 h-40 bg-emerald-500/30 blur-2xl rounded-full" />
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-pink-400/10 blur-3xl rounded-full" />
+        <div className="absolute bottom-0 right-0 w-40 h-40 bg-pink-500/30 blur-2xl rounded-full" />
       </div>
+        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-pink-400/10 rounded-full blur-2xl" />
       <div className="absolute bottom-0 right-0 w-40 h-40 bg-pink-500/10 blur-2xl rounded-full" />
 
       {/* Label */}
-      <h3 className="text-sm font-semibold text-neutral-300 tracking-wide mb-3 relative z-10">
-        π Pi Stream
+      <h3 className="text-lg font-bold bg-gradient-to-r from-red-400 to-pink-600 bg-clip-text text-transparent tracking-wide mb-3 relative">
+        π Stream
       </h3>
 
       {/* Stream Display */}
@@ -73,7 +74,7 @@ export const PiStreamCard = () => {
       >
         <div
           ref={contentRef}
-          className="font-mono text-lg leading-snug text-green-400 whitespace-normal break-words"
+          className="font-mono text-lg leading-snug text-red-200 whitespace-normal break-words"
         >
           <OptimizedDigits text={visibleDigits} isHovered={isHovered} />
         </div>

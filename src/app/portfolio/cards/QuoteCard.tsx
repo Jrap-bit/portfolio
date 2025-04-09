@@ -33,7 +33,7 @@ export const QuoteCard = () => {
       <div className="absolute top-4 -right-8 w-28 h-28 bg-purple-500/10 rounded-full blur-2xl z-0" />
 
       {/* Heading */}
-      <h3 className="text-pink-300 text-sm font-semibold mb-3 relative z-10">
+      <h3 className="bg-gradient-to-r from-pink-400 to-purple-200 bg-clip-text text-transparent text-lg font-bold mb-3 relative z-10">
         💬 Life Quote
       </h3>
 

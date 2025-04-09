@@ -17,7 +17,7 @@ export const WhatImThinkingCard = () => {
       <div className="absolute top-1/2 left-1 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-indigo-400/10 rounded-full blur-2xl" />
 
       {/* Content */}
-      <h3 className="text-cyan-300 text-sm font-semibold mb-3 z-10 relative">
+      <h3 className="bg-gradient-to-r from-indigo-400 to-cyan-100 bg-clip-text text-transparent text-lg font-bold mb-3 z-10 relative">
         🧠 What I’m Thinking
       </h3>
       <p className="text-sm text-neutral-300 z-10 relative">

@@ -40,7 +40,7 @@ export const LatestBlogCard = () => {
       </div>
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-amber-400/10 rounded-full blur-2xl" />
 
-      <h3 className="text-cyan-300 text-sm font-semibold mb-3 relative z-10">
+      <h3 className="bg-gradient-to-l from-amber-100 to-amber-400 bg-clip-text text-transparent text-lg font-bold mb-3 relative z-10">
         ✍️ Latest Blog
       </h3>
 

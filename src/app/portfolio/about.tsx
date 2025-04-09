@@ -17,7 +17,7 @@ import { AnimatedBorderWrapper } from "~/components/ui/BorderTracer";
 
 export default function AboutMe() {
   return (
-    <section id="about" className="w-full min-h-screen px-4 md:px-12 py-20 bg-black text-white">
+    <section id="about" className="w-full min-h-screen md:px-12 bg-black text-white">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-10">
 
         {/* Heading + One Liner */}
