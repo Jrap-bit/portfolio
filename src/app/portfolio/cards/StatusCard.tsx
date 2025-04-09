@@ -33,7 +33,7 @@ export default function StatusCard() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-cyan-500/10 rounded-full" />
         <div className="absolute top-0 right-80 w-24 h-24 bg-blue-400/20 rounded-full" />
       </div>
-        <div className="absolute top-0 right-80 w-24 h-24 bg-blue-600/30 rounded-full blur-2xl" />
+        <div className="absolute top-0 left-1 w-24 h-24 bg-blue-600/30 rounded-full blur-2xl" />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col gap-5">

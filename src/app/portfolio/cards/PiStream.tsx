@@ -58,12 +58,6 @@ export const PiStreamCard = () => {
         </div>
         <div className="absolute bottom-0 right-0 w-40 h-40 bg-pink-500/10 blur-2xl rounded-full" />
 
-      {/* Border Glow Lines */}
-      <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-      <div className="absolute left-0 top-0 w-px h-full bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-      <div className="absolute right-0 top-0 w-px h-full bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-
       {/* Label */}
       <h3 className="text-sm font-semibold text-neutral-300 tracking-wide mb-3 relative z-10">
         π Pi Stream
@@ -72,7 +66,7 @@ export const PiStreamCard = () => {
       {/* Stream Display */}
       <div
         ref={containerRef}
-        className="h-40 overflow-y-auto px-1 scrollbar-thin scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20 relative z-10"
+        className="h-60 overflow-y-auto px-1 scrollbar-thin scrollbar-thumb-white/10 hover:scrollbar-thumb-white/20 relative z-10"
       >
         <div
           ref={contentRef}

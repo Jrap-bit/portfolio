@@ -1,40 +1,28 @@
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { motion } from "framer-motion";
 
 export const WhatImThinkingCard = () => {
-    const thoughts = [
-      "Why product intuition is just fast pattern recognition.",
-      "Design + engineering = interface magic.",
-      "Invisible interfaces are the future.",
-    ];
-    const [index, setIndex] = useState(0);
-  
-    useEffect(() => {
-      const timer = setInterval(() => setIndex((i) => (i + 1) % thoughts.length), 5000);
-      return () => clearInterval(timer);
-    }, []);
-  
-    return (
-      <motion.div
-        className="col-span-1 row-span-1 rounded-2xl bg-gradient-to-br from-blue-900/30 to-indigo-900/30 p-6 backdrop-blur-md border border-white/10 shadow-lg text-white"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h3 className="text-cyan-300 text-sm font-semibold mb-3">🧠 What I’m Thinking</h3>
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={index}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.4 }}
-            className="text-sm text-neutral-300"
-          >
-            {thoughts[index]}
-          </motion.p>
-        </AnimatePresence>
-      </motion.div>
-    );
-  };
+  return (
+    <motion.div
+      className="relative mt-4 rounded-2xl p-5 bg-black/60 backdrop-blur-md border border-white/10 shadow-inner text-white group overflow-hidden transition-all duration-300"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.01 }}
+      transition={{ duration: 0.5 }}
+    >
+      {/* Soft Hover Glow */}
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-0 group-hover:opacity-100 transition duration-300 blur-2xl">
+        <div className="absolute top-1 right-1 w-48 h-48 bg-indigo-400/20 rounded-full" />
+      <div className="absolute top-1/2 left-1 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-indigo-400/20 rounded-full blur-2xl" />
+      </div>
+      <div className="absolute top-1/2 left-1 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-indigo-400/10 rounded-full blur-2xl" />
+
+      {/* Content */}
+      <h3 className="text-cyan-300 text-sm font-semibold mb-3 z-10 relative">
+        🧠 What I’m Thinking
+      </h3>
+      <p className="text-sm text-neutral-300 z-10 relative">
+        Why product intuition is just fast pattern recognition.
+      </p>
+    </motion.div>
+  );
+};

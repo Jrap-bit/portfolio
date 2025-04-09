@@ -33,34 +33,33 @@ export default function AboutMe() {
         <OneLiner />
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-3 auto-rows-[minmax(100px,_auto)] gap-4 md:gap-6 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full auto-rows-auto">
   {/* Row 1 */}
-  <div className="w-full min-w-0">
+  <div className="md:col-span-1 flex flex-col gap-4">
     <StatusCard />
     <WhatImThinkingCard />
   </div>
-  <div className="w-full min-w-0 md:col-span-2">
+  <div className="md:col-span-2">
     <PiStreamCard />
-
   </div>
 
-  {/* Row 2 & 3 */}
-  <div className="w-full min-w-0">
+  {/* Row 2 */}
+  <div className="md:col-span-1">
     <CurrentlyReadingCard />
   </div>
-  <div className="w-full min-w-0">
+  <div className="md:col-span-1 flex flex-col gap-4">
     <NorthStarCard />
     <LatestBlogCard />
   </div>
-  <div className="w-full min-w-0">
+  <div className="md:col-span-1">
     <SpotifyCard />
   </div>
 
-  {/* Row 4 */}
-  <div className="w-full min-w-0 md:col-span-2">
+  {/* Row 3 */}
+  <div className="md:col-span-2">
     <MovieShelfCard />
   </div>
-  <div className="w-full min-w-0">
+  <div className="md:col-span-1">
     <QuoteCard />
   </div>
 </div>
