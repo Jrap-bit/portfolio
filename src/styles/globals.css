@@ -158,3 +158,31 @@ body {
 .touch-pan-x {
   touch-action: pan-x;
 }
+
+@keyframes pulseBorder {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+.card-gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 1px;
+  background: linear-gradient(135deg, var(--border-from), var(--border-to));
+  -webkit-mask: 
+    linear-gradient(#000 0 0) content-box, 
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: pulseBorder 3s infinite ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}

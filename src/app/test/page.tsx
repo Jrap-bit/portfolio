@@ -1,286 +1,142 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
-import { HeroHighlight, Highlight } from "~/components/ui/hero-highlight";
-import { Button } from "~/components/ui/button";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import {
+  FaQuoteLeft,
+  FaSpotify,
+  FaBookOpen,
+  FaBrain,
+  FaFilm,
+  FaChartLine,
+} from "react-icons/fa";
 
-function useSupportsHover() {
-  const [supportsHover, setSupportsHover] = useState(false);
+export default function AboutMeSection() {
+  const [piDigits, setPiDigits] = useState("3.1415926535");
 
   useEffect(() => {
-    const mql = window.matchMedia("(hover: hover)");
-    setSupportsHover(mql.matches);
-
-    function handleChange(e: MediaQueryListEvent) {
-      setSupportsHover(e.matches);
-    }
-
-    // Newer browsers: addEventListener; older might need addListener
-    mql.addEventListener("change", handleChange);
-    return () => {
-      mql.removeEventListener("change", handleChange);
-    };
+    const fullPi =
+      "3.141592653589793238462643383279502884197169399375105820974944592307816406286208";
+    let index = 0;
+    const interval = setInterval(() => {
+      setPiDigits((prev) =>
+        prev.length > 80 ? fullPi.slice(index, index + 80) : prev + fullPi[index % fullPi.length]
+      );
+      index++;
+    }, 100);
+    return () => clearInterval(interval);
   }, []);
 
-  return supportsHover;
-}
-
-export default function Hero() {
-  const [isHovered, setIsHovered] = useState(false);
-  const supportsHover = useSupportsHover();
-  const [isMobile, setIsMobile] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const rotatingThoughts = [
+    "Why product intuition is fast pattern recognition.",
+    "Design is just thoughtful reduction.",
+    "Your mind is a garden. What are you growing?",
+  ];
+  const [thought, setThought] = useState(rotatingThoughts[0]);
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    const interval = setInterval(() => {
+      setThought(
+        rotatingThoughts[Math.floor(Math.random() * rotatingThoughts.length)]
+      );
+    }, 7000);
+    return () => clearInterval(interval);
   }, []);
-  
-  const handleImageToggle = () => {
-    if (isMobile) {
-      setIsHovered((prev) => !prev);
-    }
-  };
-
-  const heroRef = useRef(null);
-  const controls = useAnimation();
-  const isInView = useInView(heroRef, { amount: 0.4 });
-
-  // Track scroll state for header transition
-  useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 120) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  // Trigger animations on in-view
-  useEffect(() => {
-    if (isInView) controls.start("visible");
-  }, [isInView, controls]);
-
-  const handleMouseEnter = supportsHover ? () => setIsHovered(true) : undefined;
-  const handleMouseLeave = supportsHover ? () => setIsHovered(false) : undefined;
-  const handleClick = () => setIsHovered((prev) => !prev);
 
   return (
-    <>
-      {/* Sticky Mini Header */}
-      <motion.div
-        className={`fixed top-0 left-0 w-full px-6 md:px-12 py-4 z-50 transition-all duration-500 ${
-          scrolled ? "backdrop-blur-sm bg-black/60 border-b border-white/10" : "pointer-events-none"
-        }`}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: scrolled ? 1 : 0, y: scrolled ? 0 : -20 }}
-      >
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
-          {/* Avatar + Name */}
-          <div className="flex items-center gap-4">
-            <img
-              src="/images/real.jpg"
-              alt="Parjanya"
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <span className="text-white font-semibold text-lg">Parjanya Pandey</span>
+    <section
+      id="about"
+      className="w-full min-h-screen px-4 py-20 bg-black text-white flex flex-col items-center"
+    >
+      <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 mb-12">
+        About Me
+      </h2>
+
+      {/* Status + Pi Row */}
+      <div className="grid md:grid-cols-3 gap-6 w-full max-w-6xl mb-12">
+        <motion.div className="col-span-1 bg-white/5 backdrop-blur p-4 rounded-xl shadow border border-white/10">
+          <p className="text-sm text-neutral-400">Current Mood:</p>
+          <p className="text-lg">Creative Flow 🌊</p>
+          <p className="text-sm text-neutral-400 mt-2">Energy Level:</p>
+          <p className="text-lg">74%</p>
+          <p className="text-sm text-neutral-400 mt-2">Thinking About:</p>
+          <p className="text-lg">AI as a mirror</p>
+        </motion.div>
+
+        <motion.div className="col-span-2 bg-black/30 rounded-xl px-4 py-3 border border-white/10 overflow-hidden relative">
+          <div className="absolute top-0 left-0 h-full w-full bg-gradient-to-r from-cyan-400/10 to-blue-500/10 animate-pulse blur-md" />
+          <p className="text-green-400 font-mono whitespace-nowrap text-sm z-10 relative">
+            {piDigits}
+          </p>
+        </motion.div>
+      </div>
+
+      {/* Bento Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
+        {/* 1. What I'm Thinking */}
+        <motion.div className="p-5 rounded-2xl bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border border-white/10 shadow-lg">
+          <div className="flex items-center gap-2 mb-2 text-cyan-300">
+            <FaBrain /> <span className="text-sm font-semibold">What I'm Thinking</span>
           </div>
+          <p className="text-white text-lg italic">“{thought}”</p>
+        </motion.div>
 
-          {/* Buttons */}
-          <div className="flex gap-4 text-white text-sm">
-            <a
-              href="https://github.com/parjanya"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/parjanya"
-              target="_blank"
-              rel="noreferrer"
-              className="hover:underline"
-            >
-              LinkedIn
-            </a>
-            <a href="/resume.pdf" target="_blank" className="hover:underline">
-              Resume
-            </a>
+        {/* 2. Currently Reading */}
+        <motion.div whileHover={{ rotateY: 180 }} className="relative h-52 rounded-2xl bg-white/5 border border-white/10 overflow-hidden">
+          <div className="absolute inset-0 p-4 flex flex-col items-center justify-center">
+            <FaBookOpen className="text-blue-300 mb-2" size={24} />
+            <p className="text-white font-semibold">Hooked by Nir Eyal</p>
+            <p className="text-sm text-neutral-400">“Build habits, not hacks.”</p>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Back to Portal Button — Desktop */}
-      <a
-          href="/"
-          className="absolute top-8 left-6 z-50 hidden md:flex px-5 py-2 rounded-full text-white font-semibold text-sm md:text-base
-                     bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
-                     shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
-                     hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
-                     transition-all duration-300 ease-in-out"
-        >
-          ⭠ Back to Portal
-        </a>
+        {/* 3. Listening To */}
+        <motion.div className="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <div className="flex items-center gap-2 mb-2 text-green-300">
+            <FaSpotify /> <span className="text-sm font-semibold">Currently Listening</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Image src="/images/cover-placeholder.jpg" alt="Track Cover" width={50} height={50} className="rounded" />
+            <div>
+              <p className="text-white font-semibold text-sm">Track Title</p>
+              <p className="text-neutral-400 text-xs">Artist</p>
+            </div>
+          </div>
+        </motion.div>
 
-        {/* Back to Portal Button — Mobile (Minimal Icon) */}
-        <a
-          href="/"
-          className="md:hidden absolute top-6 left-4 z-50 p-2 rounded-full bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600
-                     shadow-[0_0_3px_1px_rgba(59,130,246,0.5)]
-                     hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)]
-                     transition-all duration-300 ease-in-out"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5 text-white"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </a>
+        {/* 4. Latest Blog */}
+        <motion.div className="p-5 rounded-2xl bg-black border border-cyan-400/20 animate-pulse cursor-pointer">
+          <p className="text-sm font-semibold text-blue-300">Latest Blog</p>
+          <p className="text-white mt-2">How to Build for Flow: Lessons from Game UX</p>
+          <p className="text-neutral-400 text-sm mt-1">5 min read • Read Now</p>
+        </motion.div>
 
-      {/* Full Hero Section */}
-      <motion.section
-        ref={heroRef}
-        initial="hidden"
-        animate={controls}
-        variants={{
-          hidden: {},
-          visible: {
-            transition: { staggerChildren: 0.15 },
-          },
-        }}
-        className="w-full min-h-screen flex flex-col md:flex-row items-center justify-center gap-12 px-6 md:px-12 py-10 relative"
-      >
-  {/* Image Block */}
-  <motion.div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onClick={handleClick}
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className={`group relative w-[280px] h-[400px] md:w-[320px] md:h-[450px] 
-                        rounded-3xl md:rounded-4xl overflow-hidden border border-white/20 
-                        transition-all duration-500 cursor-pointer
-                        ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" : "shadow-[0px_0px_80px_#38bdf8aa]"} 
-                        mx-auto md:mx-0 shrink-0`}
-          >
-            {/* "real" image */}
-            <motion.img
-              src="/images/real.jpg"
-              alt="Parjanya"
-              className={`absolute inset-0 w-full h-full object-cover object-center 
-                          transition-opacity duration-200 
-                          ${isHovered ? "opacity-0" : "opacity-100"}`}
-            />
-            {/* "anime" image */}
-            <motion.img
-              src="/images/anime.png"
-              alt="Anime Parjanya"
-              className={`absolute inset-0 w-full h-full object-cover object-center 
-                          transition-opacity duration-500 
-                          ${isHovered ? "opacity-100" : "opacity-0"}`}
-            />
-          </motion.div>
+        {/* 5. Life Quote */}
+        <motion.div className="p-5 rounded-2xl bg-gradient-to-br from-white/5 to-white/10 border border-white/10">
+          <div className="text-white/50 flex items-center gap-2 mb-2">
+            <FaQuoteLeft /> <span className="text-sm">Life Quote</span>
+          </div>
+          <p className="text-neutral-400 italic animate-pulse">“…”</p>
+        </motion.div>
 
-        {/* Text Side */}
-        <div className="flex flex-col items-center md:items-start text-center md:text-left max-w-xl space-y-4">
-          <motion.h1
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="text-5xl md:text-6xl font-bold"
-          >
-            Parjanya Pandey
-          </motion.h1>
+        {/* 6. North Star Metric */}
+        <motion.div className="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <div className="flex items-center gap-2 text-cyan-300 mb-2">
+            <FaChartLine /> <span className="text-sm font-semibold">North Star Metric</span>
+          </div>
+          <p className="text-white text-lg">My 2025 Theme: Simplicity</p>
+        </motion.div>
 
-          <motion.p
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="text-lg md:text-xl text-muted-foreground"
-          >
-            <Highlight className="text-black dark:text-white">
-            Product Manager | Engineer | Systems Thinker
-            </Highlight>
-          </motion.p>
-
-          <motion.p
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="text-sm md:text-base text-muted-foreground"
-          >
-            I’m a builder at heart, curious about how systems interact — from
-            products and platforms to people and pixels. I enjoy working on
-            meaningful, user-centric ideas and exploring creative tech
-            intersections.
-          </motion.p>
-
-          {isHovered && (
-            <motion.div
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="text-sm mt-2 rounded-lg px-4 py-2 bg-white/10 text-white backdrop-blur-sm border border-white/20 w-fit"
-            >
-              In another universe, I might just be a shonen protagonist.
-            </motion.div>
-          )}
-
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="flex flex-wrap gap-4 pt-4"
-          >
-            <Button className="px-6 py-2">View Projects</Button>
-            <Button variant="secondary" className="px-6 py-2">
-              Download Resume
-            </Button>
-          </motion.div>
-
-          <motion.div
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-            className="flex gap-6 pt-4 text-2xl text-white/80"
-          >
-            <a
-              href="https://github.com/parjanya"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaGithub className="hover:text-white transition" />
-            </a>
-            <a
-              href="https://linkedin.com/in/parjanya"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <FaLinkedin className="hover:text-white transition" />
-            </a>
-          </motion.div>
-        </div>
-      </motion.section>
-    </>
+        {/* 7. Movie That Shaped Me */}
+        <motion.div className="p-5 rounded-2xl bg-white/5 border border-white/10 flex items-center gap-4">
+          <Image src="/images/inception.jpg" alt="Movie Poster" width={60} height={90} className="rounded-md" />
+          <div>
+            <p className="text-white font-semibold">Inception</p>
+            <p className="text-sm text-neutral-400">“Taught me to question reality.”</p>
+          </div>
+        </motion.div>
+      </div>
+    </section>
   );
 }
