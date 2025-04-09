@@ -16,7 +16,7 @@ import { motion } from "framer-motion";
 
 export default function AboutMe() {
   return (
-    <section id="about" className="w-full min-h-screen mx-auto md:px-12 bg-black text-white">
+    <section id="about" className="w-full min-h-screen mx-auto md:px-12 bg-transparent text-white">
       <div className="max-w-7xl mx-auto flex flex-col items-start gap-10">
 
         {/* Heading + One Liner */}
