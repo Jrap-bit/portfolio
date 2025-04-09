@@ -69,15 +69,15 @@ export const CurrentlyReadingCard = () => {
               className="absolute inset-0"
             >
               <Image
-                src="/images/real.jpg"
+                src="/images/currently_reading.jpg"
                 alt="Book Cover"
                 width={500}
                 height={300}
                 className="w-full h-40 rounded-lg object-cover mb-3"
               />
-              <h4 className="text-sm font-medium">"Hooked" by Nir Eyal</h4>
+              <h4 className="text-sm font-medium">Nani Palkhivala The Courtroom Genius</h4>
               <p className="text-xs text-neutral-400">
-                The science of habit-forming products.
+              by Soli Sorabjee, Arvind Datar
               </p>
               <p className="text-xs text-neutral-500 mt-2 italic">
                 {isMobile ? "Tap to flip" : "Hover to flip"}
@@ -96,7 +96,7 @@ export const CurrentlyReadingCard = () => {
                 Why I Picked This
               </h4>
               <p className="text-xs text-neutral-300 leading-relaxed">
-                I wanted to understand how to design ethical products that people keep coming back to — not by addiction, but by value.
+              I knew the headlines — Kesavananda, the Basic Structure doctrine — cases that shaped India’s constitutional history.  I picked this book to go beyond the headlines and understand the mind behind those moments.
               </p>
               <p className="text-xs text-neutral-500 mt-2 italic">
                 {isMobile ? "Tap to flip back" : ""}

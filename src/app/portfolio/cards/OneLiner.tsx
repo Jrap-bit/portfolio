@@ -8,8 +8,8 @@ export const OneLiner = () => (
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="text-lg md:text-xl text-cyan-300 font-medium"
+      className="text-lg md:text-lg text-neutral-100 font-medium"
     >
-      "Half developer, half storyteller. Fully caffeinated."
+      "Half developer, half storyteller — but this site? Fully me. Welcome to the overlap between engineering precision and creative intuition."
     </motion.p>
   );

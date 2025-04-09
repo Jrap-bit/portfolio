@@ -29,9 +29,9 @@ export const NorthStarCard = () => {
       {/* Content */}
       <h3 className="bg-gradient-to-r from-blue-500 to-cyan-300 bg-clip-text text-transparent text-lg font-bold mb-3 z-10 relative">📊 North Star Metric</h3>
 
-      <p className="text-xs text-neutral-400 mb-4 z-10 relative">2025 Theme: Simplicity</p>
+      <p className="text-base text-neutral-50 mb-4 z-10 relative">Follow What Echoes</p>
 
-      <div className="text-sm flex justify-between items-center mb-2 z-10 relative">
+      <div className="text-xs text-neutral-200 flex justify-between items-center mb-2 z-10 relative">
         <span>Fulfillment Score</span>
         <span>{score}% 📈</span>
       </div>

@@ -46,10 +46,10 @@ export const MovieShelfCard = () => {
           />
           <div className="flex flex-col justify-between">
             <div>
-              <p className="text-sm font-medium">"Her" (2013)</p>
-              <p className="text-xs text-neutral-400">Directed by Spike Jonze</p>
+              <p className="text-sm font-medium">Dead Poets Society (1989)</p>
+              <p className="text-xs text-neutral-400">Directed by Peter Weir</p>
               <p className="text-xs text-neutral-300 mt-1">
-                Made me rethink tech, love, and voice interfaces forever.
+              Taught me the weight of words, and the risk of not using them. Words and ideas can change the world.
               </p>
             </div>
           </div>
@@ -64,11 +64,14 @@ export const MovieShelfCard = () => {
 >
   <div className="bg-white/10 p-2.5 rounded-lg text-sm">
     <p className="text-neutral-400 mb-1 font-semibold">Inspired Me</p>
-    <p className="text-neutral-300">"Inception" — Dreams vs. Reality</p>
+    <p className="text-neutral-300 mb-2">The Secret Life of Walter Mitty</p>
+    <p className="text-xs text-neutral-300">A reminder to embrace the unknown, finding the extraordinary in the ordinary
+    and seek adventure.</p>
   </div>
   <div className="bg-white/10 p-2.5 rounded-lg text-sm">
     <p className="text-neutral-400 mb-1 font-semibold">Comfort Movie</p>
-    <p className="text-neutral-300">"The Grand Budapest Hotel"</p>
+    <p className="text-neutral-200 mb-2">Rockstar</p>
+    <p className="text-xs text-neutral-300">A raw, chaotic reminder that love, art, and pain often speak the same language.</p>
   </div>
 </motion.div>
         )}

@@ -6,16 +6,59 @@ import { useEffect, useRef, useState } from "react";
 
 export default function SkillsSection() {
   const techSkills = {
-    "Core Programming": ["C++", "Python", "Java"],
-    "Frontend": ["React", "Next.js", "TypeScript", "JavaScript", "HTML", "CSS", "Tailwind CSS"],
-    "Backend & Infra": ["Node.js", "Express.js", "Django", "MongoDB", "MySQL", "tRPC", "Prisma"],
-    "Tools & Platforms": ["Docker", "Git", "VS Code", "Selenium", "Power BI"],
+    "Core Programming": ["C++", "Python", "Bash"],
+    "Frontend": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "Tailwind CSS",
+      "React Router",
+      "MUI",
+      "Bootstrap"
+    ],
+    "Backend & Infra": [
+      "Node.js",
+      "Express.js",
+      "Django",
+      "MongoDB",
+      "MySQL",
+      "tRPC",
+      "Prisma",
+      "Docker"
+    ],
+    "Tools & Platforms": [
+      "Git",
+      "VS Code",
+      "Selenium",
+      "Power BI",
+      "Linux",
+      "Notion"
+    ],
   };
 
   const pmSkills = {
-    "Product Strategy": ["Product Roadmapping", "Customer Empathy", "Prioritization & Strategy", "Market Research"],
-    "Execution & Collaboration": ["Cross-functional Collaboration", "Agile & Scrum", "UI/UX & Design Thinking"],
-    "Design & PM Tools": ["Aha!", "Jira", "Figma", "Canva", "Photoshop", "Illustrator"],
+    "Product Strategy": [
+      "Product Roadmapping",
+      "Customer Empathy",
+      "Prioritization & Strategy",
+      "Market Research"
+    ],
+    "Execution & Collaboration": [
+      "Cross-functional Collaboration",
+      "Agile & Scrum",
+      "UI/UX & Design Thinking"
+    ],
+    "Design & PM Tools": [
+      "Jira",
+      "Aha!",
+      "Figma",
+      "Canva",
+      "Photoshop",
+      "Illustrator"
+    ],
   };
 
   const scrollRef = useRef<HTMLDivElement>(null);

@@ -9,20 +9,21 @@ const projects = [
         title: "INTEGRATE Framework",
         description: "Internal Integration Delivery Pipeline Framework at IBM",
         src: "/images/projects/integrate.png",
-        ctaText: "Read Summary",
-        ctaLink: "#",
+
         content: () => (
           <>
             <p>
-              A strategic integration delivery pipeline developed under the I.N.T.E.G.R.A.T.E.
-              framework at IBM to streamline third-party onboarding and reduce customer
-              escalations.
+            A strategic integration delivery pipeline developed at IBM under the I.N.T.E.G.R.A.T.E. framework to
+            reduce integration backlog, strengthen third-party relationships, and streamline delivery of QRadar DSM integrations.
             </p>
-            <ul className="list-disc pl-6 pt-4">
-              <li>Defined a sprint-based model with repeatable delivery phases</li>
-              <li>Standardized workflows: Plan → Dev → Test → Release</li>
-              <li>Backlog reduction and faster turnaround for integrations</li>
-            </ul>
+            <ul className="list-disc pl-6 pt-4 space-y-1">
+              <li>Addressed 500+ integration backlog items causing client escalations and delivery bottlenecks</li>
+              <li>Established a sprint-based model with clearly defined phases: Plan → Schedule → Onboard → Develop → Test → Release → Evaluate → Grow</li>
+              <li>Introduced standardized onboarding and delivery workflows using agile and automation practices</li>
+              <li>Formulated the 9-principle I.N.T.E.G.R.A.T.E. framework: Identify, Nurture, Technology, Efficient, Grow, Responsive, Adaptive, Transparent, Evolving</li>
+              <li>Enabled proactive collaboration with integration partners and internal cross-functional teams (CSM, PM, BizDev)</li>
+              <li>Reduced delivery time and improved roadmap alignment with ecosystem partners</li>
+              </ul>
           </>
         ),
       },
@@ -30,19 +31,17 @@ const projects = [
         title: "ESA Contract Automation",
         description: "PDF Parsing & Part Code Matching Tool for ESA at IBM",
         src: "/images/projects/esa.png",
-        ctaText: "Read Summary",
-        ctaLink: "#",
         content: () => (
           <>
             <p>
-              A Django-based internal tool to automate ESA contract validation by parsing PDF
-              contracts and comparing against part code databases.
-            </p>
-            <ul className="list-disc pl-6 pt-4">
-              <li>OCR + logic-based PDF contract parsing</li>
-              <li>Compares and classifies parts into Eligible / Ineligible / Replacement</li>
-              <li>Outputs structured Excel reports for automation</li>
-            </ul>
+  A Django-based internal tool to automate ESA contract validation by parsing structured tables from PDF contracts and comparing part codes against internal databases.
+</p>
+<ul className="list-disc pl-6 pt-4">
+  <li>Logic-based parsing of PDF tables for extracting part codes</li>
+  <li>Classifies parts into Eligible / Ineligible / Replacement based on business logic</li>
+  <li>Generates structured Excel reports to streamline manual validation</li>
+  <li>Reduced a month-long manual validation workflow to a 1–2 hour task</li>
+</ul>
           </>
         ),
       },
@@ -50,8 +49,6 @@ const projects = [
         title: "Guardium RAG Chatbot",
         description: "Watsonx-powered RAG chatbot for Guardium sales enablement",
         src: "/images/projects/chatbot.png",
-        ctaText: "Read Summary",
-        ctaLink: "#",
         content: () => (
           <>
             <p>
@@ -163,8 +160,8 @@ const projects = [
       content: () => (
         <div className="space-y-4">
           <p>
-            Built to automate attendance systems with a focus on high accuracy.
-            Supports RFID + time-based logs and admin dashboard.
+          A facial recognition–based attendance system designed for classroom scenarios.
+          Leverages computer vision to identify students and log attendance automatically.
           </p>
           <ul className="list-disc pl-5 space-y-1">
             <li>Python</li>

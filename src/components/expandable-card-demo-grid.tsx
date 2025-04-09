@@ -9,8 +9,8 @@ export interface ProjectCard {
   title: string;
   description: string;
   src?: string;
-  ctaText: string;
-  ctaLink: string;
+  ctaText?: string;
+  ctaLink?: string;
   content: React.ReactNode | (() => React.ReactNode);
 }
 
@@ -101,16 +101,18 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
                     ? active.content()
                     : active.content}
                 </motion.div>
-                <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-800">
-                  <a
-                    href={active.ctaLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-5 py-2 text-sm rounded-full font-medium hover:from-blue-600 hover:to-cyan-500 transition shadow-[0_0_10px_rgba(59,130,246,0.3)] animate-pulse hover:animate-none"
-                  >
-                    {active.ctaText}
-                  </a>
-                </div>
+                {active.ctaText && active.ctaLink && (
+                  <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-800">
+                    <a
+                      href={active.ctaLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block bg-gradient-to-r from-blue-500 to-cyan-400 text-white px-5 py-2 text-sm rounded-full font-medium hover:from-blue-600 hover:to-cyan-500 transition shadow-[0_0_10px_rgba(59,130,246,0.3)] animate-pulse hover:animate-none"
+                    >
+                      {active.ctaText}
+                    </a>
+                  </div>
+                )}
               </div>
             </motion.div>
           </div>

@@ -21,7 +21,7 @@ export const WhatImThinkingCard = () => {
         🧠 What I’m Thinking
       </h3>
       <p className="text-sm text-neutral-300 z-10 relative">
-        Why product intuition is just fast pattern recognition.
+      Building a product is prioritization, narrative, and timing.
       </p>
     </motion.div>
   );

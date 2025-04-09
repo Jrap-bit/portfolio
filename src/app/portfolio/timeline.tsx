@@ -11,9 +11,11 @@ export default function TimelineSection() {
         <div className="space-y-2">
           <p><strong>Sep 2024 – Mar 2025</strong></p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Drove SIEM integration lifecycle, aligning customer needs with roadmap priorities.</li>
-            <li>Collaborated cross-functionally with engineers, architects, and vendors to reduce delivery blockers.</li>
-            <li>Contributed to $12.7M+ in revenue by enhancing QRadar SIEM’s enterprise integrations.</li>
+            <li>Led product roadmap and execution for QRadar SIEM integrations with third-party security tools.</li>
+            <li>Managed stakeholder requests and prioritized features based on business impact and feasibility.</li>
+            <li>Worked closely with engineering teams to define requirements, track sprints, and resolve roadblocks.</li>
+            <li>Facilitated alignment across sales, support, and marketing to drive product adoption and clarity.</li>
+            <li>Delivered new integrations that contributed to revenue growth and platform expansion.</li>
           </ul>
         </div>
       ),
@@ -24,9 +26,11 @@ export default function TimelineSection() {
         <div className="space-y-2">
           <p><strong>Jan 2024 – Aug 2024</strong></p>
           <ul className="list-disc list-inside space-y-1">
-            <li>Delivered new QRadar SIEM integrations and features with focus on customer needs.</li>
-            <li>Led market and competitor research to shape integration strategy.</li>
-            <li>Bridged communication between customers and engineers to close product gaps.</li>
+            <li>Spearheaded QRadar SIEM integration projects and ensured timely feature delivery.</li>
+            <li>Conducted market and competitor research to improve integration strategy.</li>
+            <li>Facilitated communication between developers and customers to bridge product gaps.</li>
+            <li>Led documentation for integration workflows, APIs, and enhancement tracking.</li>
+            <li>Collaborated with users to identify pain points and align roadmap with actual needs.</li>
           </ul>
         </div>
       ),
@@ -37,7 +41,10 @@ export default function TimelineSection() {
         <div className="space-y-2">
           <p><strong>2020 – 2024 | Neemrana, India</strong></p>
           <p>CGPA: <strong>9.63</strong></p>
-          <p>Graduated with honors in Computer Science with focus on cybersecurity, product thinking, and software engineering.</p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Studied computer science with a focus on Cybersecurity, Software Engineering, and Full-Stack Development.</li>
+            <li>Led the Sinusoid Digital Design Team, Member of Consilio: The Design Club, and Binary Beasts: Programming Club.</li>
+          </ul>
         </div>
       ),
     },
@@ -49,6 +56,7 @@ export default function TimelineSection() {
           <ul className="list-disc list-inside space-y-1">
             <li>12th Boards: <strong>94.5%</strong></li>
             <li>10th Boards: <strong>95.6%</strong></li>
+            <li>Involved in technical team, public speaking initiatives, and design projects.</li>
           </ul>
         </div>
       ),

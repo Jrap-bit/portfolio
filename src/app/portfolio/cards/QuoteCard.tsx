@@ -53,8 +53,8 @@ export const QuoteCard = () => {
             animate={{ opacity: 1 }}
             className="text-sm text-neutral-300 italic leading-relaxed"
           >
-            "The only way to do great work is to love what you do."
-            <footer className="text-xs text-neutral-500 mt-2 not-italic">— Steve Jobs</footer>
+            "But only in their dreams can men be truly free. ‘Twas always thus, and always thus will be."
+            <footer className="text-xs text-neutral-500 mt-2 not-italic">— John Keating</footer>
           </motion.blockquote>
         )}
       </div>
