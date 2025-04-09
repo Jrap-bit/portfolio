@@ -27,7 +27,7 @@ export default function AboutMe() {
           transition={{ duration: 0.5 }}
           className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300"
         >
-          Layers of Me 🧩
+          Beneath the Surface
         </motion.h2>
 
         <OneLiner />

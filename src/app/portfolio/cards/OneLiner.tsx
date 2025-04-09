@@ -10,6 +10,6 @@ export const OneLiner = () => (
       transition={{ duration: 0.5 }}
       className="text-lg md:text-lg text-neutral-100 font-medium"
     >
-      "Half developer, half storyteller — but this site? Fully me. Welcome to the overlap between engineering precision and creative intuition."
+      Half developer, half storyteller — but this site? Fully me. Welcome to the overlap between engineering precision and creative intuition.
     </motion.p>
   );
