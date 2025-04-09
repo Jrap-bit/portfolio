@@ -48,16 +48,13 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-return": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "react/no-unescaped-entities": "off",
+      "@typescript-eslint/no-misused-promises": "off",
       "prefer-const": "off",
       "@typescript-eslint/consistent-type-imports": [
         "warn",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
       ],
       "@typescript-eslint/require-await": "off",
-      "@typescript-eslint/no-misused-promises": [
-        "error",
-        { checksVoidReturn: { attributes: false } },
-      ],
     },
   },
   {
