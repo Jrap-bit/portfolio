@@ -11,6 +11,7 @@ const sections = [
   { id: "timeline", label: "Timeline" },
   { id: "certifications", label: "Certifications" },
   { id: "projects", label: "Projects" },
+  { id: "contact", label: "Contact" },
 ];
 
 export default function PortfolioNavbar() {
