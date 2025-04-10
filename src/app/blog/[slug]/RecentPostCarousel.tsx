@@ -40,13 +40,6 @@ export default function RecentPostsCarousel() {
   const excerpt = current?.excerpt ?? "";
   const coverImage = current?.coverImage ?? "/images/blog/fallback.jpg";  
 
-  console.log("Current Post:", current);
-    console.log("Posts:", posts);
-    console.log("Index:", index);
-    console.log("Cover Image:", coverImage);
-    console.log("Title:", title);
-    console.log("Excerpt:", excerpt);
-
   return (
     <section className="mt-24 text-white px-4 sm:px-6 md:px-0 w-full">
       <h2 className="text-2xl md:text-3xl font-semibold mb-6">Recent Posts</h2>

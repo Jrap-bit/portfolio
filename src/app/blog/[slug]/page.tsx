@@ -5,7 +5,8 @@ import ContentRenderer from "./content";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const slug = decodeURIComponent(params.slug);
+  const resolvedParams = await Promise.resolve(params);
+  const slug = decodeURIComponent(resolvedParams.slug);
   const page = await getPageMetadata(slug);
   if (!page) return notFound();
 

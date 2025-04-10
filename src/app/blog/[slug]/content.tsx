@@ -60,8 +60,6 @@ function ShareButton({
 export default function ContentRenderer({
   blocks,
   title,
-  readTime,
-  wordCount,
 }: ContentRendererProps) {
   const [copied, setCopied] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -109,14 +107,7 @@ export default function ContentRenderer({
   return (
     <div className="relative">
       <main className="max-w-5xl mx-auto px-6 pt-24 pb-16 text-white">
-        {/* Stats Bar */}
-        <div className="relative z-[-1] py-6 flex justify-between items-center border-b border-white/10 mb-16">
-          <div className="flex items-center space-x-4 text-sm text-neutral-400">
-            <span>{readTime} min read</span>
-            <span>•</span>
-            <span>{wordCount.toLocaleString()} words</span>
-          </div>
-        </div>
+        {/* Removed stats bar */}
 
         {/* Floating Share Bar (Desktop Only) */}
         <AnimatePresence>
@@ -146,53 +137,53 @@ export default function ContentRenderer({
         </AnimatePresence>
 
         {/* Blog Content */}
-        <article className="mt-12 space-y-8">
-  {blocks.map((block, i) => {
-    const isHeading =
-      block.type === "heading_1" ||
-      block.type === "heading_2" ||
-      block.type === "heading_3";
+        <article className="mt-35 space-y-8">
+          {blocks.map((block, i) => {
+            const isHeading =
+              block.type === "heading_1" ||
+              block.type === "heading_2" ||
+              block.type === "heading_3";
 
-    const MotionWrapper = ({ children }: { children: React.ReactNode }) => {
-      const ref = useRef(null);
-      const isInView = useInView(ref, { once: true, margin: "-100px" });
+            const MotionWrapper = ({ children }: { children: React.ReactNode }) => {
+              const ref = useRef(null);
+              const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-      return (
-        <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{
-            duration: 0.6,
-            delay: i * 0.05,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="prose-custom"
-        >
-          {children}
-        </motion.div>
-      );
-    };
+              return (
+                <motion.div
+                  ref={ref}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{
+                    duration: 0.6,
+                    delay: i * 0.05,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  className="prose-custom"
+                >
+                  {children}
+                </motion.div>
+              );
+            };
 
-    return isHeading ? (
-      <MotionWrapper key={block.id}>
-        {renderBlocks([block])}
-      </MotionWrapper>
-    ) : (
-      <motion.div
-        key={block.id}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: i * 0.1 }}
-        className="prose-custom"
-      >
-        {renderBlocks([block])}
-      </motion.div>
-    );
-  })}
-</article>
+            return isHeading ? (
+              <MotionWrapper key={block.id}>
+                {renderBlocks([block])}
+              </MotionWrapper>
+            ) : (
+              <motion.div
+                key={block.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="prose-custom"
+              >
+                {renderBlocks([block])}
+              </motion.div>
+            );
+          })}
+        </article>
 
-        <div ref={contentEndRef} className="h-2" />
+        <div ref={contentEndRef} className="h-1" />
 
         {/* Mobile Share Trigger Button */}
         <div className="md:hidden mt-5 flex justify-center">
@@ -251,7 +242,6 @@ export default function ContentRenderer({
 
         <BlogEngagement />
         <RecentPostsCarousel />
-        
 
         {/* Global Font Styling */}
         <style jsx global>{`
@@ -268,8 +258,8 @@ export default function ContentRenderer({
             line-height: 1.8;
             letter-spacing: -0.015em;
           }
-          .prose-custom h1, 
-          .prose-custom h2, 
+          .prose-custom h1,
+          .prose-custom h2,
           .prose-custom h3 {
             font-weight: 600;
             color: #f3f4f6;
@@ -280,29 +270,43 @@ export default function ContentRenderer({
             margin-bottom: 1.8rem;
           }
 
-          /* Mobile overrides */
-@media (max-width: 640px) {
-  .prose-custom {
-    font-size: 1.03rem;
-    line-height: 1.65;
-    font-weight: 400;
-  }
+          .prose-custom code {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.25rem;
+            font-size: 0.9rem;
+            color: #e5e7eb;
+          }
+          .prose-custom blockquote {
+            border-left: 4px solid rgba(255, 255, 255, 0.2);
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #d1d5db;
+          }
 
-  .prose-custom h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
+          @media (max-width: 640px) {
+            .prose-custom {
+              font-size: 1.03rem;
+              line-height: 1.65;
+              font-weight: 400;
+            }
 
-  .prose-custom h2 {
-    font-size: 1.25rem;
-    font-weight: 500;
-  }
+            .prose-custom h1 {
+              font-size: 1.5rem;
+              font-weight: 600;
+            }
 
-  .prose-custom h3 {
-    font-size: 1.125rem;
-    font-weight: 500;
-  }
-}
+            .prose-custom h2 {
+              font-size: 1.25rem;
+              font-weight: 500;
+            }
+
+            .prose-custom h3 {
+              font-size: 1.125rem;
+              font-weight: 500;
+            }
+          }
         `}</style>
       </main>
     </div>
