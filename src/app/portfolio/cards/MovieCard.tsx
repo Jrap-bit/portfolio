@@ -38,7 +38,7 @@ export const MovieShelfCard = () => {
         {/* Poster + Description */}
         <div className="flex gap-4 col-span-2 md:col-span-1">
           <Image
-            src="/images/anime.png"
+            src="/images/movie.jpg"
             alt="Movie Poster"
             width={100}
             height={160}
