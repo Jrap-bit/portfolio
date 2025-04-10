@@ -29,32 +29,11 @@ export default function BlogHero({
     
   const contentRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [parallaxValues, setParallaxValues] = useState({ x: 0, y: 0 });
   
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
-    };
-    
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
-  
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const parallaxX = (mousePosition.x - window.innerWidth / 2) * 0.01;
-      const parallaxY = (mousePosition.y - window.innerHeight / 2) * 0.01;
-      setParallaxValues({ x: parallaxX, y: parallaxY });
-    }
-  }, [mousePosition]);
   
   const scrollToContent = () => {
     if (contentRef.current) {
@@ -90,15 +69,15 @@ export default function BlogHero({
                 />
               </motion.div>
               {/* Dark overlay with gradient */}
-              <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-black/90" />
+              <div className="absolute inset-0 bg-gradient-to-b from-black/100 via-black/1000 to-black/100" />
               {/* Color accents */}
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_70%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.1)_0%,transparent_70%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,transparent_90%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,transparent_90%)]" />
             </div>
           ) : (
-            <div className="w-full h-full bg-gradient-to-br from-gray-900 to-black">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0%,transparent_70%)]" />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(139,92,246,0.1)_0%,transparent_70%)]" />
+            <div className="w-full h-full bg-gradient-to-br from-black-500 to-black">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,transparent_90%)]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,0,0,0.2)_0%,transparent_90%)]" />
             </div>
           )}
 
@@ -126,7 +105,7 @@ export default function BlogHero({
                 <div className="flex items-center">
                   <span>{wordCount} words</span>
                 </div>
-                <div className="h-4 w-4 bg-neutral-600 rounded-full" />
+                <div className="h-4 w-4 bg-black rounded-full" />
                 <div className="flex items-center">
                   <FiClock className="mr-2" />
                   <span>{readTime} min read</span>
