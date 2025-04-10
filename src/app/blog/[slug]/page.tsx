@@ -1,3 +1,6 @@
+export const dynamic = "force-dynamic";
+export const dynamicParams = true;
+export const revalidate = 60;
 import { notFound } from "next/navigation";
 import { getPageMetadata, getPageContent } from "~/lib/notion";
 import BlogHero from "./hero";
