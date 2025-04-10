@@ -4,8 +4,12 @@ import BlogHero from "./hero";
 import ContentRenderer from "./content";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
-export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const resolvedParams = await Promise.resolve(params);
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
+export default async function BlogPostPage({ params }: PageProps) {
+  const resolvedParams = await params;
   const slug = decodeURIComponent(resolvedParams.slug);
   const page = await getPageMetadata(slug);
   if (!page) return notFound();
@@ -51,7 +55,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
   const readTime = Math.ceil(wordCount / 200);
 
   return (
-    <>
+    <div className="min-h-screen bg-black">
       <BlogHero
         title={title}
         date={publishedAt}
@@ -67,6 +71,6 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         readTime={readTime}
         wordCount={wordCount}
       />
-    </>
+    </div>
   );
 }

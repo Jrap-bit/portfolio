@@ -49,6 +49,9 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-argument": "off",
       "react/no-unescaped-entities": "off",
       "@typescript-eslint/no-misused-promises": "off",
+      "typescript-eslint/dot-notation": "off",
+      "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+      "@typescript-eslint/dot-notation": "off",
       "prefer-const": "off",
       "@typescript-eslint/consistent-type-imports": [
         "warn",
