@@ -6,9 +6,15 @@ import { getPageMetadata, getPageContent } from "~/lib/notion";
 import BlogHero from "./hero";
 import ContentRenderer from "./content";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { getAllPosts } from "~/lib/getAllPosts";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
