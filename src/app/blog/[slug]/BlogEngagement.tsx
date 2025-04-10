@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { FiHeart, FiSend } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
+import RecentPostsCarousel from "./RecentPostCarousel";
 
 interface Comment {
   id: number;
@@ -62,6 +63,8 @@ export default function BlogEngagement() {
         <span className="text-sm text-neutral-400">Like this post</span>
       </motion.div>
 
+      <RecentPostsCarousel />
+
      {/* Comment Form */}
 <motion.div
   className="mb-12"
@@ -71,7 +74,7 @@ export default function BlogEngagement() {
   viewport={{ once: true }}
 >
   <motion.h3
-    className="text-lg font-medium mb-6 text-white"
+    className="text-2xl font-medium mb-6 text-white mt-18"
     initial={{ opacity: 0, y: 10 }}
     whileInView={{ opacity: 1, y: 0 }}
     transition={{ delay: 0.1, duration: 0.4 }}

@@ -1,8 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
 export default function Loading() {
+  const messages = [
+    "Even neurons need time to dream.",
+    "Rendering thoughts into light...",
+    "Tuning the frequencies of reason.",
+    "Humming in the background of your mind.",
+    "Awaiting a spark of inference...",
+    "Polishing the pixels of perception.",
+    "Rewiring short-term memory...",
+    "Inhaling context, exhaling clarity.",
+    "Shaping abstract into substance.",
+    "Reactivating dormant synapses...",
+    "Holding still until meaning forms."
+  ];
+
+  const quote = useMemo(() => {
+    return messages[Math.floor(Math.random() * messages.length)];
+  }, []);
+
   return (
     <div className="relative flex items-center justify-center min-h-screen overflow-hidden bg-black text-white">
       {/* GRID BACKGROUND */}
@@ -22,8 +41,8 @@ export default function Loading() {
 
       {/* CONTENT */}
       <div className="z-10 text-center space-y-6 px-6">
-        <h2 className="text-3xl sm:text-5xl font-bold bg-black/70 bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-indigo-500">
-          Even neurons need time to dream.
+        <h2 className="text-3xl sm:text-4xl font-bold bg-black/70 bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-indigo-500">
+          {quote}
         </h2>
       </div>
     </div>

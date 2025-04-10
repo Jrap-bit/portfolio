@@ -137,7 +137,7 @@ export default function ContentRenderer({
         </AnimatePresence>
 
         {/* Blog Content */}
-        <article className="mt-35 space-y-8">
+        <article className="mt-12 space-y-8">
           {blocks.map((block, i) => {
             const isHeading =
               block.type === "heading_1" ||
@@ -241,7 +241,7 @@ export default function ContentRenderer({
         </AnimatePresence>
 
         <BlogEngagement />
-        <RecentPostsCarousel />
+
 
         {/* Global Font Styling */}
         <style jsx global>{`

@@ -58,6 +58,7 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
         excerpt={excerpt}
         coverImage={coverImage}
         readTime={readTime}
+        wordCount={wordCount}
       />
 
       <ContentRenderer 
