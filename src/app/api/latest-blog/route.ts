@@ -1,22 +1,48 @@
-// app/api/latest-blog/route.ts
-import Parser from "rss-parser";
+// app/api/blogs/route.ts
 import { NextResponse } from "next/server";
-
-const RSS_URL = "https://elliott1022.wixsite.com/ephemeris/blog-feed.xml";
+import { notion } from "~/lib/notion";
 
 export async function GET() {
-  const parser = new Parser();
-
   try {
-    const feed = await parser.parseURL(RSS_URL);
-    const latest = feed.items[0];
+    console.log("⏳ Fetching blog posts...");
 
-    return NextResponse.json({
-      title: latest?.title,
-      link: latest?.link,
-      pubDate: latest?.pubDate,
+    const response = await notion.databases.query({
+      database_id: process.env.NOTION_DATABASE_ID!,
+      filter: {
+        property: "Published",
+        checkbox: {
+          equals: true,
+        },
+      },
+      sorts: [
+        {
+          property: "Date",
+          direction: "descending",
+        },
+      ],
     });
+
+    console.log("✅ Fetched Notion pages:", response.results.length);
+
+    const blogs = response.results.map((page: any) => {
+      const properties = page.properties;
+      const coverProp = page.properties["Cover"];
+    
+      return {
+        id: page.id,
+        title: properties.Title?.title?.[0]?.plain_text ?? "Untitled",
+        date: properties.Date?.date?.start ?? null,
+        slug: properties.Slug?.rich_text?.[0]?.plain_text ?? "",
+        excerpt: properties.Excerpt?.rich_text?.[0]?.plain_text ?? "",
+        coverImage: coverProp?.type === "rich_text"
+        ? `/images/blog/${coverProp.rich_text?.[0]?.plain_text ?? ""}`
+        : null,
+      };
+    });
+
+    return NextResponse.json(blogs);
   } catch (err) {
-    return NextResponse.json({ error: "Failed to fetch blog" }, { status: 500 });
+    console.error("❌ Failed to fetch blog posts:", err);
+    return NextResponse.json({ error: "Failed to load blog posts" }, { status: 500 });
   }
 }

@@ -6,18 +6,23 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
-    images: {
-        formats: ["image/avif", "image/webp"],
-        remotePatterns: [
-          {
-            protocol: 'https',
-            hostname: 'assets.aceternity.com',
-            port: '',
-            pathname: '/templates/**',
-            search: '',
-          },
-        ],
+  images: {
+    formats: ["image/avif", "image/webp", ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'assets.aceternity.com',
+        port: '',
+        pathname: '/templates/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com',
+        port: '',
+        pathname: '**',
+      },
+    ],
+  },
 };
 
 

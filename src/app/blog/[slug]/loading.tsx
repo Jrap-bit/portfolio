@@ -22,7 +22,7 @@ export default function Loading() {
 
       {/* CONTENT */}
       <div className="z-10 text-center space-y-6 px-6">
-        <h2 className="text-3xl sm:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-indigo-500">
+        <h2 className="text-3xl sm:text-5xl font-bold bg-black/70 bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 to-indigo-500">
           Even neurons need time to dream.
         </h2>
       </div>
