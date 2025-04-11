@@ -87,8 +87,50 @@ export default function BlogHero({
             style={{ opacity }}
           >
             <div className="max-w-3xl mx-auto px-4 pb-16 text-center">
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="mb-8"
+              >
+                <a
+                  href="/blog"
+                  className="inline-block text-sm uppercase tracking-widest text-white transition-colors group"
+                >
+                  <motion.span
+                    className="font-semibold italic inline-block"
+                    animate={{
+                      textShadow: [
+                        "0 0 0px rgba(255,255,255,0)",
+                        "0 0 12px rgba(255,255,255,0.7)",
+                        "0 0 0px rgba(255,255,255,0)"
+                      ],
+                      scale: [1, 1, 1],
+                      color: ["#ffffff", "#ffffff", "#ffffff"]
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      ease: "easeInOut"
+                    }}
+                    whileHover={{
+                      scale: 1.15,
+                      textShadow: "0 0 15px rgba(255,255,255,0.8)",
+                      transition: {
+                        duration: 0.2,
+                        ease: "easeOut"
+                      }
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    From the Ephemeris
+                  </motion.span>
+                </a>
+              </motion.div>
+
               <motion.h1 
-                className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent"
+                className="text-3xl md:text-6xl font-bold mb-4 bg-gradient-to-b from-white to-gray-300 bg-clip-text text-transparent"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -97,7 +139,7 @@ export default function BlogHero({
               </motion.h1>
               
               <motion.div 
-                className="flex items-center justify-center space-x-4 mb-6 text-neutral-300"
+                className="flex items-center justify-center space-x-4 mb-6 text-neutral-100"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
@@ -105,7 +147,7 @@ export default function BlogHero({
                 <div className="flex items-center">
                   <span>{wordCount} words</span>
                 </div>
-                <div className="h-4 w-4 bg-black rounded-full" />
+                <div className="h-4 w-4 bg-white rounded-full" />
                 <div className="flex items-center">
                   <FiClock className="mr-2" />
                   <span>{readTime} min read</span>
@@ -113,7 +155,7 @@ export default function BlogHero({
               </motion.div>
 
               <motion.div 
-                className="flex items-center justify-center space-x-4 mb-6 text-neutral-300"
+                className="flex items-center justify-center space-x-4 mb-6 text-neutral-100"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
@@ -123,7 +165,7 @@ export default function BlogHero({
               </motion.div>
               
               <motion.p 
-                className="text-lg text-neutral-300 max-w-2xl mx-auto"
+                className="text-lg text-neutral-100 max-w-2xl mx-auto"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
