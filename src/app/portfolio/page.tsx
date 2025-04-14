@@ -43,13 +43,11 @@ export default function PortfolioPage() {
       {/* Render Navbar only if not in the Hero section */}
       {showNavbar && <PortfolioNavbar />}
 
-      {/* About Me Section */}
-      <section
-        id="about"
-        className="min-h-screen w-full mx-auto px-4 py-0 sm:py-20 flex flex-col justify-center"
-      >
-       <AboutMeSection />
+      {/* Timeline Section */}
+      <section id="timeline" className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
+        <TimelineSection />
       </section>
+
 
       {/* Tech Stack Section */}
       <section
@@ -59,10 +57,6 @@ export default function PortfolioPage() {
         <SkillsSection />
       </section>
 
-      {/* Timeline Section */}
-      <section id="timeline" className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
-        <TimelineSection />
-      </section>
 
       {/* Certifications Section */}
       <section id="certifications" className="px-4 sm:px-6 py-12 sm:py-20 max-w-7xl mx-auto">
@@ -72,6 +66,14 @@ export default function PortfolioPage() {
       {/* Projects Section */}
       <section id="projects" className="px-4 sm:px-6 py-12 sm:py-20 max-w-7xl mx-auto">
         <ProjectsSection />
+      </section>
+
+      {/* About Me Section */}
+      <section
+        id="about"
+        className="min-h-screen w-full mx-auto px-4 py-0 sm:py-20 flex flex-col justify-center"
+      >
+       <AboutMeSection />
       </section>
 
       {/* Contact Section */}

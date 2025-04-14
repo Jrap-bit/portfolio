@@ -17,11 +17,11 @@ import {
 
 const sections = [
   { id: "Hero", icon: <FaUser />, label: "Home" },
-  { id: "about", icon: <FaBriefcase />, label: "About" },
+  { id: "timeline", icon: <FaGraduationCap />, label: "Experience" },
   { id: "tech", icon: <FaCode />, label: "Skills" },
-  { id: "timeline", icon: <FaGraduationCap />, label: "Timeline" },
   { id: "certifications", icon: <FaCertificate />, label: "Certifications" },
   { id: "projects", icon: <FaProjectDiagram />, label: "Projects" },
+  { id: "about", icon: <FaBriefcase />, label: "About" },
   { id: "contact", icon: <FaEnvelope />, label: "Contact" },
 ];
 

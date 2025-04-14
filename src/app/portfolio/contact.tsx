@@ -61,29 +61,37 @@ Whether it's a job opportunity, project collaboration, or just a hello — feel 
         className="w-full space-y-4"
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        whileFocus={{ scale: 1.2}}
+        transition={{ delay: 0.2, duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <input
-            name="name"
-            value={form.name}
-            onChange={handleChange}
-            placeholder="Your Name"
-            required
-            className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          />
-          <input
-            name="email"
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="Your Email"
-            required
-            className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          />
-        </div>
-        <textarea
+<motion.div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  <motion.input
+    whileFocus={{ scale: 1.05 }}
+    transition={{ type: "spring", stiffness: 200 }}
+    name="name"
+    value={form.name}
+    onChange={handleChange}
+    placeholder="Your Name"
+    required
+    className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+  />
+  <motion.input
+    whileFocus={{ scale: 1.05 }}
+    transition={{ type: "spring", stiffness: 200 }}
+    name="email"
+    type="email"
+    value={form.email}
+    onChange={handleChange}
+    placeholder="Your Email"
+    required
+    className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+  />
+</motion.div>
+<motion.div>
+        <motion.textarea
+          whileFocus={{ scale: 1.03 }}
+          transition={{ type: "spring", stiffness: 200 }}
           name="message"
           value={form.message}
           onChange={handleChange}
@@ -92,6 +100,7 @@ Whether it's a job opportunity, project collaboration, or just a hello — feel 
           required
           className="w-full bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
         />
+        </motion.div>
 
         <div className="flex flex-col md:flex-row items-center gap-4">
           <motion.button
