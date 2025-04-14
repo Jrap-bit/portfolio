@@ -18,9 +18,11 @@ export async function generateStaticParams() {
   return posts.map((post) => ({ slug: post.slug }));
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const resolvedParams = await params;
+  if (!resolvedParams) return {};
   const slug = decodeURIComponent(resolvedParams.slug);
+  if (!slug) return {};
   const page = await getPageMetadata(slug);
   if (!page) return {};
 
