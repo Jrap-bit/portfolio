@@ -7,6 +7,7 @@ import BlogHero from "./hero";
 import ContentRenderer from "./content";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { getAllPosts } from "~/lib/getAllPosts";
+import type { Metadata } from "next";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -15,6 +16,59 @@ interface PageProps {
 export async function generateStaticParams() {
   const posts = await getAllPosts();
   return posts.map((post) => ({ slug: post.slug }));
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const slug = decodeURIComponent(resolvedParams.slug);
+  const page = await getPageMetadata(slug);
+  if (!page) return {};
+
+  const titleProp = page.properties["Title"];
+  const excerptProp = page.properties["Excerpt"];
+  const coverProp = page.properties["Cover"];
+
+  const title =
+    titleProp?.type === "title"
+      ? titleProp.title?.[0]?.plain_text ?? "Untitled"
+      : "Untitled";
+
+  const description =
+    excerptProp?.type === "rich_text"
+      ? excerptProp.rich_text?.[0]?.plain_text ?? ""
+      : "";
+
+  const coverImage =
+    coverProp?.type === "rich_text"
+      ? `/images/blog/${coverProp.rich_text?.[0]?.plain_text ?? ""}`
+      : null;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `https://parjanya.vercel.app/blog/${slug}`,
+      images: coverImage
+        ? [
+            {
+              url: `https://parjanya.vercel.app${coverImage}`,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: coverImage ? [`https://parjanya.vercel.app${coverImage}`] : [],
+    },
+  };
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
