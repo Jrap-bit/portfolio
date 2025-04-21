@@ -1,15 +1,28 @@
-// app/blog/BlogListGrid.tsx
 'use client';
 
 import type { BlogPostPreview } from "~/lib/getAllPostPreviews";
 import BlogPreview from "./BlogPreview";
 
+const Masonry = require("react-masonry-css").default; // ✅ FIX: use .default
+
+const breakpointColumnsObj = {
+  default: 3,
+  1024: 2,
+  640: 1,
+};
+
 export default function BlogListGrid({ posts }: { posts: BlogPostPreview[] }) {
   return (
-    <section className="max-w-7xl mx-auto mt-24 columns-1 sm:columns-2 md:columns-3 gap-6 space-y-6">
-      {posts.map((post, idx) => (
-        <BlogPreview key={post.slug} post={post} idx={idx} />
-      ))}
-    </section>
+    <div className="px-4 mt-24 max-w-7xl mx-auto">
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="flex gap-6"
+        columnClassName="space-y-6"
+      >
+        {posts.map((post, idx) => (
+          <BlogPreview key={post.slug} post={post} idx={idx} />
+        ))}
+      </Masonry>
+    </div>
   );
 }

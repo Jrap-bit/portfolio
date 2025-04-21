@@ -1,7 +1,7 @@
 import { getAllPostPreviews } from "~/lib/getAllPostPreviews";
 import type { BlogPostPreview } from "~/lib/getAllPostPreviews";
 import FeaturedPost from "./FeaturedPost";
-import BlogListGrid from "./BlogListGrid";
+import BlogListWrapper from "./BlogListWrapper";
 
 export const revalidate = 60;
 
@@ -68,7 +68,7 @@ if (!posts || posts.length === 0) {
         {highlighted && <FeaturedPost post={highlighted} />}
           </section>
 
-      <BlogListGrid posts={rest} />
+      <BlogListWrapper posts={rest} />
     </main>
   );
 }
