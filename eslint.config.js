@@ -51,6 +51,7 @@ export default tseslint.config(
       "@typescript-eslint/no-misused-promises": "off",
       "typescript-eslint/dot-notation": "off",
       "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+      "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/dot-notation": "off",
       "prefer-const": "off",
       "@typescript-eslint/consistent-type-imports": [

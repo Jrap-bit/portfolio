@@ -3,7 +3,7 @@
 import type { BlogPostPreview } from "~/lib/getAllPostPreviews";
 import BlogPreview from "./BlogPreview";
 
-const Masonry = require("react-masonry-css").default; // ✅ FIX: use .default
+const Masonry = require("react-masonry-css").default;
 
 const breakpointColumnsObj = {
   default: 3,
