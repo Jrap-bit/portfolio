@@ -2,6 +2,7 @@ import { getAllPostPreviews } from "~/lib/getAllPostPreviews";
 import type { BlogPostPreview } from "~/lib/getAllPostPreviews";
 import FeaturedPost from "./FeaturedPost";
 import BlogListWrapper from "./BlogListWrapper";
+import Footer from "~/components/blog-footer";
 
 export const revalidate = 60;
 
@@ -39,9 +40,11 @@ if (!posts || posts.length === 0) {
 }
 
   const [highlighted, ...rest] = posts;
+  const totalWords = posts.reduce((sum, post) => sum + (post.wordCount || 0), 0);
+
 
   return (
-    <main className="min-h-screen bg-black text-white px-6 pt-20 pb-32 font-satoshi">
+    <main className="min-h-screen bg-black text-white px-6 pt-20 pb-20 font-satoshi">
       <a
         href="/"
         className="absolute top-6 left-6 z-50 hidden md:flex px-5 py-2 rounded-full text-white font-semibold text-sm md:text-base bg-gradient-to-br from-cyan-400 via-blue-500 to-indigo-600 shadow-[0_0_3px_1px_rgba(59,130,246,0.5)] hover:scale-105 hover:shadow-[0_0_10px_5px_rgba(59,130,246,0.7)] transition-all duration-300 ease-in-out"
@@ -69,6 +72,8 @@ if (!posts || posts.length === 0) {
           </section>
 
       <BlogListWrapper posts={rest} />
+
+      <Footer wordCount={totalWords} />
     </main>
   );
 }

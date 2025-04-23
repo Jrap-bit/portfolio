@@ -1,13 +1,14 @@
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
 export const revalidate = 60;
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 import { getPageMetadata, getPageContent } from "~/lib/notion";
 import BlogHero from "./hero";
 import ContentRenderer from "./content";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { getAllPosts } from "~/lib/getAllPosts";
 import type { Metadata } from "next";
+import Footer from './footer';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -136,6 +137,8 @@ export default async function BlogPostPage({ params }: PageProps) {
         readTime={readTime}
         wordCount={wordCount}
       />
+
+      <Footer wordCount={wordCount} />
     </div>
   );
 }

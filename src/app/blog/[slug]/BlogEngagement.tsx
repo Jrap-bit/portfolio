@@ -38,7 +38,7 @@ export default function BlogEngagement() {
   };
 
   return (
-    <section className="mt-24 pt-12 border-t border-white/10 text-white">
+    <section className="mt-12 md:mt-18 pt-12 border-t border-white/10 text-white">
       {/* Like Button */}
       <motion.div
         className="flex items-center gap-4 mb-12"

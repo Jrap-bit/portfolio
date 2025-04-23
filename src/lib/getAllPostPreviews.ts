@@ -1,7 +1,8 @@
 // lib/getAllPostPreviews.ts
 
-import { getPageMetadata } from "~/lib/notion";
+import { getPageMetadata, getPageContent } from "~/lib/notion";
 import { getAllPosts } from "./getAllPosts";
+import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export interface BlogPostPreview {
   slug: string;
@@ -10,6 +11,7 @@ export interface BlogPostPreview {
   date: string;
   readTime: number;
   coverImage: string | null;
+  wordCount: number;
 }
 
 export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
@@ -20,10 +22,22 @@ export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
       const page = await getPageMetadata(slug);
       if (!page) return null;
 
+      const blocks = await getPageContent(page.id);
+
+      const wordCount = blocks
+        .filter(
+          (block): block is BlockObjectResponse =>
+            "type" in block && block.type !== undefined
+        )
+        .filter((block) => block.type === "paragraph")
+        .flatMap((block) => block.paragraph.rich_text)
+        .flatMap((text) => text.plain_text.split(/\s+/))
+        .filter(Boolean).length;
+
       const props = page.properties;
 
       const seen = props["Seen"]?.type === "checkbox" ? props["Seen"].checkbox : false;
-      if (!seen) return null; // ✨ only include Seen posts in public list
+      if (!seen) return null;
 
       const title =
         props["Title"]?.type === "title"
@@ -54,6 +68,7 @@ export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
         date,
         coverImage,
         readTime,
+        wordCount,
       };
     })
   );

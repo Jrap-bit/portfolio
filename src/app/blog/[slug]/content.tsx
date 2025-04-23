@@ -107,7 +107,6 @@ export default function ContentRenderer({
   return (
     <div className="relative">
       <main className="max-w-5xl mx-auto px-6 pt-24 pb-16 text-white">
-        {/* Removed stats bar */}
 
         {/* Floating Share Bar (Desktop Only) */}
         <AnimatePresence>
@@ -183,13 +182,13 @@ export default function ContentRenderer({
           })}
         </article>
 
-        <div ref={contentEndRef} className="h-1" />
+        <div ref={contentEndRef} className="" />
 
         {/* Mobile Share Trigger Button */}
-        <div className="md:hidden mt-5 flex justify-center">
+        <div className="md:hidden mt-15 flex justify-center">
           <button
             onClick={() => setShowMobileDrawer(true)}
-            className="text-sm text-neutral-300 bg-black/60 px-4 py-2 rounded-md backdrop-blur-md border border-white/10 hover:border-blue-400 transition"
+            className="text-base text-neutral-300 bg-black/60 px-4 py-2 rounded-md backdrop-blur-md border border-white/20 hover:border-blue-400 transition"
           >
             Share this post
           </button>
