@@ -31,6 +31,9 @@ export default function BlogPreview({ post, idx }: { post: BlogPostPreview; idx:
               width={800}
               height={1000}
               className="w-full max-h-[500px] object-contain md:object-cover rounded-xl transition-transform duration-700 group-hover:scale-[1.04]"
+              {...(post.blurDataURL
+                ? { placeholder: "blur", blurDataURL: post.blurDataURL }
+                : {})}
             />
             {/* Glow border around image */}
             <div className="absolute inset-0 border border-white/10 group-hover:border-white/30 rounded-xl transition duration-500 pointer-events-none" />

@@ -13,6 +13,7 @@ interface BlogHeroProps {
   coverImage: string | null;
   readTime: number;
   wordCount: number;
+  blurDataURL?: string | null;
 }
 
 export default function BlogHero({
@@ -22,6 +23,7 @@ export default function BlogHero({
   coverImage,
   readTime,
   wordCount,
+  blurDataURL,
 }: BlogHeroProps) {
   const formattedDate = date
     ? format(new Date(date), "MMMM d, yyyy")
@@ -66,6 +68,7 @@ export default function BlogHero({
                   priority
                   className="object-cover transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                  blurDataURL={blurDataURL ?? undefined}
                 />
               </motion.div>
               {/* Dark overlay with gradient */}

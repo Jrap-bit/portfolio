@@ -25,6 +25,9 @@ export default function FeaturedPost({ post }: { post: BlogPostPreview }) {
               height={800}
               className="w-full h-[600px] object-cover rounded-3xl transition-transform duration-700 group-hover:scale-[1.02]"
               priority
+              {...(post.blurDataURL
+                ? { placeholder: "blur", blurDataURL: post.blurDataURL }
+                : {})}
             />
             {/* Glow border */}
             <div className="absolute inset-0 rounded-3xl border border-white/10 group-hover:border-white/20 transition" />

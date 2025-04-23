@@ -3,6 +3,9 @@
 import { getPageMetadata, getPageContent } from "~/lib/notion";
 import { getAllPosts } from "./getAllPosts";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { getPlaiceholder } from "plaiceholder";
+import fs from "fs";
+import path from "path";
 
 export interface BlogPostPreview {
   slug: string;
@@ -12,6 +15,7 @@ export interface BlogPostPreview {
   readTime: number;
   coverImage: string | null;
   wordCount: number;
+  blurDataURL: string | null;
 }
 
 export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
@@ -54,12 +58,41 @@ export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
           ? props["Date"].date?.start ?? ""
           : "";
 
-      const coverImage =
-        props["Cover"]?.type === "rich_text"
-          ? props["Cover"].rich_text?.[0]?.plain_text ?? null
-          : null;
-
       const readTime = 3;
+
+      const imageSlug = props["Cover"]?.type === "rich_text"
+  ? props["Cover"].rich_text?.[0]?.plain_text ?? null
+  : null;
+
+  const coverImage =
+  props["Cover"]?.type === "rich_text"
+    ? props["Cover"].rich_text?.[0]?.plain_text ?? null
+    : null;
+
+let blurDataURL: string | null = null;
+
+if (coverImage) {
+  try {
+
+    const fileName = coverImage?.split("/").pop(); // Extract just the filename
+    const imagePath = fileName
+      ? path.join(process.cwd(), "public", "images", "blog", fileName)
+      : null;
+
+    if (imagePath) {
+      try {
+        const imageBuffer = fs.readFileSync(imagePath);
+        const { base64 } = await getPlaiceholder(imageBuffer);
+        blurDataURL = base64;
+      } catch (err) {
+        console.warn("Could not generate blurDataURL for", fileName, err);
+      }
+    }
+  } catch (err) {
+    console.warn("Could not generate blurDataURL for", coverImage, err);
+  }
+  
+}
 
       return {
         slug,
@@ -69,6 +102,7 @@ export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
         coverImage,
         readTime,
         wordCount,
+        blurDataURL,
       };
     })
   );
