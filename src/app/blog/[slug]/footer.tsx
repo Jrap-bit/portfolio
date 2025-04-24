@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 interface FooterProps {
   wordCount: number;
@@ -17,9 +17,12 @@ export default function Footer({ wordCount }: FooterProps) {
     "Between silence and starlight, words linger."
   ];
 
-  const quote = useMemo(() => {
-    return quotes[Math.floor(Math.random() * quotes.length)];
-  }, []);
+  const [quote, setQuote] = useState("");
+
+useEffect(() => {
+  const random = quotes[Math.floor(Math.random() * quotes.length)];
+  setQuote(random ?? "");
+}, []);
   const currentYear = new Date().getFullYear();
 
   return (

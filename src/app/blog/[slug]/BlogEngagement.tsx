@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FiHeart, FiSend } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 import RecentPostsCarousel from "./RecentPostCarousel";
+import { api } from "~/trpc/react";
 
 interface Comment {
   id: number;
@@ -12,16 +13,26 @@ interface Comment {
   timestamp: string;
 }
 
-export default function BlogEngagement() {
-  const [likes, setLikes] = useState(0);
+export default function BlogEngagement({ slug }: { slug: string }) {
+  const { data: likeData, isLoading } = api.likes.get.useQuery({ slug });
+  const utils = api.useUtils();
+
+  const incrementMutation = api.likes.increment.useMutation({
+    onSuccess: async () => {
+      await utils.likes.get.invalidate({ slug }); // Re-fetch after mutation
+    },
+  });
+
   const [liked, setLiked] = useState(false);
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [text, setText] = useState("");
 
   const toggleLike = () => {
-    setLiked(!liked);
-    setLikes((prev) => (liked ? prev - 1 : prev + 1));
+    if (!liked) {
+      setLiked(true);
+      incrementMutation.mutate({ slug });
+    }
   };
 
   const postComment = () => {
@@ -56,12 +67,14 @@ export default function BlogEngagement() {
               : "bg-white/5 text-white border-white/10 hover:border-blue-400"
           }`}
           onClick={toggleLike}
+          disabled={liked}
         >
           <FiHeart className="text-base" />
-          <span>{likes}</span>
+          <span>{isLoading ? "…" : (likeData !== undefined ? likeData : 0)}</span>
         </motion.button>
         <span className="text-sm text-neutral-400">Like this post</span>
       </motion.div>
+
 
       <RecentPostsCarousel />
 

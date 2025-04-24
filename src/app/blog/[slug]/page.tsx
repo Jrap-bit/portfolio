@@ -136,6 +136,7 @@ export default async function BlogPostPage({ params }: PageProps) {
         title={title}
         readTime={readTime}
         wordCount={wordCount}
+        slug={slug}
       />
 
       <Footer wordCount={wordCount} />

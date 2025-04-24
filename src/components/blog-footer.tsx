@@ -2,13 +2,16 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useMemo } from "react";
+
+import { useEffect, useState } from "react";
 
 interface FooterProps {
   wordCount: number;
 }
 
 export default function Footer({ wordCount }: FooterProps) {
+  const [quote, setQuote] = useState("");
+
   const quotes = [
     "This blog drifts like stardust — ephemeral, luminous, gone.",
     "Thoughts archived in ether, not ink.",
@@ -17,8 +20,9 @@ export default function Footer({ wordCount }: FooterProps) {
     "Between silence and starlight, words linger."
   ];
 
-  const quote = useMemo(() => {
-    return quotes[Math.floor(Math.random() * quotes.length)];
+  useEffect(() => {
+    const random = quotes[Math.floor(Math.random() * quotes.length)];
+    setQuote(random ?? "");
   }, []);
 
   const currentYear = new Date().getFullYear();
@@ -39,15 +43,15 @@ export default function Footer({ wordCount }: FooterProps) {
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ delay: 0.3, duration: 1 }}
-  className="italic text-white/70 max-w-xl text-center mt-2 text-sm sm:text-base px-4"
+  className="italic text-white/90 max-w-xl text-center mt-2 text-sm sm:text-base px-4 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
 >
   {quote}
 </motion.div>
 
-        <div className="flex flex-wrap items-center justify-center gap-6 text-white/50 mt-4">
+        <div className="flex flex-wrap items-center justify-center gap-6 text-white/80 mt-4 drop-shadow-[0_0_4px_rgba(255,255,255,0.15)]">
           <Link
             href="/feed.xml"
-            className="hover:text-white underline underline-offset-4 transition"
+            className="hover:text-white transition"
           >
             RSS Feed
           </Link>

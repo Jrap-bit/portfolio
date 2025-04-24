@@ -14,6 +14,7 @@ interface ContentRendererProps {
   title: string;
   readTime: number;
   wordCount: number;
+  slug: string;
 }
 
 function ShareButton({
@@ -60,6 +61,7 @@ function ShareButton({
 export default function ContentRenderer({
   blocks,
   title,
+  slug,
 }: ContentRendererProps) {
   const [copied, setCopied] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -239,7 +241,7 @@ export default function ContentRenderer({
           )}
         </AnimatePresence>
 
-        <BlogEngagement />
+        <BlogEngagement slug={slug} />
 
 
         {/* Global Font Styling */}
