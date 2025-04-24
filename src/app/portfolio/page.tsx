@@ -44,7 +44,7 @@ export default function PortfolioPage() {
       {showNavbar && <PortfolioNavbar />}
 
       {/* Timeline Section */}
-      <section id="timeline" className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
+      <section id="timeline" className="px-4 sm:px-6 py-12 sm:py-12 sm:pb-0 max-w-5xl mx-auto">
         <TimelineSection />
       </section>
 
@@ -52,32 +52,32 @@ export default function PortfolioPage() {
       {/* Tech Stack Section */}
       <section
         id="tech"
-        className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-20 flex flex-col justify-center"
+        className="min-h-screen max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-12 sm:pb-0 flex flex-col justify-center"
       >
         <SkillsSection />
       </section>
 
 
       {/* Certifications Section */}
-      <section id="certifications" className="px-4 sm:px-6 py-12 sm:py-20 max-w-7xl mx-auto">
+      <section id="certifications" className="px-4 sm:px-6 py-12 sm:py-12 sm:pb-0 max-w-7xl mx-auto">
         <CertificationsCarousel />
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="px-4 sm:px-6 py-12 sm:py-20 max-w-7xl mx-auto">
+      <section id="projects" className="px-4 sm:px-6 py-12 sm:py-12 max-w-7xl mx-auto">
         <ProjectsSection />
       </section>
 
       {/* About Me Section */}
       <section
         id="about"
-        className="min-h-screen w-full mx-auto px-4 py-0 sm:py-20 flex flex-col justify-center"
+        className="min-h-screen w-full mx-auto px-4 py-0 sm:py-12 sm:pb-0 flex flex-col justify-center"
       >
        <AboutMeSection />
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="px-4 sm:px-6 py-12 sm:py-20 max-w-5xl mx-auto">
+      <section id="contact" className="px-4 sm:px-6 py-12 sm:py-12 max-w-5xl mx-auto">
         <ContactSection />
       </section>
       <Footer />
