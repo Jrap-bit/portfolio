@@ -2,15 +2,24 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-
-
+import { useMemo } from "react";
 
 interface FooterProps {
   wordCount: number;
 }
 
 export default function Footer({ wordCount }: FooterProps) {
-  const quote = "This blog drifts like stardust — ephemeral, luminous, gone.";
+  const quotes = [
+    "This blog drifts like stardust — ephemeral, luminous, gone.",
+    "Thoughts archived in ether, not ink.",
+    "Each post, a fallen feather from the cosmos.",
+    "Some memories stay warm only when read.",
+    "Between silence and starlight, words linger."
+  ];
+
+  const quote = useMemo(() => {
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }, []);
   const currentYear = new Date().getFullYear();
 
   return (
