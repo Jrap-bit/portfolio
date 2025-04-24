@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { type Metadata } from "next";
 import { Analytics } from '@vercel/analytics/react';
 import { Geist } from "next/font/google";
+import { Toaster } from "react-hot-toast";
 
 import { TRPCReactProvider } from "~/trpc/react";
 
@@ -23,7 +24,16 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${geist.variable}`}>
       <body className="overscroll-x-auto">
+        
         <TRPCReactProvider>{children}</TRPCReactProvider>
+        <Toaster position="bottom-center" toastOptions={{
+  style: {
+    background: '#111',
+    color: '#fff',
+    border: '1px solid #444',
+    textAlign: 'center',
+  }
+}} />
         <Analytics />
       </body>
     </html>

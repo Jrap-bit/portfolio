@@ -4,7 +4,6 @@ import { notion } from "~/lib/notion";
 
 export async function GET() {
   try {
-    console.log("⏳ Fetching blog posts...");
 
     const response = await notion.databases.query({
       database_id: process.env.NOTION_DATABASE_ID!,
@@ -21,8 +20,6 @@ export async function GET() {
         },
       ],
     });
-
-    console.log("✅ Fetched Notion pages:", response.results.length);
 
     const blogs = response.results.map((page: any) => {
       const properties = page.properties;

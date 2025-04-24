@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiHeart, FiSend } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
 import RecentPostsCarousel from "./RecentPostCarousel";
 import { api } from "~/trpc/react";
+import { toast } from "react-hot-toast";
 
 interface Comment {
   id: number;
@@ -13,26 +14,41 @@ interface Comment {
   timestamp: string;
 }
 
-export default function BlogEngagement({ slug }: { slug: string }) {
+export default function BlogEngagement({ slug, viewCount }: { slug: string; viewCount?: number }) {
   const { data: likeData, isLoading } = api.likes.get.useQuery({ slug });
   const utils = api.useUtils();
+  const [likes, setLikes] = useState<number>(0);
+  const [liked, setLiked] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [name, setName] = useState("");
+  const [text, setText] = useState("");
+
+  useEffect(() => {
+    if (likeData !== undefined) {
+      setLikes(likeData);
+    }
+    const likedPosts = JSON.parse(localStorage.getItem("liked-posts") || "{}");
+    setLiked(Boolean(likedPosts[slug]));
+  }, [likeData, slug]);
 
   const incrementMutation = api.likes.increment.useMutation({
     onSuccess: async () => {
       await utils.likes.get.invalidate({ slug }); // Re-fetch after mutation
     },
   });
-
-  const [liked, setLiked] = useState(false);
-  const [comments, setComments] = useState<Comment[]>([]);
-  const [name, setName] = useState("");
-  const [text, setText] = useState("");
-
+  
   const toggleLike = () => {
-    if (!liked) {
-      setLiked(true);
-      incrementMutation.mutate({ slug });
+    if (liked) {
+      toast("Sorry, the love stays — no take-backs!");
+      return;
     }
+  
+    setLiked(true);
+    incrementMutation.mutate({ slug });
+  
+    const likedPosts = JSON.parse(localStorage.getItem("liked-posts") || "{}");
+    likedPosts[slug] = true;
+    localStorage.setItem("liked-posts", JSON.stringify(likedPosts));
   };
 
   const postComment = () => {
@@ -52,27 +68,35 @@ export default function BlogEngagement({ slug }: { slug: string }) {
     <section className="mt-12 md:mt-18 pt-12 border-t border-white/10 text-white">
       {/* Like Button */}
       <motion.div
-        className="flex items-center gap-4 mb-12"
+        className="flex items-center justify-between mb-12"
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.01 }}
         viewport={{ once: true }}
       >
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          whileHover={{ scale: 1.1 }}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full border transition-all ${
-            liked
-              ? "bg-red-500/20 border-red-400 text-red-400"
-              : "bg-white/5 text-white border-white/10 hover:border-blue-400"
-          }`}
-          onClick={toggleLike}
-          disabled={liked}
-        >
-          <FiHeart className="text-base" />
-          <span>{isLoading ? "…" : (likeData !== undefined ? likeData : 0)}</span>
-        </motion.button>
-        <span className="text-sm text-neutral-400">Like this post</span>
+         <div className="flex items-center gap-3">
+    <motion.button
+      whileTap={{ scale: 0.9 }}
+      whileHover={{ scale: 1.1 }}
+      transition={{ duration: 0.1 }}
+      className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full border transition-all ${
+        liked
+          ? "bg-red-500/20 border-red-400 text-red-400"
+          : "bg-white/5 text-white border-white/10 hover:border-blue-400"
+      }`}
+      onClick={toggleLike}
+    >
+      <FiHeart className="text-base" />
+      <span>{isLoading ? "…" : likeData ?? 0}</span>
+    </motion.button>
+
+    <span className="text-sm text-neutral-400">Like this post</span>
+  </div>
+
+
+        <span className="text-sm text-neutral-400">
+          {viewCount ?? "–"} views
+        </span>
       </motion.div>
 
 
@@ -90,7 +114,7 @@ export default function BlogEngagement({ slug }: { slug: string }) {
     className="text-2xl font-medium mb-6 text-white mt-18"
     initial={{ opacity: 0, y: 10 }}
     whileInView={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.1, duration: 0.4 }}
+    transition={{ delay: 0.1, duration: 0.01 }}
   >
     Leave a comment
   </motion.h3>

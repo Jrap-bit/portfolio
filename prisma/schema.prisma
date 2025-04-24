@@ -13,3 +13,10 @@ model Like {
   count     Int      @default(0)
   updatedAt DateTime @updatedAt
 }
+
+model View {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  count     Int      @default(0)
+  updatedAt DateTime @updatedAt
+}

@@ -8,6 +8,7 @@ import { FiTwitter, FiLinkedin, FiLink } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import BlogEngagement from "./BlogEngagement";
 import RecentPostsCarousel from "./RecentPostCarousel";
+import { api } from "~/trpc/react";
 
 interface ContentRendererProps {
   blocks: BlockObjectResponse[];
@@ -67,7 +68,20 @@ export default function ContentRenderer({
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [showMobileDrawer, setShowMobileDrawer] = useState(false);
   const contentEndRef = useRef<HTMLDivElement>(null);
+  const utils = api.useUtils();
 
+  const viewMutation = api.views.increment.useMutation({
+    onSuccess: async () => {
+      await utils.views.get.invalidate({ slug });
+    },
+  });
+  
+  const { data: viewCount } = api.views.get.useQuery({ slug }, { enabled: !!slug });
+  
+  useEffect(() => {
+    viewMutation.mutate({ slug });
+  }, [slug]);
+  
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);
@@ -241,7 +255,7 @@ export default function ContentRenderer({
           )}
         </AnimatePresence>
 
-        <BlogEngagement slug={slug} />
+        <BlogEngagement slug={slug} viewCount={viewCount} />
 
 
         {/* Global Font Styling */}
