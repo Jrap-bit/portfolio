@@ -7,7 +7,6 @@ import { motion, AnimatePresence, useInView } from "framer-motion";
 import { FiTwitter, FiLinkedin, FiLink } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import BlogEngagement from "./BlogEngagement";
-import RecentPostsCarousel from "./RecentPostCarousel";
 import { api } from "~/trpc/react";
 
 interface ContentRendererProps {
@@ -81,7 +80,7 @@ export default function ContentRenderer({
   useEffect(() => {
     viewMutation.mutate({ slug });
   }, [slug]);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScrollTop(window.scrollY > 500);

@@ -20,3 +20,15 @@ model View {
   count     Int      @default(0)
   updatedAt DateTime @updatedAt
 }
+
+model Comment {
+  id        String   @id @default(cuid())
+  slug      String
+  name      String
+  text      String
+  createdAt DateTime @default(now())
+  ip        String?
+  honeypot  String?  @default("")
+
+  @@index([slug])
+}

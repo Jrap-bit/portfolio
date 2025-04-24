@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { format } from "date-fns";
 import { FiClock, FiCalendar, FiChevronDown } from "react-icons/fi";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 
 interface BlogHeroProps {
   title: string;

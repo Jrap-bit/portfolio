@@ -5,7 +5,6 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { cover } from "three/src/extras/TextureUtils.js";
 
 interface BlogPost {
   id: string;
