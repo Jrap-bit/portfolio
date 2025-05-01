@@ -1,45 +1,26 @@
-// app/api/blogs/route.ts
+// app/api/latest-blog/route.ts
+
 import { NextResponse } from "next/server";
-import { notion } from "~/lib/notion";
+import Parser from "rss-parser";
+
+const parser = new Parser();
 
 export async function GET() {
   try {
+    const feed = await parser.parseURL("https://parjanya.vercel.app/blog/feed.xml");
 
-    const response = await notion.databases.query({
-      database_id: process.env.NOTION_DATABASE_ID!,
-      filter: {
-        property: "Published",
-        checkbox: {
-          equals: true,
-        },
-      },
-      sorts: [
-        {
-          property: "Date",
-          direction: "descending",
-        },
-      ],
+    if (!feed.items.length) {
+      return NextResponse.json({ error: "No blog posts found" }, { status: 404 });
+    }
+
+    const latest = feed.items[0];
+    return NextResponse.json({
+      title: latest?.title,
+      link: latest?.link,
+      pubDate: latest?.pubDate,
     });
-
-    const blogs = response.results.map((page: any) => {
-      const properties = page.properties;
-      const coverProp = page.properties["Cover"];
-    
-      return {
-        id: page.id,
-        title: properties.Title?.title?.[0]?.plain_text ?? "Untitled",
-        date: properties.Date?.date?.start ?? null,
-        slug: properties.Slug?.rich_text?.[0]?.plain_text ?? "",
-        excerpt: properties.Excerpt?.rich_text?.[0]?.plain_text ?? "",
-        coverImage: coverProp?.type === "rich_text"
-        ? `/images/blog/${coverProp.rich_text?.[0]?.plain_text ?? ""}`
-        : null,
-      };
-    });
-
-    return NextResponse.json(blogs);
-  } catch (err) {
-    console.error("❌ Failed to fetch blog posts:", err);
-    return NextResponse.json({ error: "Failed to load blog posts" }, { status: 500 });
+  } catch (error) {
+    console.error("Failed to fetch latest RSS post", error);
+    return NextResponse.json({ error: "Failed to fetch latest blog" }, { status: 500 });
   }
 }
