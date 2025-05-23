@@ -22,7 +22,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${geist.variable}`}>
+    <html lang="en" className={`dark ${geist.variable}`} suppressHydrationWarning>
       <body className="overscroll-x-auto">
         
         <TRPCReactProvider>{children}</TRPCReactProvider>

@@ -21,8 +21,11 @@ export default function RecentPostsCarousel() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await fetch("/api/latest-blog");
+      const res = await fetch("/api/recent-posts");
       const data = await res.json();
+
+      console.log("Fetched posts:", data);
+      
       setPosts(data);
     };
     fetchPosts();
@@ -31,7 +34,6 @@ export default function RecentPostsCarousel() {
   const prev = () => setIndex((prev) => (prev - 1 + posts.length) % posts.length);
   const next = () => setIndex((prev) => (prev + 1) % posts.length);
   
-
   if (posts.length === 0) return null;
 
   const current = posts[index];

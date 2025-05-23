@@ -35,20 +35,31 @@ export async function GET() {
         : "Untitled";
   
     const excerpt =
-      props["Excerpt"]?.type === "rich_text"
-        ? props["Excerpt"].rich_text?.[0]?.plain_text ?? ""
-        : "";
+        props["Excerpt"]?.type === "rich_text"
+          ? props["Excerpt"].rich_text?.[0]?.plain_text ?? ""
+          : "";
   
     const date =
       props["Date"]?.type === "date"
         ? new Date(props["Date"].date?.start ?? "")
         : new Date();
+
+    const coverImage =
+  props["Cover"]?.type === "rich_text"
+    ? props["Cover"].rich_text?.[0]?.plain_text ?? null
+    : null;
   
     feed.item({
       title,
       url: `${siteUrl}/blog/${slug}`,
       description: excerpt,
       date,
+      custom_elements: [
+        { slug },
+        { excerpt },
+        { coverImage },
+      ],
+  
     });
   }
 

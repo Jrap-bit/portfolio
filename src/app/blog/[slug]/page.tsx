@@ -46,6 +46,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ? `/images/blog/${coverProp.rich_text?.[0]?.plain_text ?? ""}`
       : null;
 
+      console.log("coverImage", coverImage);
+
   return {
     title,
     description,
