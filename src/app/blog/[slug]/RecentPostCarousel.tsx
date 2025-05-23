@@ -23,8 +23,6 @@ export default function RecentPostsCarousel() {
     const fetchPosts = async () => {
       const res = await fetch("/api/recent-posts");
       const data = await res.json();
-
-      console.log("Fetched posts:", data);
       
       setPosts(data);
     };

@@ -9,36 +9,31 @@ type RSSCustomItem = {
   pubDate: string;
   guid: string;
   contentSnippet?: string;
-  custom_elements?: { [key: string]: any }[];
+  slug?: string;
+  excerpt?: string;
+  coverImage?: string;
 };
 
-const parser: Parser<Record<string, unknown>, RSSCustomItem> = new Parser();
+const parser: Parser<{}, RSSCustomItem> = new Parser({
+  customFields: {
+    item: ["slug", "excerpt", "coverImage"],
+  },
+});
 
 export async function GET() {
-  const feed = await parser.parseURL("http://localhost:3000/blog/feed.xml");
+  const feed = await parser.parseURL("https://parjanya.vercel.app/blog/feed.xml");
 
   const posts = feed.items.slice(0, 5).map((item) => {
-    console.log("Item:", item);
     const slug = item.link?.split("/").pop() ?? "unknown";
 
-    let excerpt = "";
-    let coverImage = "";
-
-    if (Array.isArray(item.custom_elements)) {
-      for (const el of item.custom_elements) {
-        if (el.excerpt) excerpt = el.excerpt;
-        if (el.coverImage) coverImage = el.coverImage;
-      }
-    }
-
     return {
-      id: item.guid ?? slug,
-      title: item.title ?? "Untitled",
-      date: item.pubDate ?? new Date().toISOString(),
-      slug,
-      excerpt,
-      coverImage: `/images/blog/${coverImage}` || `/images/blog/${slug}.jpg`,
-    };
+    id: item.guid ?? slug,
+    title: item.title ?? "Untitled",
+    date: item.pubDate ?? new Date().toISOString(),
+    slug,
+    excerpt: item.excerpt ?? "",
+    coverImage: `/images/blog/${item.coverImage}`,
+  };
   });
 
   return NextResponse.json(posts);

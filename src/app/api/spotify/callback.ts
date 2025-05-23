@@ -23,8 +23,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (response.ok) {
     // Save this securely: in database or use it immediately
-    console.log("Access Token:", data.access_token);
-    console.log("Refresh Token:", data.refresh_token);
     return res.status(200).json(data);
   } else {
     console.error("Spotify Token Error:", data);
