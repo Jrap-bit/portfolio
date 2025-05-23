@@ -14,7 +14,7 @@ type RSSCustomItem = {
   coverImage?: string;
 };
 
-const parser: Parser<{}, RSSCustomItem> = new Parser({
+const parser: Parser<Record<string, unknown>, RSSCustomItem> = new Parser({
   customFields: {
     item: ["slug", "excerpt", "coverImage"],
   },
