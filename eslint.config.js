@@ -59,6 +59,10 @@ export default tseslint.config(
         { prefer: "type-imports", fixStyle: "inline-type-imports" },
       ],
       "@typescript-eslint/require-await": "off",
+      "@typescript-eslint/consistent-indexed-object-style": "off",
+      "@typescript-eslint/consistent-generic-constructors": "off",
+      "@typescript-eslint/no-empty-object-types": "off",
+
     },
   },
   {

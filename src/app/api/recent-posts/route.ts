@@ -12,8 +12,7 @@ type RSSCustomItem = {
   custom_elements?: { [key: string]: any }[];
 };
 
-const parser: Parser<{}, RSSCustomItem> = new Parser();
-
+const parser: Parser<Record<string, unknown>, RSSCustomItem> = new Parser();
 
 export async function GET() {
   const feed = await parser.parseURL("http://localhost:3000/blog/feed.xml");
