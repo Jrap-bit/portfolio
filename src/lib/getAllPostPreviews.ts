@@ -33,10 +33,12 @@ export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
           (block): block is BlockObjectResponse =>
             "type" in block && block.type !== undefined
         )
-        .filter((block) => block.type === "paragraph")
-        .flatMap((block) => block.paragraph.rich_text)
-        .flatMap((text) => text.plain_text.split(/\s+/))
-        .filter(Boolean).length;
+        .filter((block): block is BlockObjectResponse & { type: "paragraph" } => 
+      block.type === "paragraph"
+    )
+    .flatMap((block) =>
+      block.paragraph.rich_text.flatMap((t) => t.plain_text.split(/\s+/))
+    ).length;
 
       const props = page.properties;
 
@@ -58,7 +60,7 @@ export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
           ? props["Date"].date?.start ?? ""
           : "";
 
-      const readTime = 3;
+      const readTime = Math.ceil(wordCount / 200);
 
       const imageSlug = props["Cover"]?.type === "rich_text"
   ? props["Cover"].rich_text?.[0]?.plain_text ?? null
