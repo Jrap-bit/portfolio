@@ -5,6 +5,14 @@ import Image from "next/image";
 
 const certifications = [
   {
+    title: "Product Management Basics Certification",
+    org: "Pendo.io",
+    logo: "/images/certs/pendo.jpg",
+    description:
+      "Fundamentals of the product manager role, including best practices through the lens of the Product Management Life Cycle.",
+    link: "https://www.credly.com/badges/4487f8f5-5dbc-4b53-a796-bf20b2a921c6/public_url",
+  },
+  {
     title: "Introduction to Cybersecurity",
     org: "Cisco Networking Academy",
     logo: "/images/certs/cisco.png",
