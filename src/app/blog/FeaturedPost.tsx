@@ -6,8 +6,27 @@ import Link from "next/link";
 import { formatDate } from "~/lib/utils";
 import { MotionDiv } from "~/components/MotionWrapper";
 import type { BlogPostPreview } from "~/lib/getAllPostPreviews";
+import { useState, useEffect } from "react";
 
 export default function FeaturedPost({ post }: { post: BlogPostPreview }) {
+  const [blurDataURL, setBlurDataURL] = useState<string | null>(null);
+
+  // Featured post is always above the fold — fetch blur hash immediately on mount
+  useEffect(() => {
+    if (!post.coverImage) return;
+
+    const coverKey = post.coverImage.startsWith("/")
+      ? post.coverImage.split("/").pop()!
+      : post.coverImage;
+
+    fetch(`/api/blur-hash?url=${encodeURIComponent(coverKey)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.base64) setBlurDataURL(data.base64);
+      })
+      .catch(() => {});
+  }, [post.coverImage]);
+
   return (
     <Link href={`/blog/${post.slug}`}>
       <MotionDiv
@@ -19,14 +38,14 @@ export default function FeaturedPost({ post }: { post: BlogPostPreview }) {
         {post.coverImage && (
           <div className="relative">
             <Image
-              src={`/images/blog/${post.coverImage}`}
+              src={post.coverImage}
               alt={post.title}
               width={1600}
               height={800}
               className="w-full h-[600px] object-cover rounded-3xl transition-transform duration-700 group-hover:scale-[1.02]"
               priority
-              {...(post.blurDataURL
-                ? { placeholder: "blur", blurDataURL: post.blurDataURL }
+              {...(blurDataURL
+                ? { placeholder: "blur", blurDataURL }
                 : {})}
             />
             {/* Glow border */}

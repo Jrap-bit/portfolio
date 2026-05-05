@@ -1,40 +1,67 @@
 // app/api/recent-posts/route.ts
 import { NextResponse } from "next/server";
-import Parser from "rss-parser";
+import { getAllPosts } from "~/lib/getAllPosts";
+import { getPageMetadata } from "~/lib/notion";
 
-
-type RSSCustomItem = {
-  title: string;
-  link: string;
-  pubDate: string;
-  guid: string;
-  contentSnippet?: string;
-  slug?: string;
-  excerpt?: string;
-  coverImage?: string;
-};
-
-const parser: Parser<Record<string, unknown>, RSSCustomItem> = new Parser({
-  customFields: {
-    item: ["slug", "excerpt", "coverImage"],
-  },
-});
+export const revalidate = 3600; // Cache for 1 hour
 
 export async function GET() {
-  const feed = await parser.parseURL("https://parjanya.vercel.app/blog/feed.xml");
+  try {
+    const allPosts = await getAllPosts();
+    const recentPosts = [];
 
-  const posts = feed.items.slice(0, 5).map((item) => {
-    const slug = item.link?.split("/").pop() ?? "unknown";
+    for (const { slug, page } of allPosts) {
+      if (recentPosts.length >= 5) break;
 
-    return {
-    id: item.guid ?? slug,
-    title: item.title ?? "Untitled",
-    date: item.pubDate ?? new Date().toISOString(),
-    slug,
-    excerpt: item.excerpt ?? "",
-    coverImage: `/images/blog/${item.coverImage}`,
-  };
-  });
+      if (!page) continue;
 
-  return NextResponse.json(posts);
+      const props = page.properties;
+      const seen = props["Seen"]?.type === "checkbox" ? props["Seen"].checkbox : false;
+      if (!seen) continue;
+
+      const title =
+        props["Title"]?.type === "title"
+          ? props["Title"].title?.[0]?.plain_text ?? "Untitled"
+          : "Untitled";
+
+      const excerpt =
+        props["Excerpt"]?.type === "rich_text"
+          ? props["Excerpt"].rich_text?.[0]?.plain_text ?? ""
+          : "";
+
+      const date =
+        props["Date"]?.type === "date"
+          ? props["Date"].date?.start ?? new Date().toISOString()
+          : new Date().toISOString();
+
+      const rawCover =
+        props["Cover"]?.type === "rich_text"
+          ? props["Cover"].rich_text?.[0]?.plain_text ?? null
+          : null;
+
+      const isRemoteUrl =
+        rawCover?.startsWith("http://") === true ||
+        rawCover?.startsWith("https://") === true;
+
+      const coverImage = rawCover
+        ? isRemoteUrl
+          ? rawCover
+          : `/images/blog/${rawCover}`
+        : "/images/blog/fallback.jpg";
+
+      recentPosts.push({
+        id: page.id,
+        title,
+        date,
+        slug,
+        excerpt,
+        coverImage,
+      });
+    }
+
+    return NextResponse.json(recentPosts);
+  } catch (error) {
+    console.error("Failed to fetch recent posts", error);
+    return NextResponse.json({ error: "Failed to fetch recent posts" }, { status: 500 });
+  }
 }

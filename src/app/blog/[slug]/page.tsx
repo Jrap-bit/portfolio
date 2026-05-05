@@ -41,10 +41,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       ? excerptProp.rich_text?.[0]?.plain_text ?? ""
       : "";
 
-  const coverImage =
-    coverProp?.type === "rich_text"
-      ? `/images/blog/${coverProp.rich_text?.[0]?.plain_text ?? ""}`
-      : null;
+  const rawCoverMeta = coverProp?.type === "rich_text"
+    ? coverProp.rich_text?.[0]?.plain_text ?? null
+    : null;
+  const isRemoteUrlMeta =
+    rawCoverMeta?.startsWith("http://") || rawCoverMeta?.startsWith("https://");
+  const coverImage = rawCoverMeta
+    ? isRemoteUrlMeta
+      ? rawCoverMeta
+      : `/images/blog/${rawCoverMeta}`
+    : null;
 
   return {
     title,
@@ -57,7 +63,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: coverImage
         ? [
             {
-              url: `https://parjanya.vercel.app${coverImage}`,
+              // For remote URLs (Cloudinary), use them directly.
+              // For local /images/blog/ paths, prepend the site origin.
+              url: isRemoteUrlMeta
+                ? coverImage
+                : `https://parjanya.vercel.app${coverImage}`,
               width: 1200,
               height: 630,
               alt: title,
@@ -69,7 +79,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       card: "summary_large_image",
       title,
       description,
-      images: coverImage ? [`https://parjanya.vercel.app${coverImage}`] : [],
+      images: coverImage
+        ? [isRemoteUrlMeta ? coverImage : `https://parjanya.vercel.app${coverImage}`]
+        : [],
     },
   };
 }
@@ -105,10 +117,16 @@ export default async function BlogPostPage({ params }: PageProps) {
   const publishedAt =
     dateProp?.type === "date" ? dateProp.date?.start ?? null : null;
 
-  const coverImage =
-    coverProp?.type === "rich_text"
-      ? `/images/blog/${coverProp.rich_text?.[0]?.plain_text ?? ""}`
-      : null;
+  const rawCover = coverProp?.type === "rich_text"
+    ? coverProp.rich_text?.[0]?.plain_text ?? null
+    : null;
+  const isRemoteUrl =
+    rawCover?.startsWith("http://") || rawCover?.startsWith("https://");
+  const coverImage = rawCover
+    ? isRemoteUrl
+      ? rawCover
+      : `/images/blog/${rawCover}`
+    : null;
 
   const wordCount = completeBlocks
     .filter((block): block is BlockObjectResponse & { type: "paragraph" } => 

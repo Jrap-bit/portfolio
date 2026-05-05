@@ -7,11 +7,28 @@ import { formatDate } from "~/lib/utils";
 import { MotionDiv } from "~/components/MotionWrapper";
 import type { BlogPostPreview } from "~/lib/getAllPostPreviews";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 export default function BlogPreview({ post, idx }: { post: BlogPostPreview; idx: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [blurDataURL, setBlurDataURL] = useState<string | null>(null);
+
+  // Fetch blur hash lazily once the card comes into view
+  useEffect(() => {
+    if (!isInView || !post.coverImage) return;
+
+    const coverKey = post.coverImage.startsWith("/")
+      ? post.coverImage.split("/").pop()!
+      : post.coverImage;
+
+    fetch(`/api/blur-hash?url=${encodeURIComponent(coverKey)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.base64) setBlurDataURL(data.base64);
+      })
+      .catch(() => {});
+  }, [isInView, post.coverImage]);
 
   return (
     <MotionDiv
@@ -26,13 +43,13 @@ export default function BlogPreview({ post, idx }: { post: BlogPostPreview; idx:
         {post.coverImage && (
           <div className="relative overflow-hidden rounded-xl shadow-md">
             <Image
-              src={`/images/blog/${post.coverImage}`}
+              src={post.coverImage}
               alt={post.title}
               width={800}
               height={1000}
               className="w-full max-h-[500px] object-contain md:object-cover rounded-xl transition-transform duration-700 group-hover:scale-[1.04]"
-              {...(post.blurDataURL
-                ? { placeholder: "blur", blurDataURL: post.blurDataURL }
+              {...(blurDataURL
+                ? { placeholder: "blur", blurDataURL }
                 : {})}
             />
             {/* Glow border around image */}

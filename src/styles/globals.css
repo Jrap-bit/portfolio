@@ -154,6 +154,23 @@ body {
   will-change: transform;
 }
 
+/* Seamless marquee for Certifications — items rendered twice in JSX,
+   so we only need to travel -50% to create a perfect loop */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover — applied to the parent wrapper */
+.pause-on-hover:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
 /* Add touch-pan-x utility for better mobile dragging */
 .touch-pan-x {
   touch-action: pan-x;

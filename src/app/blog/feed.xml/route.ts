@@ -18,9 +18,7 @@ export async function GET() {
     copyright: `All rights reserved ${new Date().getFullYear()}, Parjanya`,
   });
 
-  const metadata = await Promise.all(
-    posts.map(({ slug }) => getPageMetadata(slug).then((page) => ({ slug, page })))
-  );
+  const metadata = posts.map(({ slug, page }) => ({ slug, page }));
 
   for (const { slug, page } of metadata) {
     if (!page) continue;

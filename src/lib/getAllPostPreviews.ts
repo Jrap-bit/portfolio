@@ -1,11 +1,10 @@
 // lib/getAllPostPreviews.ts
 
-import { getPageMetadata, getPageContent } from "~/lib/notion";
-import { getAllPosts } from "./getAllPosts";
-import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { getPlaiceholder } from "plaiceholder";
 import fs from "fs";
 import path from "path";
+import { unstable_cache } from "next/cache";
+import { getAllPosts } from "./getAllPosts";
 
 export interface BlogPostPreview {
   slug: string;
@@ -15,99 +14,113 @@ export interface BlogPostPreview {
   readTime: number;
   coverImage: string | null;
   wordCount: number;
-  blurDataURL: string | null;
+  // blurDataURL is intentionally omitted here — fetched lazily per-post
 }
 
-export async function getAllPostPreviews(): Promise<BlogPostPreview[]> {
+// Cached per image URL — only generates once, then served from cache.
+// Called client-side via /api/blur-hash?url=... (see route handler below).
+export const getBlurDataURL = unstable_cache(
+  async (rawCover: string): Promise<string | null> => {
+    try {
+      const isRemoteUrl =
+        rawCover.startsWith("http://") || rawCover.startsWith("https://");
+
+      if (isRemoteUrl) {
+        const response = await fetch(rawCover);
+        if (!response.ok) return null;
+        const buffer = Buffer.from(await response.arrayBuffer());
+        const { base64 } = await getPlaiceholder(buffer);
+        return base64;
+      } else {
+        const fileName = rawCover.split("/").pop();
+        if (!fileName) return null;
+        const imagePath = path.join(
+          process.cwd(),
+          "public",
+          "images",
+          "blog",
+          fileName
+        );
+        const buffer = fs.readFileSync(imagePath);
+        const { base64 } = await getPlaiceholder(buffer);
+        return base64;
+      }
+    } catch (err) {
+      console.warn("Could not generate blurDataURL for", rawCover, err);
+      return null;
+    }
+  },
+  ["blur-data-url"],
+  // Blur hashes never change for a given image — cache indefinitely
+  { revalidate: false, tags: ["blur-data-url"] }
+);
+
+async function processPost(
+  slug: string,
+  page: any
+): Promise<BlogPostPreview | null> {
+  try {
+    if (!page) return null;
+
+    const props = page.properties;
+
+    const seen =
+      props["Seen"]?.type === "checkbox" ? props["Seen"].checkbox : false;
+    if (!seen) return null;
+
+    const title =
+      props["Title"]?.type === "title"
+        ? props["Title"].title?.[0]?.plain_text ?? "Untitled"
+        : "Untitled";
+
+    const excerpt =
+      props["Excerpt"]?.type === "rich_text"
+        ? props["Excerpt"].rich_text?.[0]?.plain_text ?? ""
+        : "";
+
+    const date =
+      props["Date"]?.type === "date"
+        ? props["Date"].date?.start ?? ""
+        : "";
+
+    const excerptWordCount = excerpt.split(/\s+/).filter(Boolean).length;
+    const wordCount = excerptWordCount > 0 ? excerptWordCount * 12 : 500;
+    const readTime = Math.ceil(wordCount / 200) || 1;
+
+    const rawCover =
+      props["Cover"]?.type === "rich_text"
+        ? props["Cover"].rich_text?.[0]?.plain_text ?? null
+        : null;
+
+    const isRemoteUrl =
+      rawCover?.startsWith("http://") === true ||
+      rawCover?.startsWith("https://") === true;
+
+    const coverImage = rawCover
+      ? isRemoteUrl
+        ? rawCover
+        : `/images/blog/${rawCover}`
+      : null;
+
+    return { slug, title, excerpt, date, coverImage, readTime, wordCount };
+  } catch (error) {
+    console.error(`Failed to process post ${slug}:`, error);
+    return null;
+  }
+}
+
+async function fetchAllPostPreviews(): Promise<BlogPostPreview[]> {
   const posts = await getAllPosts();
 
   const results = await Promise.all(
-    posts.map(async ({ slug }) => {
-      const page = await getPageMetadata(slug);
-      if (!page) return null;
-
-      const blocks = await getPageContent(page.id);
-
-      const wordCount = blocks
-        .filter(
-          (block): block is BlockObjectResponse =>
-            "type" in block && block.type !== undefined
-        )
-        .filter((block): block is BlockObjectResponse & { type: "paragraph" } => 
-      block.type === "paragraph"
-    )
-    .flatMap((block) =>
-      block.paragraph.rich_text.flatMap((t) => t.plain_text.split(/\s+/))
-    ).length;
-
-      const props = page.properties;
-
-      const seen = props["Seen"]?.type === "checkbox" ? props["Seen"].checkbox : false;
-      if (!seen) return null;
-
-      const title =
-        props["Title"]?.type === "title"
-          ? props["Title"].title?.[0]?.plain_text ?? "Untitled"
-          : "Untitled";
-
-      const excerpt =
-        props["Excerpt"]?.type === "rich_text"
-          ? props["Excerpt"].rich_text?.[0]?.plain_text ?? ""
-          : "";
-
-      const date =
-        props["Date"]?.type === "date"
-          ? props["Date"].date?.start ?? ""
-          : "";
-
-      const readTime = Math.ceil(wordCount / 200);
-
-      const imageSlug = props["Cover"]?.type === "rich_text"
-  ? props["Cover"].rich_text?.[0]?.plain_text ?? null
-  : null;
-
-  const coverImage =
-  props["Cover"]?.type === "rich_text"
-    ? props["Cover"].rich_text?.[0]?.plain_text ?? null
-    : null;
-
-let blurDataURL: string | null = null;
-
-if (coverImage) {
-  try {
-
-    const fileName = coverImage?.split("/").pop(); // Extract just the filename
-    const imagePath = fileName
-      ? path.join(process.cwd(), "public", "images", "blog", fileName)
-      : null;
-
-    if (imagePath) {
-      try {
-        const imageBuffer = fs.readFileSync(imagePath);
-        const { base64 } = await getPlaiceholder(imageBuffer);
-        blurDataURL = base64;
-      } catch (err) {
-        console.warn("Could not generate blurDataURL for", fileName, err);
-      }
-    }
-  } catch (err) {
-    console.warn("Could not generate blurDataURL for", coverImage, err);
-  }
-  
-}
-
-      return {
-        slug,
-        title,
-        excerpt,
-        date,
-        coverImage,
-        readTime,
-        wordCount,
-        blurDataURL,
-      };
-    })
+    posts.map(({ slug, page }) => processPost(slug, page))
   );
 
-  return results.filter(Boolean) as BlogPostPreview[];
+  return results.filter((post): post is BlogPostPreview => post !== null);
 }
+
+export const getAllPostPreviews = unstable_cache(
+  fetchAllPostPreviews,
+  ["blog-previews"],
+  { revalidate: 60, tags: ["blog-previews"] }
+);

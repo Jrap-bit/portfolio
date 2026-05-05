@@ -21,6 +21,13 @@ const config = {
         port: '',
         pathname: '**',
       },
+      {
+        // Cloudinary CDN — for blog cover images stored on Cloudinary
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+        pathname: '**',
+      },
     ],
   },
 };

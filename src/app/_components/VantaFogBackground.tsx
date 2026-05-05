@@ -1,13 +1,20 @@
 import { useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import FOG from 'vanta/dist/vanta.fog.min';
 
 export default function VantaFogBackground() {
   const vantaRef = useRef<HTMLDivElement>(null);
   const effectRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!effectRef.current && vantaRef.current) {
+    // Dynamically import THREE and Vanta inside useEffect so they
+    // never execute during SSR (localStorage is not available server-side).
+    let cancelled = false;
+
+    void (async () => {
+      const THREE = await import('three');
+      const { default: FOG } = await import('vanta/dist/vanta.fog.min');
+
+      if (cancelled || effectRef.current || !vantaRef.current) return;
+
       effectRef.current = FOG({
         el: vantaRef.current,
         THREE,
@@ -23,9 +30,10 @@ export default function VantaFogBackground() {
         minHeight: 200.0,
         minWidth: 200.0,
       });
-    }
+    })();
 
     return () => {
+      cancelled = true;
       effectRef.current?.destroy();
       effectRef.current = null;
     };

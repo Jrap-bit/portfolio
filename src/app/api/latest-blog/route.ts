@@ -1,26 +1,44 @@
 // app/api/latest-blog/route.ts
 
 import { NextResponse } from "next/server";
-import Parser from "rss-parser";
+import { getAllPosts } from "~/lib/getAllPosts";
+import { getPageMetadata } from "~/lib/notion";
 
-const parser = new Parser();
+export const revalidate = 3600; // Cache for 1 hour
 
 export async function GET() {
   try {
-    const feed = await parser.parseURL("https://parjanya.vercel.app/blog/feed.xml");
+    const allPosts = await getAllPosts();
+    let latestPost = null;
+    let latestSlug = null;
 
-    if (!feed.items.length) {
+    for (const { slug, page } of allPosts) {
+      if (!page) continue;
+
+      const props = page.properties;
+      const seen = props["Seen"]?.type === "checkbox" ? props["Seen"].checkbox : false;
+      if (!seen) continue;
+
+      latestPost = page;
+      latestSlug = slug;
+      break; // Found the first (latest) seen post
+    }
+
+    if (!latestPost) {
       return NextResponse.json({ error: "No blog posts found" }, { status: 404 });
     }
 
-    const latest = feed.items[0];
+    const props = latestPost.properties;
+    const title = props["Title"]?.type === "title" ? props["Title"].title?.[0]?.plain_text ?? "Untitled" : "Untitled";
+    const pubDate = props["Date"]?.type === "date" ? props["Date"].date?.start ?? new Date().toISOString() : new Date().toISOString();
+
     return NextResponse.json({
-      title: latest?.title,
-      link: latest?.link,
-      pubDate: latest?.pubDate,
+      title,
+      link: `https://parjanya.vercel.app/blog/${latestSlug}`,
+      pubDate,
     });
   } catch (error) {
-    console.error("Failed to fetch latest RSS post", error);
+    console.error("Failed to fetch latest post", error);
     return NextResponse.json({ error: "Failed to fetch latest blog" }, { status: 500 });
   }
 }

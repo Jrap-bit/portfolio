@@ -1,13 +1,20 @@
 import { useRef, useEffect } from 'react';
-import * as THREE from 'three';
-import NET from 'vanta/dist/vanta.net.min';
 
 export default function VantaNetBackground() {
   const vantaRef = useRef<HTMLDivElement>(null);
   const effectRef = useRef<any>(null);
 
   useEffect(() => {
-    if (!effectRef.current && vantaRef.current) {
+    // Dynamically import THREE and Vanta inside useEffect so they
+    // never execute during SSR (localStorage is not available server-side).
+    let cancelled = false;
+
+    void (async () => {
+      const THREE = await import('three');
+      const { default: NET } = await import('vanta/dist/vanta.net.min');
+
+      if (cancelled || effectRef.current || !vantaRef.current) return;
+
       effectRef.current = NET({
         el: vantaRef.current,
         THREE,
@@ -20,9 +27,10 @@ export default function VantaNetBackground() {
         color: 0x3b82f6,
         backgroundColor: 0x00000000,
       });
-    }
+    })();
 
     return () => {
+      cancelled = true;
       effectRef.current?.destroy();
       effectRef.current = null;
     };
