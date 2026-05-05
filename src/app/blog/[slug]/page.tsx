@@ -1,17 +1,43 @@
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
-export const revalidate = 60;
+
 import { notFound } from 'next/navigation';
 import { getPageMetadata, getPageContent } from "~/lib/notion";
 import BlogHero from "./hero";
 import ContentRenderer from "./content";
 import type { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { getAllPosts } from "~/lib/getAllPosts";
+import { getAllPostPreviews } from "~/lib/getAllPostPreviews";
 import type { Metadata } from "next";
 import Footer from './footer';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+// Block types that contain readable prose
+const TEXT_BLOCK_TYPES = new Set([
+  "paragraph",
+  "heading_1",
+  "heading_2",
+  "heading_3",
+  "bulleted_list_item",
+  "numbered_list_item",
+  "toggle",
+  "quote",
+  "callout",
+]);
+
+function countWords(blocks: BlockObjectResponse[]): number {
+  return blocks
+    .filter((block) => TEXT_BLOCK_TYPES.has(block.type))
+    .flatMap((block) => {
+      const richText = (block as any)[block.type]?.rich_text ?? [];
+      return (richText as any[]).map((t) => t.plain_text ?? "");
+    })
+    .join(" ")
+    .split(/\s+/)
+    .filter(Boolean).length;
 }
 
 export async function generateStaticParams() {
@@ -63,8 +89,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: coverImage
         ? [
             {
-              // For remote URLs (Cloudinary), use them directly.
-              // For local /images/blog/ paths, prepend the site origin.
               url: isRemoteUrlMeta
                 ? coverImage
                 : `https://parjanya.vercel.app${coverImage}`,
@@ -89,13 +113,18 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function BlogPostPage({ params }: PageProps) {
   const resolvedParams = await params;
   const slug = decodeURIComponent(resolvedParams.slug);
-  const page = await getPageMetadata(slug);
+
+  // Fetch page metadata, blocks, and recent posts in parallel
+  const [page, allPreviews] = await Promise.all([
+    getPageMetadata(slug),
+    getAllPostPreviews(),
+  ]);
+
   if (!page) return notFound();
 
   const blocks = await getPageContent(page.id);
-  
-  // Filter out partial blocks and ensure we only have complete BlockObjectResponse objects
-  const completeBlocks = blocks.filter((block): block is BlockObjectResponse => 
+
+  const completeBlocks = blocks.filter((block): block is BlockObjectResponse =>
     'type' in block && block.type !== undefined
   );
 
@@ -128,15 +157,13 @@ export default async function BlogPostPage({ params }: PageProps) {
       : `/images/blog/${rawCover}`
     : null;
 
-  const wordCount = completeBlocks
-    .filter((block): block is BlockObjectResponse & { type: "paragraph" } => 
-      block.type === "paragraph"
-    )
-    .flatMap((block) =>
-      block.paragraph.rich_text.flatMap((t) => t.plain_text.split(/\s+/))
-    ).length;
+  const wordCount = countWords(completeBlocks);
+  const readTime = Math.max(1, Math.ceil(wordCount / 200));
 
-  const readTime = Math.ceil(wordCount / 200);
+  // Exclude the current post from the carousel
+  const recentPosts = allPreviews
+    .filter((p) => p.slug !== slug)
+    .slice(0, 5);
 
   return (
     <div className="min-h-screen bg-black">
@@ -149,12 +176,13 @@ export default async function BlogPostPage({ params }: PageProps) {
         wordCount={wordCount}
       />
 
-      <ContentRenderer 
-        blocks={completeBlocks} 
+      <ContentRenderer
+        blocks={completeBlocks}
         title={title}
         readTime={readTime}
         wordCount={wordCount}
         slug={slug}
+        recentPosts={recentPosts}
       />
 
       <Footer wordCount={wordCount} />

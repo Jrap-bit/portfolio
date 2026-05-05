@@ -8,6 +8,7 @@ import { FiTwitter, FiLinkedin, FiLink } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import BlogEngagement from "./BlogEngagement";
 import { api } from "~/trpc/react";
+import type { BlogPostPreview } from "~/lib/getAllPostPreviews";
 
 interface ContentRendererProps {
   blocks: BlockObjectResponse[];
@@ -15,6 +16,7 @@ interface ContentRendererProps {
   readTime: number;
   wordCount: number;
   slug: string;
+  recentPosts?: BlogPostPreview[];
 }
 
 function ShareButton({
@@ -62,6 +64,7 @@ export default function ContentRenderer({
   blocks,
   title,
   slug,
+  recentPosts,
 }: ContentRendererProps) {
   const [copied, setCopied] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -254,7 +257,7 @@ export default function ContentRenderer({
           )}
         </AnimatePresence>
 
-        <BlogEngagement slug={slug} viewCount={viewCount} />
+        <BlogEngagement slug={slug} viewCount={viewCount} recentPosts={recentPosts} />
 
 
         {/* Global Font Styling */}
