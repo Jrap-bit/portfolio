@@ -54,6 +54,7 @@ export default tseslint.config(
       "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/dot-notation": "off",
       "prefer-const": "off",
+      "@typescript-eslint/no-empty-function": "off",
       "@typescript-eslint/consistent-type-imports": [
         "warn",
         { prefer: "type-imports", fixStyle: "inline-type-imports" },

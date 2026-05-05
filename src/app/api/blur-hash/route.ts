@@ -1,7 +1,7 @@
 // app/api/blur-hash/route.ts
 
 import { getBlurDataURL } from "~/lib/getAllPostPreviews";
-import { NextRequest } from "next/server";
+import type { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get("url");

@@ -4,6 +4,7 @@ import { getPlaiceholder } from "plaiceholder";
 import fs from "fs";
 import path from "path";
 import { unstable_cache } from "next/cache";
+import { notion } from "~/lib/notion";
 import { getAllPosts } from "./getAllPosts";
 
 export interface BlogPostPreview {
@@ -14,11 +15,10 @@ export interface BlogPostPreview {
   readTime: number;
   coverImage: string | null;
   wordCount: number;
-  // blurDataURL is intentionally omitted here — fetched lazily per-post
 }
 
 // Cached per image URL — only generates once, then served from cache.
-// Called client-side via /api/blur-hash?url=... (see route handler below).
+// Called client-side via /api/blur-hash?url=...
 export const getBlurDataURL = unstable_cache(
   async (rawCover: string): Promise<string | null> => {
     try {
@@ -51,9 +51,49 @@ export const getBlurDataURL = unstable_cache(
     }
   },
   ["blur-data-url"],
-  // Blur hashes never change for a given image — cache indefinitely
   { revalidate: false, tags: ["blur-data-url"] }
 );
+
+// Fetches all block content for a page and counts words across all text blocks.
+// Handles pagination in case the post has more than 100 blocks.
+async function getPageWordCount(pageId: string): Promise<number> {
+  let wordCount = 0;
+  let cursor: string | undefined = undefined;
+
+  // Block types that carry rich_text we want to count
+  const textBlockTypes = new Set([
+    "paragraph",
+    "heading_1",
+    "heading_2",
+    "heading_3",
+    "bulleted_list_item",
+    "numbered_list_item",
+    "toggle",
+    "quote",
+    "callout",
+  ]);
+
+  do {
+    const response = await notion.blocks.children.list({
+      block_id: pageId,
+      ...(cursor ? { start_cursor: cursor } : {}),
+    });
+
+    for (const block of response.results) {
+      if (!("type" in block)) continue;
+      if (!textBlockTypes.has(block.type)) continue;
+
+      const blockContent = (block as any)[block.type];
+      const richText: any[] = blockContent?.rich_text ?? [];
+      const text = richText.map((t: any) => t.plain_text ?? "").join(" ");
+      wordCount += text.split(/\s+/).filter(Boolean).length;
+    }
+
+    cursor = response.has_more ? (response.next_cursor ?? undefined) : undefined;
+  } while (cursor);
+
+  return wordCount;
+}
 
 async function processPost(
   slug: string,
@@ -83,10 +123,6 @@ async function processPost(
         ? props["Date"].date?.start ?? ""
         : "";
 
-    const excerptWordCount = excerpt.split(/\s+/).filter(Boolean).length;
-    const wordCount = excerptWordCount > 0 ? excerptWordCount * 12 : 500;
-    const readTime = Math.ceil(wordCount / 200) || 1;
-
     const rawCover =
       props["Cover"]?.type === "rich_text"
         ? props["Cover"].rich_text?.[0]?.plain_text ?? null
@@ -101,6 +137,10 @@ async function processPost(
         ? rawCover
         : `/images/blog/${rawCover}`
       : null;
+
+    // Count words from actual page content
+    const wordCount = await getPageWordCount(page.id);
+    const readTime = Math.max(1, Math.ceil(wordCount / 200));
 
     return { slug, title, excerpt, date, coverImage, readTime, wordCount };
   } catch (error) {
