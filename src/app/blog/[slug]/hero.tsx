@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { format } from "date-fns";
 import { FiClock, FiCalendar, FiChevronDown } from "react-icons/fi";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 interface BlogHeroProps {
   title: string;
@@ -31,7 +31,6 @@ export default function BlogHero({
     
   const contentRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
-  const [parallaxValues, setParallaxValues] = useState({ x: 0, y: 0 });
   
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
@@ -44,8 +43,8 @@ export default function BlogHero({
   };
 
   return (
-    <div className="relative w-full" ref={heroRef}>
-      <div className="relative">
+    <div className="relative w-full overflow-x-clip" ref={heroRef}>
+      <div className="relative overflow-x-clip">
         {/* Cover Image with Parallax */}
         <motion.div 
           className="relative w-full h-[70vh] md:h-[80vh] overflow-hidden"
@@ -55,11 +54,7 @@ export default function BlogHero({
             <div className="relative w-full h-full">
               <motion.div
                 className="absolute inset-0"
-                style={{ 
-                  x: parallaxValues.x * 2,
-                  y: parallaxValues.y * 2,
-                  scale: 1.1
-                }}
+                style={{ scale: 1.1 }}
               >
                 <Image
                   src={coverImage}
@@ -89,7 +84,7 @@ export default function BlogHero({
             className="absolute inset-0 flex items-end justify-center"
             style={{ opacity }}
           >
-            <div className="max-w-3xl mx-auto px-4 pb-16 text-center">
+            <div className="mx-auto max-w-3xl min-w-0 px-4 pb-16 text-center">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -142,7 +137,7 @@ export default function BlogHero({
               </motion.h1>
               
               <motion.div 
-                className="flex items-center justify-center space-x-4 mb-6 text-neutral-100"
+                className="mb-6 flex flex-wrap items-center justify-center gap-3 text-neutral-100"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
@@ -150,7 +145,7 @@ export default function BlogHero({
                 <div className="flex items-center">
                   <span>{wordCount} words</span>
                 </div>
-                <div className="h-4 w-4 bg-white rounded-full" />
+                <div className="h-3 w-3 shrink-0 rounded-full bg-white" />
                 <div className="flex items-center">
                   <FiClock className="mr-2" />
                   <span>{readTime} min read</span>
@@ -158,7 +153,7 @@ export default function BlogHero({
               </motion.div>
 
               <motion.div 
-                className="flex items-center justify-center space-x-4 mb-6 text-neutral-100"
+                className="mb-6 flex flex-wrap items-center justify-center gap-2 text-neutral-100"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.1 }}

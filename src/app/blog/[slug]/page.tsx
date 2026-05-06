@@ -166,7 +166,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     .slice(0, 5);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen overflow-x-clip bg-black">
       <BlogHero
         title={title}
         date={publishedAt}

@@ -128,6 +128,8 @@
 html {
   scroll-behavior: smooth;
   background-color: #000000;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 body {
@@ -137,6 +139,8 @@ body {
   background-position: top left;
   background-size: 200px 200px;
   background-attachment: scroll;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 @keyframes scroll {
