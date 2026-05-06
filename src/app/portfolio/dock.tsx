@@ -48,10 +48,10 @@ export default function Dock() {
   }, []);
 
   const linkStyle =
-    "group relative flex items-center justify-center p-3 rounded-full transition-all duration-10 hover:scale-[1] hover:shadow-[0_0_10px_rgba(59,130,246,0.6)]";
+    "group relative flex items-center justify-center p-3 rounded-full transition-all duration-200 hover:shadow-[0_0_10px_rgba(59,130,246,0.6)]";
 
   const tooltipStyle =
-    "absolute right-full mr-3 text-sm font-medium whitespace-nowrap bg-black/80 text-white px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200";
+    "absolute right-full mr-3 text-sm font-medium whitespace-nowrap bg-black/80 text-white px-3 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none";
 
   return (
     <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50 hidden md:flex flex-col items-end space-y-3 bg-white/5 backdrop-blur-md p-3 rounded-2xl border border-white/10 shadow-lg">

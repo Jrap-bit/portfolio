@@ -79,8 +79,8 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="snap-start h-screen px-4 md:px-8 lg:px-12 py-8 md:py-12 bg-transparent flex flex-col justify-center items-center space-y-6"
-      >
+      className="snap-start min-h-screen px-4 md:px-8 lg:px-12 py-12 md:py-16 bg-transparent flex flex-col justify-center items-center space-y-6"
+    >
         {/* Section Title */}
   <motion.h2
     initial={{ opacity: 0, y: 20 }}
@@ -98,20 +98,20 @@ export default function SkillsSection() {
             </div>
           )}
 
-       {/* Glowing Panel */}
-  <div className="relative w-full max-w-6xl h-[80%] md:h-[85%] rounded-3xl">
-    <motion.div
-      initial={{ opacity: 0.6 }}
-      animate={{ opacity: [0.2, 0.5, 0.2] }}
-      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-3xl blur-lg"
-    />
+    {/* Glowing Panel */}
+    <div className="relative w-full max-w-6xl md:h-[80%]">
+      <motion.div
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: [0.2, 0.5, 0.2] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-3xl blur-lg"
+      />
 
-    {/* Scrollable Content */}
-    <div
-      ref={scrollRef}
-      className="relative w-full h-full bg-black rounded-3xl p-6 md:p-8 overflow-y-auto scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-transparent"
-    >
+      {/* Scrollable Content */}
+      <div
+        ref={scrollRef}
+        className="relative w-full h-full bg-black rounded-3xl p-6 md:p-8 overflow-y-auto md:max-h-[70vh] scrollbar-thin scrollbar-thumb-neutral-700 scrollbar-track-transparent"
+      >
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* Technical Skills */}

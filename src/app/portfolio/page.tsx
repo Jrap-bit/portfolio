@@ -31,7 +31,20 @@ export default function PortfolioPage() {
 
   return (
     <div className="overflow-x-hidden bg-[#000000] text-white">
-      <div className="bg-[url('/textures/noise.svg')] bg-cover bg-repeat bg-fixed bg-[#000000] min-h-screen">
+      {/* Noise texture — bg-fixed is broken on iOS Safari, so we use a
+          separate absolutely-positioned layer with background-attachment:scroll
+          and a small repeat size to replicate the grain effect on all devices. */}
+      <div
+        className="pointer-events-none absolute inset-0 z-0"
+        style={{
+          backgroundImage: "url('/textures/noise.svg')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "200px 200px",
+          opacity: 0.4,
+        }}
+        aria-hidden="true"
+      />
+      <div className="relative z-10 min-h-screen">
 
       <Dock />
 

@@ -24,10 +24,14 @@ export default function ContactMe() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const [sent, setSent] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const mailtoLink = `mailto:${email}?subject=Message from ${encodeURIComponent(form.name)}&body=${encodeURIComponent(form.message)}%0A%0AFrom: ${encodeURIComponent(form.email)}`;
-    window.location.href = mailtoLink;
+    window.open(mailtoLink, "_blank");
+    setSent(true);
+    setTimeout(() => setSent(false), 4000);
   };
 
   return (
@@ -61,54 +65,50 @@ Whether it's a job opportunity, project collaboration, or just a hello — feel 
         className="w-full space-y-4"
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
-        whileFocus={{ scale: 1.2}}
         transition={{ delay: 0.2, duration: 0.5 }}
         viewport={{ once: true }}
       >
-<motion.div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  <motion.input
-    whileFocus={{ scale: 1.05 }}
-    transition={{ type: "spring", stiffness: 200 }}
-    name="name"
-    value={form.name}
-    onChange={handleChange}
-    placeholder="Your Name"
-    required
-    className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-  />
-  <motion.input
-    whileFocus={{ scale: 1.05 }}
-    transition={{ type: "spring", stiffness: 200 }}
-    name="email"
-    type="email"
-    value={form.email}
-    onChange={handleChange}
-    placeholder="Your Email"
-    required
-    className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-  />
-</motion.div>
-<motion.div>
-        <motion.textarea
-          whileFocus={{ scale: 1.03 }}
-          transition={{ type: "spring", stiffness: 200 }}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Your Name"
+            required
+            className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors"
+          />
+          <input
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="Your Email"
+            required
+            className="bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors"
+          />
+        </div>
+        <textarea
           name="message"
           value={form.message}
           onChange={handleChange}
           placeholder="Your Message"
           rows={5}
           required
-          className="w-full bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          className="w-full bg-white/5 rounded-md px-4 py-2 text-white placeholder-gray-400 border border-white/10 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-colors"
         />
-        </motion.div>
 
         <div className="flex flex-col md:flex-row items-center gap-4">
           <motion.button
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full md:w-auto px-6 py-2 bg-gradient-to-r from-blue-500 to-cyan-400 text-white rounded-full font-medium shadow hover:from-blue-600 hover:to-cyan-500 transition flex items-center gap-2 justify-center"
+            disabled={sent}
+            className={`w-full md:w-auto px-6 py-2 rounded-full font-medium shadow transition flex items-center gap-2 justify-center ${
+              sent
+                ? "bg-green-500/80 text-white cursor-default"
+                : "bg-gradient-to-r from-blue-500 to-cyan-400 text-white hover:from-blue-600 hover:to-cyan-500"
+            }`}
           >
-            <FaEnvelope /> Send Message
+            {sent ? <><FaCheckCircle /> Sent! Check your email app</> : <><FaEnvelope /> Send Message</>}
           </motion.button>
 
           <motion.button

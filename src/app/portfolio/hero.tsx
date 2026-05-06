@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useAnimation, useInView } from "framer-motion";
+import Image from "next/image";
 import { HeroHighlight, Highlight } from "~/components/ui/hero-highlight";
 import FancyText from "~/app/portfolio/Fancytext";
 import { Button } from "~/components/ui/button";
@@ -74,15 +75,20 @@ export default function Hero() {
         }}
         className={`group -mt-20 md:mt-0 mx-10 md:mr-23 relative w-[280px] h-[400px] md:w-[420px] md:h-[600px] rounded-4xl overflow-hidden ${isHovered ? "shadow-[0px_0px_130px_#00b8dbcc]" :"shadow-[0px_0px_80px_#38bdf8aa]"} border border-white/20 transition-all duration-500 cursor-default`}
       >
-        <motion.img
+        <Image
           src="/images/real.jpg"
           alt="Parjanya"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-200 ${isHovered ? "opacity-0" : "opacity-100"}`}
+          fill
+          priority
+          sizes="(max-width: 768px) 280px, 420px"
+          className={`object-cover transition-opacity duration-200 ${isHovered ? "opacity-0" : "opacity-100"}`}
         />
-        <motion.img
+        <Image
           src="/images/anime.png"
-          alt="Anime Parjanya"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isHovered ? "opacity-100" : "opacity-0"}`}
+          alt="Anime version of Parjanya"
+          fill
+          sizes="(max-width: 768px) 280px, 420px"
+          className={`object-cover transition-opacity duration-500 ${isHovered ? "opacity-100" : "opacity-0"}`}
         />
       </motion.div>
 

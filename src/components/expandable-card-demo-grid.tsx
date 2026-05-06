@@ -119,9 +119,8 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
         )}
       </AnimatePresence>
 
-      {/* Grid of Cards */}
       <ul className="max-w-7xl mx-auto w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {cards.map((card) => (
+        {cards.map((card, i) => (
           <motion.div
             layoutId={`card-${card.title}-${id}`}
             key={card.title}
@@ -132,25 +131,27 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
             <div className="w-full aspect-[16/9] bg-neutral-900 rounded-md flex items-center justify-center overflow-hidden relative">
               {card.src ? (
                 <Image
-                  width={300}
-                  height={300}
                   src={card.src}
                   alt={card.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  priority={i < 6}
+                  loading={i < 6 ? "eager" : "lazy"}
                 />
               ) : (
                 <div className="text-white/60 text-center p-4">
                   <div className="bg-gradient-to-br from-blue-500/20 to-cyan-400/20 rounded-full p-4 w-16 h-16 mx-auto mb-2 flex items-center justify-center">
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      width="32" 
-                      height="32" 
-                      viewBox="0 0 24 24" 
-                      fill="none" 
-                      stroke="currentColor" 
-                      strokeWidth="1.5" 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                       className="text-blue-400 dark:text-cyan-300"
                     >
                       <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
@@ -170,6 +171,7 @@ export default function ExpandableCardGrid({ cards }: { cards: ProjectCard[] }) 
           </motion.div>
         ))}
       </ul>
+
     </>
   );
 }
