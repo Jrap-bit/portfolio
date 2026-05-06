@@ -127,14 +127,16 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: #000000;
 }
 
 body {
   background-color: #000000;
   background-image: url('/textures/noise.svg');
-  background-size: cover;
   background-repeat: repeat;
-  background-attachment: fixed;
+  background-position: top left;
+  background-size: 200px 200px;
+  background-attachment: scroll;
 }
 
 @keyframes scroll {
