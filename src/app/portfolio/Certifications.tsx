@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
 const certifications = [
@@ -79,86 +79,131 @@ const certifications = [
   },
 ];
 
+/** Card used in both desktop marquee and mobile carousel */
 function CertCard({
   title,
   org,
   logo,
   description,
   link,
-}: (typeof certifications)[number]) {
-  // On mobile, cards are tap-to-reveal. On desktop, hover is used via CSS.
-  const [tapped, setTapped] = useState(false);
-
+  mobile = false,
+}: (typeof certifications)[number] & { mobile?: boolean }) {
   return (
     <a
       href={link}
       target="_blank"
       rel="noopener noreferrer"
-      // Stop the tap toggle from immediately navigating; only navigate on second tap / direct click
-      onClick={(e) => {
-        // On touch devices, first tap reveals details. The link opens normally on second tap.
-        if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches && !tapped) {
-          e.preventDefault();
-          setTapped(true);
-        }
-      }}
-      onBlur={() => setTapped(false)}
-      className={`group relative shrink-0 w-[300px] md:w-[380px] mx-3 rounded-2xl border overflow-hidden flex flex-col gap-4 transition-all duration-300 cursor-pointer select-none
-        ${tapped
-          ? "border-cyan-500/60 bg-white/15 shadow-[0_0_24px_rgba(34,211,238,0.18)]"
-          : "border-white/20 bg-white/10 backdrop-blur-md hover:border-cyan-500/40 hover:bg-white/15 hover:shadow-[0_0_24px_rgba(34,211,238,0.12)]"
+      className={`group relative shrink-0 rounded-2xl border overflow-hidden flex flex-col gap-4 transition-all duration-300 cursor-pointer select-none
+        ${
+          mobile
+            ? "w-full h-full border-cyan-500/30 bg-white/10 backdrop-blur-md"
+            : "w-[300px] md:w-[380px] mx-3 border-white/20 bg-white/10 backdrop-blur-md hover:border-cyan-500/40 hover:bg-white/15 hover:shadow-[0_0_24px_rgba(34,211,238,0.12)]"
         }`}
     >
-      {/* Always-visible header */}
-      <div className="px-6 pt-5 flex items-center gap-3">
-        <div className="h-10 w-10 shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-cyan-500/30 to-indigo-500/30 flex items-center justify-center border border-white/20">
+      {/* Header */}
+      <div className="px-5 pt-6 flex items-center gap-3">
+        <div className="h-12 w-12 shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-cyan-500/30 to-indigo-500/30 flex items-center justify-center border border-white/20">
           <Image
             src={logo}
             alt={org}
-            width={40}
-            height={40}
-            className="w-full h-full object-contain p-1"
+            width={48}
+            height={48}
+            className="w-full h-full object-contain p-1.5"
           />
         </div>
         <div className="min-w-0">
-          <h3 className="text-sm font-semibold leading-snug bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent truncate">
+          <h3 className="text-sm font-semibold leading-snug bg-gradient-to-r from-cyan-300 to-indigo-300 bg-clip-text text-transparent line-clamp-2">
             {title}
           </h3>
           <p className="text-xs text-white/60 mt-0.5">{org}</p>
         </div>
       </div>
 
-      {/* Description — always visible but fades to full opacity on hover/tap */}
-      <div className="px-6 pb-5 flex flex-col gap-3 flex-grow">
-        <p className={`text-xs leading-relaxed line-clamp-3 transition-colors duration-300
-          ${tapped ? "text-white/90" : "text-white/70 group-hover:text-white/90"}`}>
+      {/* Description */}
+      <div className="px-5 pb-6 flex flex-col gap-3 flex-grow">
+        <p className="text-sm leading-relaxed text-white/75 group-hover:text-white/90 transition-colors duration-300 line-clamp-4">
           {description}
         </p>
 
-        {/* Footer CTA */}
-        <div className={`mt-auto flex items-center gap-1 text-xs transition-colors duration-300
-          ${tapped ? "text-cyan-400" : "text-cyan-400/60 group-hover:text-cyan-400"}`}>
+        {/* CTA */}
+        <div className="mt-auto flex items-center gap-1 text-sm font-medium text-cyan-400/70 group-hover:text-cyan-400 transition-colors duration-300">
           <span>View credential</span>
-          <span className={`transition-transform duration-300 ${tapped ? "translate-x-1" : "translate-x-0 group-hover:translate-x-1"}`}>
-            →
-          </span>
+          <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </div>
       </div>
-
-      {/* Mobile tap indicator badge */}
-      <AnimatePresence>
-        {!tapped && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute top-3 right-3 md:hidden bg-white/10 rounded-full px-2 py-0.5 text-[10px] text-white/50 border border-white/10"
-          >
-            tap
-          </motion.div>
-        )}
-      </AnimatePresence>
     </a>
+  );
+}
+
+/** Dot pagination indicator */
+function DotIndicator({ total, current }: { total: number; current: number }) {
+  return (
+    <div className="flex items-center justify-center gap-1.5 mt-5">
+      {Array.from({ length: total }).map((_, i) => (
+        <span
+          key={i}
+          className={`block rounded-full transition-all duration-300 ${
+            i === current
+              ? "w-5 h-1.5 bg-cyan-400"
+              : "w-1.5 h-1.5 bg-white/25"
+          }`}
+        />
+      ))}
+    </div>
+  );
+}
+
+/** Mobile-only swipeable snap carousel */
+function MobileCertCarousel() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const onScroll = () => {
+      const cardWidth = el.offsetWidth;
+      const idx = Math.round(el.scrollLeft / cardWidth);
+      setActiveIndex(idx);
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <div className="md:hidden">
+      {/* Scrollable track */}
+      <div
+        ref={scrollRef}
+        className="cert-carousel-track flex overflow-x-auto gap-0 scroll-smooth"
+        style={{
+          scrollSnapType: "x mandatory",
+          WebkitOverflowScrolling: "touch",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+      >
+        {certifications.map((cert) => (
+          <div
+            key={cert.title}
+            className="shrink-0 w-full px-4"
+            style={{ scrollSnapAlign: "center" }}
+          >
+            <CertCard {...cert} mobile />
+          </div>
+        ))}
+      </div>
+
+      {/* Dot indicator */}
+      <DotIndicator total={certifications.length} current={activeIndex} />
+
+      {/* Counter */}
+      <p className="text-center text-xs text-white/30 mt-2 tabular-nums">
+        {activeIndex + 1} / {certifications.length}
+      </p>
+    </div>
   );
 }
 
@@ -198,19 +243,16 @@ export default function CertificationsSection() {
         </div>
       </div>
 
-      {/* Mobile: responsive grid — no carousel, no hover required */}
-      <div className="md:hidden grid grid-cols-1 sm:grid-cols-2 gap-4 px-2">
-        {certifications.map((cert) => (
-          <CertCard key={cert.title} {...cert} />
-        ))}
-      </div>
+      {/* Mobile: swipeable snap carousel */}
+      <MobileCertCarousel />
 
-      {/* Hint text — different message per device */}
+      {/* Hint text — desktop only */}
       <p className="mt-6 text-center text-xs text-white/25 tracking-widest uppercase select-none hidden md:block">
         Hover to pause · Click to view
       </p>
-      <p className="mt-6 text-center text-xs text-white/25 tracking-widest uppercase select-none md:hidden">
-        Tap to reveal · Tap again to view
+      {/* Mobile swipe hint */}
+      <p className="mt-1 text-center text-xs text-white/25 tracking-widest uppercase select-none md:hidden">
+        Swipe to browse · Tap to open
       </p>
     </section>
   );

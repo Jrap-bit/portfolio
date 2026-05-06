@@ -175,3 +175,8 @@ body {
 .touch-pan-x {
   touch-action: pan-x;
 }
+
+/* Hide scrollbar on mobile cert carousel track (webkit) */
+.cert-carousel-track::-webkit-scrollbar {
+  display: none;
+}
