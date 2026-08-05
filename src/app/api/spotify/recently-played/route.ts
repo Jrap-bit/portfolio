@@ -1,17 +1,35 @@
-    // src/app/api/spotify/recently-played/route.ts
+// src/app/api/spotify/recently-played/route.ts
 
 import { getAccessToken } from "~/lib/spotify";
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
     const token = await getAccessToken();
 
-    const res = await fetch("https://api.spotify.com/v1/me/player/recently-played?limit=1", {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const res = await fetch(
+      "https://api.spotify.com/v1/me/player/recently-played?limit=1",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
+
+    if (!res.ok) {
+      const error = await res.text();
+      console.error(
+        "[Spotify] Recently played request failed",
+        res.status,
+        error,
+      );
+      return NextResponse.json(
+        { error: "Spotify recently-played request failed" },
+        { status: res.status },
+      );
+    }
 
     const data = await res.json();
     const track = data.items?.[0]?.track;
@@ -25,11 +43,14 @@ export async function GET() {
       title: track.name,
       artist: track.artists.map((a: any) => a.name).join(", "),
       album: track.album.name,
-      albumImageUrl: track.album.images[0].url,
+      albumImageUrl: track.album?.images?.[0]?.url ?? null,
       songUrl: track.external_urls.spotify,
     });
   } catch (err) {
     console.error("[Spotify] Recently played fetch error", err);
-    return NextResponse.json({ error: "Failed to fetch recently played" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to fetch recently played" },
+      { status: 500 },
+    );
   }
 }

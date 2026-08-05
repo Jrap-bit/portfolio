@@ -1,4 +1,4 @@
-// lib/spotify.ts
+import "server-only";
 
 let cachedAccessToken: string | null = null;
 let tokenExpiryTime: number | null = null;
@@ -10,11 +10,17 @@ export async function getAccessToken(): Promise<string> {
     return cachedAccessToken;
   }
 
-  const clientId = process.env.SPOTIFY_CLIENT_ID!;
-  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET!;
-  const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN!;
+  const clientId = process.env.SPOTIFY_CLIENT_ID;
+  const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+  const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
 
-  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error("Spotify credentials are not configured");
+  }
+
+  const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString(
+    "base64",
+  );
 
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
@@ -29,11 +35,20 @@ export async function getAccessToken(): Promise<string> {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to refresh Spotify access token");
+    const error = await response.text();
+    console.error("[Spotify] Token refresh failed", response.status, error);
+    throw new Error(`Spotify token refresh failed (${response.status})`);
   }
 
-  const data = await response.json();
+  const data = (await response.json()) as {
+    access_token?: string;
+    expires_in?: number;
+  };
   const { access_token, expires_in } = data;
+
+  if (!access_token || !expires_in) {
+    throw new Error("Spotify returned an invalid token response");
+  }
 
   // Cache it
   cachedAccessToken = access_token;
