@@ -5,6 +5,18 @@ import { motion } from "framer-motion";
 
 export default function TimelineSection() {
   const timelineData = [
+        {
+      title: "BITS Pilani - M.E. Software Systems",
+      content: (
+        <div className="space-y-2">
+          <p><strong>Aug 2026 – Jul 2028</strong></p>
+          <ul className="list-disc list-inside space-y-1">
+            <li>Pursuing a Master of Engineering in Software Systems with a focus on advanced software development, system architecture, and emerging technologies.</li>
+            <li>Engaging in research projects and coursework that enhance expertise in software engineering principles and practices.</li>
+          </ul>
+        </div>
+      ),
+    },
     {
       title: "IBM – Associate Product Manager",
       content: (

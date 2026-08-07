@@ -69,15 +69,15 @@ export const CurrentlyReadingCard = () => {
               className="absolute inset-0"
             >
               <Image
-                src="/images/currently_reading.jpg"
+                src="https://res.cloudinary.com/dymq9dve3/image/upload/v1786136494/How-to-rig-an-election_ahp5nc.jpg"
                 alt="Book Cover"
                 width={500}
                 height={300}
                 className="w-full h-40 rounded-lg object-cover mb-3"
               />
-              <h4 className="text-sm font-medium">Nani Palkhivala The Courtroom Genius</h4>
+              <h4 className="text-sm font-medium">How to Rig an Election</h4>
               <p className="text-xs text-neutral-400">
-              by Soli Sorabjee, Arvind Datar
+              by Brian Klaas and Nic Cheeseman
               </p>
               <p className="text-xs text-neutral-500 mt-2 italic">
                 {isMobile ? "Tap to flip" : "Hover to flip"}
@@ -96,7 +96,7 @@ export const CurrentlyReadingCard = () => {
                 Why I Picked This
               </h4>
               <p className="text-xs text-neutral-300 leading-relaxed">
-              I knew the headlines — Kesavananda, the Basic Structure doctrine — cases that shaped India’s constitutional history.  I picked this book to go beyond the headlines and understand the mind behind those moments.
+              Modern day elections are always under scrutiny by the public and media. I chose this book to delve deeper into the machinery of elections and how despots and autocrats tend to behave in order to manipulate the system to their advantage. The book provides a comprehensive analysis of the tactics used to rig elections and the implications for democracy worldwide.
               </p>
               <p className="text-xs text-neutral-500 mt-2 italic">
                 {isMobile ? "Tap to flip back" : ""}
